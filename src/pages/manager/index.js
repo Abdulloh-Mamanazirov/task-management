@@ -1,3 +1,3 @@
-import DirectorHome from "./Home";
+import ManagerHome from "./Home";
 
-export { DirectorHome };
+export { ManagerHome };
