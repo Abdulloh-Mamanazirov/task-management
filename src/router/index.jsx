@@ -34,7 +34,7 @@ function index() {
   useEffect(() => {
     if (status === "director") setRoutes(director_routes);
     if (status === "manager") setRoutes(manager_routes);
-    if (status === "employee") setRoutes(employee_routes);
+    if (status === "xodim") setRoutes(employee_routes);
   }, [status]);
 
   if (!status) return <Login />;
