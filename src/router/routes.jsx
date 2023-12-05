@@ -5,6 +5,7 @@ import {
   Employees,
   MyProfile,
   ManagerHome,
+  EmployeeHome,
 } from "../pages";
 
 const director_routes = [
@@ -135,13 +136,13 @@ const employee_routes = [
     path: "/",
     title: "Bosh sahifa",
     icon: <span className="fa-solid fa-home" />,
-    element: <>employee home</>,
+    element: <EmployeeHome />,
     showInNav: true,
   },
   {
     key: 1,
     path: "/employee",
-    element: <>employee home</>,
+    element: <EmployeeHome />,
     showInNav: false,
   },
   {
@@ -161,7 +162,7 @@ const employee_routes = [
   {
     key: 4,
     path: "/*",
-    element: <>employee home</>,
+    element: <EmployeeHome />,
     showInNav: false,
   },
 ];
