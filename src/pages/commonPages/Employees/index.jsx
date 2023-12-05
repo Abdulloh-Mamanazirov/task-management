@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Create, EditModal } from "./components";
+import { Create } from "./components";
 import {
   Box,
   Chip,
@@ -24,7 +24,6 @@ const index = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [anchorEl, setAnchorEl] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
-  const [editModal, setEditModal] = useState({ open: false, data: {} });
   const open = Boolean(anchorEl);
 
   async function getData() {
@@ -105,14 +104,6 @@ const index = () => {
                         />
                       </TableCell>
                       <TableCell>
-                        <IconButton
-                          color="primary"
-                          onClick={() => {
-                            setEditModal({ open: true, data: user });
-                          }}
-                        >
-                          <span className="fa-solid fa-edit" />
-                        </IconButton>
                         <IconButton
                           color="error"
                           onClick={(event) => {
@@ -197,16 +188,6 @@ const index = () => {
           </div>
         </Box>
       </Popover>
-
-      {/* edit Modal */}
-      <EditModal
-        open={editModal?.open}
-        data={editModal?.data}
-        handleClose={() => {
-          setEditModal({ open: false, data: {} });
-          getData();
-        }}
-      />
     </>
   );
 };

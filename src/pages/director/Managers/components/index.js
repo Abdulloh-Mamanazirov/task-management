@@ -1,4 +1,3 @@
-import Create from "./Create";
-import EditModal from "./EditModal";
+import Create from "./Create";;
 
-export { Create, EditModal };
+export { Create };
