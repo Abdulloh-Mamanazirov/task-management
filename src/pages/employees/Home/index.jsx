@@ -2,7 +2,7 @@ import { Pie, Results, ThreePage } from "./components";
 
 const index = () => {
   return (
-    <div className="grid md:grid-cols-3 gap-5 items-start justify-between">
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 items-start justify-between">
       <div className="shadow-md rounded-md h-[400px] p-5">
         <p className="border-b py-2 font-medium ">Your stats</p>
         <Results />
