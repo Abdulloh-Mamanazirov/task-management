@@ -18,7 +18,7 @@ const index = () => {
     <>
       <div className="relative w-full min-h-[40vh] bg-gradient-to-br from-primary to-blue-400 rounded-bl-full">
         {/* image */}
-        <div className="absolute z-10 bottom-0 left-10">
+        <div className="md-lg:absolute z-10 bottom-0 left-10">
           <div className="w-48 aspect-square rounded-full border-2 border-primary shadow-lg bg-gradient-to-tr from-gray-300 to-white">
             <img
               src={data?.photo}
@@ -26,7 +26,7 @@ const index = () => {
               className="w-full rounded-full object-cover"
             />
           </div>
-          <p className="text-center text-lg bg-white rounded-md border p-1 shadow-lg">
+          <p className="w-fit text-center text-lg bg-white rounded-md border p-1 shadow-lg">
             {data?.first_name?.length > 0 ? data?.first_name : "Ism"}{" "}
             {data?.last_name?.length > 0 ? data?.last_name : "Familiya"}
           </p>
@@ -99,18 +99,17 @@ const index = () => {
                 </tr>
               </tbody>
             </table>
+            {/* edit button */}
+            <div className="absolute right-2 bottom-2 text-white">
+              <Button
+                color="inherit"
+                variant="outlined"
+                endIcon={<span className="fa-solid fa-edit" />}
+              >
+                Tahrirlash
+              </Button>
+            </div>
           </div>
-        </div>
-        
-        {/* edit button */}
-        <div className="absolute right-2 bottom-2 text-white">
-          <Button
-            color="inherit"
-            variant="outlined"
-            endIcon={<span className="fa-solid fa-edit" />}
-          >
-            Tahrirlash
-          </Button>
         </div>
       </div>
     </>
