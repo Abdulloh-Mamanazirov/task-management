@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import {
   Box,
@@ -27,8 +28,11 @@ function Copyright(props) {
 }
 
 export default function SignIn() {
+  const [loading, setLoading] = useState(false);
+
   async function handleLogIn(e) {
     e.preventDefault();
+    setLoading(true);
     const { username, password } = e.target;
     await axios
       .post("/login/", {
@@ -45,7 +49,8 @@ export default function SignIn() {
         if (err.response.status === 401)
           toast.error("Username yoki parol xato!");
         else toast.error("Nimadadir xatolik ketdi!");
-      });
+      })
+      .finally(() => setLoading(false));
   }
 
   return (
@@ -88,6 +93,13 @@ export default function SignIn() {
               autoComplete="current-password"
             />
             <Button
+              disabled={loading}
+              startIcon={
+                <span
+                  hidden={!loading}
+                  className="fa-solid fa-spinner fa-spin"
+                />
+              }
               type="submit"
               fullWidth
               variant="contained"
