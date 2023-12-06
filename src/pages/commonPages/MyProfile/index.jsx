@@ -1,14 +1,18 @@
 import { Button } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { EditModal } from "./components";
 
 const index = () => {
   const id = sessionStorage.getItem("user_id");
   const [data, setData] = useState({});
 
+  const [editModal, setEditModal] = useState({ open: false, data: {} });
+
   async function getData() {
     axios.get(`/user/edit/${id}/`).then((res) => setData(res?.data));
   }
+  console.log(data, "editdata");
 
   useEffect(() => {
     getData();
@@ -105,6 +109,7 @@ const index = () => {
                 color="inherit"
                 variant="outlined"
                 endIcon={<span className="fa-solid fa-edit" />}
+                onClick={() => { setEditModal({ open: true, data }) }}
               >
                 Tahrirlash
               </Button>
@@ -112,6 +117,14 @@ const index = () => {
           </div>
         </div>
       </div>
+      <EditModal
+        open={editModal?.open}
+        data={editModal?.data}
+        handleClose={() => {
+          setEditModal({ open: false, data: {} });
+          getData();
+        }}
+      />
     </>
   );
 };
