@@ -17,12 +17,19 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function EditModal({ open, data, handleClose }) {
   async function handleSubmit(e) {
     e.preventDefault();
-    return alert("no API");
-    const { username, password } = e.target;
-    const data = { username: username.value, password: password?.value };
-    if (!password.value) delete data.password;
+    const { username, first_name, brith_date, last_name, phone_number, main_task, shior } = e.target;
+    const editedData = {
+      username: username.value,
+      first_name: first_name.value,
+      last_name: last_name.value,
+      brith_date: brith_date.value,
+      phone_number: phone_number.value,
+      main_task: main_task.value,
+      shior: shior.value,
+    };
+
     await axios
-      .put(`/signup/edit/${data?.id}/`, data)
+      .put(`/user/edit/${data?.id}/`, editedData)
       .then((res) => {
         if (res.status === 200) handleClose();
       })
@@ -51,15 +58,66 @@ export default function EditModal({ open, data, handleClose }) {
                 className="border border-blue-500 w-full rounded-md p-2 focus:outline-2 focus:outline-blue-700"
               />
             </div>
-            <div className="mt-5">
-              <label htmlFor="password">Yangi parol:</label>
+            <div>
+              <label htmlFor="first_name">Fist Name:</label>
               <input
-                name="password"
-                id="password"
+                defaultValue={data?.first_name}
+                required
+                name="first_name"
+                id="first_name"
                 className="border border-blue-500 w-full rounded-md p-2 focus:outline-2 focus:outline-blue-700"
               />
             </div>
-
+            <div>
+              <label htmlFor="last_name">Last Name:</label>
+              <input
+                defaultValue={data?.last_name}
+                required
+                name="last_name"
+                id="last_name"
+                className="border border-blue-500 w-full rounded-md p-2 focus:outline-2 focus:outline-blue-700"
+              />
+            </div>
+            <div className="mt-5">
+              <label htmlFor="brith_date">Tugilgan Sana:</label>
+              <input
+                defaultValue={data?.brith_date}
+                type="date"
+                name="brith_date"
+                id="brith_date"
+                className="border border-blue-500 w-full rounded-md p-2 focus:outline-2 focus:outline-blue-700"
+              />
+            </div>
+            <div className="mt-5">
+              <label htmlFor="phone_number">Telofon Raqam:</label>
+              <input
+                defaultValue={data?.phone_number}
+                type="number"
+                name="phone_number"
+                id="phone_number"
+                className="border border-blue-500 w-full rounded-md p-2 focus:outline-2 focus:outline-blue-700"
+              />
+            </div>
+            <div className="mt-5">
+              <label htmlFor="main_task">Asosiy vazifa:</label>
+              <input
+                defaultValue={data?.main_task}
+                type="text"
+                name="main_task"
+                id="main_task"
+                className="border border-blue-500 w-full rounded-md p-2 focus:outline-2 focus:outline-blue-700"
+              />
+            </div>
+            <div className="mt-5">
+              <label htmlFor="shior">Shior:</label>
+              <input
+                defaultValue={data?.shior}
+                type="text"
+                name="shior"
+                id="shior"
+                className="border border-blue-500 w-full rounded-md p-2 focus:outline-2 focus:outline-blue-700"
+              />
+            </div>
             <div className="flex items-center gap-3">
               <Button
                 type="reset"
