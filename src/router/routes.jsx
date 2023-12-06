@@ -4,6 +4,8 @@ import {
   Sectors,
   Employees,
   MyProfile,
+  ManagerHome,
+  EmployeeHome,
 } from "../pages";
 
 const director_routes = [
@@ -73,13 +75,13 @@ const manager_routes = [
     path: "/",
     title: "Bosh sahifa",
     icon: <span className="fa-solid fa-home" />,
-    element: <>manager home</>,
+    element: <ManagerHome />,
     showInNav: true,
   },
   {
     key: 1,
     path: "/manager",
-    element: <>manager home</>,
+    element: <ManagerHome />,
     showInNav: false,
   },
   {
@@ -123,7 +125,7 @@ const manager_routes = [
   {
     key: 7,
     path: "/*",
-    element: <>manager home</>,
+    element: <ManagerHome />,
     showInNav: false,
   },
 ];
@@ -134,13 +136,13 @@ const employee_routes = [
     path: "/",
     title: "Bosh sahifa",
     icon: <span className="fa-solid fa-home" />,
-    element: <>employee home</>,
+    element: <EmployeeHome />,
     showInNav: true,
   },
   {
     key: 1,
     path: "/employee",
-    element: <>employee home</>,
+    element: <EmployeeHome />,
     showInNav: false,
   },
   {
@@ -160,7 +162,7 @@ const employee_routes = [
   {
     key: 4,
     path: "/*",
-    element: <>employee home</>,
+    element: <EmployeeHome />,
     showInNav: false,
   },
 ];
