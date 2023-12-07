@@ -1,8 +1,5 @@
-# React + Vite
+# Project for managing businesses
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This CRM project is for managing tasks among directors, managers and employees. Director can assign tasks to managers and see the statistics of employees. Employees and managers can see their statistics about how well they are doing the tasks they were assigned.
