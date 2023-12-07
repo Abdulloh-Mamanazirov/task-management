@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Button, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
-import { EditModal } from "./components";
+import { EditModal, ImageUpload } from "./components";
 
 const index = () => {
   const id = sessionStorage.getItem("user_id");
@@ -46,9 +46,7 @@ const index = () => {
                 imageUpdate ? "grid" : "hidden"
               } place-items-center absolute inset-0 rounded-full transition-all duration-300 bg-black/30`}
             >
-              <IconButton>
-                <span className="fa-solid fa-camera text-white" />
-              </IconButton>
+              <ImageUpload/>
             </div>
           </div>
           <p className="w-fit mx-auto text-center text-lg bg-white rounded-md border p-1 shadow-lg">
