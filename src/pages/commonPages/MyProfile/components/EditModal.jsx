@@ -17,7 +17,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function EditModal({ open, data, handleClose }) {
   async function handleSubmit(e) {
     e.preventDefault();
-    const { username, first_name, brith_date, last_name, phone_number, main_task, shior } = e.target;
+    const {
+      username,
+      first_name,
+      brith_date,
+      last_name,
+      phone_number,
+      main_task,
+      shior,
+    } = e.target;
     const editedData = {
       username: username.value,
       first_name: first_name.value,
@@ -59,7 +67,7 @@ export default function EditModal({ open, data, handleClose }) {
               />
             </div>
             <div>
-              <label htmlFor="first_name">Fist Name:</label>
+              <label htmlFor="first_name">Ism:</label>
               <input
                 defaultValue={data?.first_name}
                 required
@@ -69,7 +77,7 @@ export default function EditModal({ open, data, handleClose }) {
               />
             </div>
             <div>
-              <label htmlFor="last_name">Last Name:</label>
+              <label htmlFor="last_name">Familiya:</label>
               <input
                 defaultValue={data?.last_name}
                 required
@@ -79,7 +87,7 @@ export default function EditModal({ open, data, handleClose }) {
               />
             </div>
             <div className="mt-5">
-              <label htmlFor="brith_date">Tugilgan Sana:</label>
+              <label htmlFor="brith_date">Tug'ilgan sana:</label>
               <input
                 defaultValue={data?.brith_date}
                 type="date"
@@ -89,10 +97,9 @@ export default function EditModal({ open, data, handleClose }) {
               />
             </div>
             <div className="mt-5">
-              <label htmlFor="phone_number">Telofon Raqam:</label>
+              <label htmlFor="phone_number">Telefon raqam:</label>
               <input
                 defaultValue={data?.phone_number}
-                type="number"
                 name="phone_number"
                 id="phone_number"
                 className="border border-blue-500 w-full rounded-md p-2 focus:outline-2 focus:outline-blue-700"
