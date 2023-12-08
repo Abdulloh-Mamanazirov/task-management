@@ -12,7 +12,6 @@ const index = () => {
   async function getData() {
     axios.get(`/user/edit/${id}/`).then((res) => setData(res?.data));
   }
-  console.log(data, "editdata");
 
   useEffect(() => {
     getData();
