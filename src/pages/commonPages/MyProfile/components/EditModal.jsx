@@ -18,19 +18,19 @@ export default function EditModal({ open, data, handleClose }) {
   async function handleSubmit(e) {
     e.preventDefault();
     const {
-      username,
+      // username,
       first_name,
-      brith_date,
+      birth_date,
       last_name,
       phone_number,
       main_task,
       shior,
     } = e.target;
     const editedData = {
-      username: username.value,
+      // username: username.value,
       first_name: first_name.value,
       last_name: last_name.value,
-      brith_date: brith_date.value,
+      birth_date: birth_date.value,
       phone_number: phone_number.value,
       main_task: main_task.value,
       shior: shior.value,
@@ -56,7 +56,7 @@ export default function EditModal({ open, data, handleClose }) {
         <DialogTitle>{"Tahrirlash"}</DialogTitle>
         <DialogContent>
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-            <div>
+            {/* <div>
               <label htmlFor="username">Username:</label>
               <input
                 defaultValue={data?.username}
@@ -65,7 +65,7 @@ export default function EditModal({ open, data, handleClose }) {
                 id="username"
                 className="border border-blue-500 w-full rounded-md p-2 focus:outline-2 focus:outline-blue-700"
               />
-            </div>
+            </div> */}
             <div>
               <label htmlFor="first_name">Ism:</label>
               <input
@@ -87,12 +87,12 @@ export default function EditModal({ open, data, handleClose }) {
               />
             </div>
             <div className="mt-5">
-              <label htmlFor="brith_date">Tug'ilgan sana:</label>
+              <label htmlFor="birth_date">Tug'ilgan sana:</label>
               <input
-                defaultValue={data?.brith_date}
+                defaultValue={data?.birth_date}
                 type="date"
-                name="brith_date"
-                id="brith_date"
+                name="birth_date"
+                id="birth_date"
                 className="border border-blue-500 w-full rounded-md p-2 focus:outline-2 focus:outline-blue-700"
               />
             </div>
