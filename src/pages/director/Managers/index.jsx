@@ -17,6 +17,7 @@ import {
   TableContainer,
   TablePagination,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const index = () => {
   const [data, setData] = useState([]);
@@ -24,6 +25,7 @@ const index = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [anchorEl, setAnchorEl] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
+  const { sectors } = useSelector((state) => state.sector);
   const open = Boolean(anchorEl);
 
   async function getData() {
@@ -100,7 +102,13 @@ const index = () => {
                       <TableCell>{user.username}</TableCell>
                       <TableCell>
                         <Chip
-                          label={user?.sector ?? "Tayinlanmagan"}
+                          label={
+                            user?.sector
+                              ? sectors.map(
+                                  (i) => i.id === user?.sector && i.name
+                                )
+                              : "Tayinlanmagan"
+                          }
                           color={user?.sector ? "success" : "error"}
                           variant="outlined"
                         />

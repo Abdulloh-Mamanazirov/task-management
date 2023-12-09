@@ -4,17 +4,20 @@ import { useState, useEffect } from "react";
 import {
   Box,
   Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
   Select,
+  MenuItem,
   TextField,
+  InputLabel,
+  IconButton,
+  FormControl,
+  OutlinedInput,
+  InputAdornment,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { setSectors as setReduxSectors } from "../../../../redux";
 
 const Create = ({ getData }) => {
+  const dispatch = useDispatch();
   const [sectors, setSectors] = useState([]);
   const [username, setUsername] = useState("");
   const [isUsernameValid, setIsUsernameValid] = useState(false);
@@ -22,7 +25,10 @@ const Create = ({ getData }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    axios.get("/bolim/").then((res) => setSectors(res?.data));
+    axios.get("/bolim/").then((res) => {
+      dispatch(setReduxSectors(res?.data));
+      setSectors(res?.data);
+    });
   }, []);
 
   async function handleSubmit(e) {
