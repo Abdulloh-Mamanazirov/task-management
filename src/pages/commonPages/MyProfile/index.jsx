@@ -70,7 +70,7 @@ const index = () => {
               </thead>
               <tbody>
                 <tr className="border-b">
-                  <th className="text-left py-1">Username</th>
+                  <th className="text-left py-1">Status</th>
                   <td>
                     {data?.status?.length > 0 ? (
                       data?.status
