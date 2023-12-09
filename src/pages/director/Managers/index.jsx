@@ -89,7 +89,8 @@ const index = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data?.length > 0 ? (
+              {data?.filter?.((user) => user.status === "manager")?.length >
+              0 ? (
                 data
                   ?.filter((user) => user.status === "manager")
                   ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

@@ -89,7 +89,7 @@ const index = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data?.length > 0 ? (
+              {data?.filter?.((user) => user.status === "xodim")?.length > 0 ? (
                 data
                   ?.filter((user) => user.status === "xodim")
                   ?.slice?.(
