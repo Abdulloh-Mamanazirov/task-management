@@ -42,11 +42,10 @@ const index = () => {
               className="w-full rounded-full object-cover"
             />
             <div
-              className={`${
-                imageUpdate ? "grid" : "hidden"
-              } place-items-center absolute inset-0 rounded-full transition-all duration-300 bg-black/30`}
+              className={`${imageUpdate ? "grid" : "hidden"
+                } place-items-center absolute inset-0 rounded-full transition-all duration-300 bg-black/30`}
             >
-              <ImageUpload/>
+              <ImageUpload />
             </div>
           </div>
           <p className="w-fit mx-auto text-center text-lg bg-white rounded-md border p-1 shadow-lg">
@@ -73,8 +72,8 @@ const index = () => {
                 <tr className="border-b">
                   <th className="text-left py-1">Username</th>
                   <td>
-                    {data?.username?.length > 0 ? (
-                      data?.username
+                    {data?.status?.length > 0 ? (
+                      data?.status
                     ) : (
                       <em>Kiritilmagan</em>
                     )}
