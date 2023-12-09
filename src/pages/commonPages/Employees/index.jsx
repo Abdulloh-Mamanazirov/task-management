@@ -48,7 +48,7 @@ const index = () => {
 
   async function handleDelete() {
     await axios
-      .delete(`/bolim/edit/${deleteId}/`)
+      .delete(`/user/edit/${deleteId}/`)
       .then((res) => {
         if (res.status === 204) getData();
       })
@@ -146,10 +146,16 @@ const index = () => {
                     10,
                     20,
                     50,
-                    { label: "Hammasi", value: data?.length },
+                    {
+                      label: "Hammasi",
+                      value: data?.filter?.((user) => user.status === "xodim")
+                        ?.length,
+                    },
                   ]}
                   colSpan={4}
-                  count={data?.length}
+                  count={
+                    data?.filter?.((user) => user.status === "xodim")?.length
+                  }
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={handleChangePage}
