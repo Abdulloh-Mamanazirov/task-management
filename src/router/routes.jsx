@@ -6,6 +6,7 @@ import {
   MyProfile,
   ManagerHome,
   EmployeeHome,
+  MyTasks,
 } from "../pages";
 
 const director_routes = [
@@ -105,7 +106,7 @@ const manager_routes = [
     path: "/manager/my-tasks",
     title: "Mening vazifalarim",
     icon: <span className="fa-solid fa-thumbtack" />,
-    element: <>manager my tasks</>,
+    element: <MyTasks />,
     showInNav: true,
   },
   {
@@ -150,7 +151,7 @@ const employee_routes = [
     path: "/employee/my-tasks",
     title: "Mening vazifalarim",
     icon: <span className="fa-solid fa-list-check" />,
-    element: <>employee my tasks</>,
+    element: <MyTasks />,
     showInNav: true,
   },
   {
