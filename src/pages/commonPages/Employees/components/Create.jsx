@@ -50,7 +50,13 @@ const Create = ({ getData }) => {
           e.target.reset();
         }
       })
-      .catch(() => toast.error("Nimadadir xatolik ketdi!"))
+      .catch((err) => {
+        if (err?.response?.status === 400) {
+          toast.error("Bu username mavjud!");
+        } else {
+          toast.error("Nimadadir xatolik ketdi!");
+        }
+      })
       .finally(() => setLoading(false));
   }
 
