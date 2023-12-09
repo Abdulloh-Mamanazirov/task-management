@@ -91,8 +91,9 @@ const index = () => {
             <TableBody>
               {data?.length > 0 ? (
                 data
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((user, ind) => (
+                  ?.filter((user) => user.status === "manager")
+                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  ?.map((user, ind) => (
                     <TableRow key={ind}>
                       <TableCell>{ind + 1}</TableCell>
                       <TableCell>{user.username}</TableCell>

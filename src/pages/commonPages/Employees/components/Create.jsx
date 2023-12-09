@@ -50,7 +50,7 @@ const Create = ({ getData }) => {
 
   const handleValidation = (e) => {
     const reg = new RegExp("^[a-zA-Z0-9_]+$");
-    setIsUsernameValid(reg.test(e .target.value));
+    setIsUsernameValid(reg.test(e.target.value));
     setUsername(e.target.value);
   };
 
@@ -64,7 +64,7 @@ const Create = ({ getData }) => {
           sx={{ mt: 1 }}
           className="grid sm:grid-cols-2 items-center gap-3"
         >
-          <FormControl size="small" required sx={{mt:-1}}>
+          <FormControl size="small" required sx={{ mt: -1 }}>
             <TextField
               margin="normal"
               size="small"
@@ -104,7 +104,22 @@ const Create = ({ getData }) => {
               label="Parol"
             />
           </FormControl>
-          <div className="hidden sm:block"/>
+          <FormControl size="small" required>
+            <InputLabel htmlFor="sector-label">Bo'lim</InputLabel>
+            <Select
+              labelId="sector-label"
+              size="small"
+              id="sector"
+              label="Bo'lim"
+              name="sector"
+            >
+              {sectors?.map?.((option, ind) => (
+                <MenuItem key={ind} value={option.id}>
+                  {option.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <Button
             disabled={!isUsernameValid}
             startIcon={

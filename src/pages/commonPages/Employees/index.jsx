@@ -91,8 +91,12 @@ const index = () => {
             <TableBody>
               {data?.length > 0 ? (
                 data
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((user, ind) => (
+                  ?.filter((user) => user.status === "xodim")
+                  ?.slice?.(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                  ?.map((user, ind) => (
                     <TableRow key={ind}>
                       <TableCell>{ind + 1}</TableCell>
                       <TableCell>{user.username}</TableCell>
@@ -166,7 +170,7 @@ const index = () => {
         <Box sx={{ padding: "5px 10px" }}>
           <div className="flex items-center gap-2 mb-2">
             <span className="fa-solid fa-trash text-red-500" />
-            <p className="text-lg font-medium">Menejerni o'chirmoqchimisiz?</p>
+            <p className="text-lg font-medium">Xodimni o'chirmoqchimisiz?</p>
           </div>
           <div className="flex items-center justify-end gap-3">
             <Button
