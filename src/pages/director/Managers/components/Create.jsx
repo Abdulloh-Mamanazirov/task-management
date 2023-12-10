@@ -114,6 +114,7 @@ const Create = ({ getData }) => {
               label="Parol"
             />
           </FormControl>
+          {/* menga kerak  */}
           <FormControl size="small" required>
             <InputLabel htmlFor="sector-label">Bo'lim</InputLabel>
             <Select

@@ -46,7 +46,6 @@ export default function EditModal({ open, data, handleClose }) {
               id="name"
               className="border border-blue-500 w-full rounded-md p-2 focus:outline-2 focus:outline-blue-700"
             />
-
             <div className="flex items-center gap-3">
               <Button
                 type="reset"
