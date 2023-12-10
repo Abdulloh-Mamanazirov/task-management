@@ -29,7 +29,7 @@ export default function RightSideTask({ handleUpload }) {
     const dispatch = useDispatch();
 
     React.useEffect(() => {
-        axios.get('/manager/').then((res) => {
+        axios.get('/signup/').then((res) => {
             dispatch(setReduxSectors(res?.data));
             setGetManger(res?.data);
         });
@@ -77,7 +77,7 @@ export default function RightSideTask({ handleUpload }) {
                             {Array.isArray(filteredManagers) &&
                                 filteredManagers.map((option, ind) => (
                                     <MenuItem key={ind} value={option.id}>
-                                        {option?.first_name}
+                                        {option?.username}
                                     </MenuItem>
                                 ))}
                         </Select>
