@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Create, EditModal } from "./components";
+import { Create, EditModal, SeeAll } from "./components";
 import {
   Box,
   Table,
@@ -91,6 +91,7 @@ const index = () => {
                     <TableCell>{ind + 1}</TableCell>
                     <TableCell>{item.name}</TableCell>
                     <TableCell>
+                      <SeeAll id={item?.id} title={item.name}/>
                       <IconButton
                         color="primary"
                         onClick={() => {

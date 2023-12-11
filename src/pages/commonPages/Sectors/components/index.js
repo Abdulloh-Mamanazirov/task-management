@@ -1,4 +1,5 @@
 import Create from "./Create";
 import EditModal from "./EditModal";
+import SeeAll from "./SeeAll";
 
-export { Create, EditModal };
+export { Create, EditModal, SeeAll };
