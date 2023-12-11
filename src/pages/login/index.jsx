@@ -43,6 +43,7 @@ export default function SignIn() {
         sessionStorage.setItem("token", res?.data?.access);
         sessionStorage.setItem("status", jwtDecode(res?.data?.access).status);
         sessionStorage.setItem("user_id", jwtDecode(res?.data?.access).user_id);
+        sessionStorage.setItem("sector_id", jwtDecode(res?.data?.access).bolim);
         window.location.replace("/");
       })
       .catch((err) => {
