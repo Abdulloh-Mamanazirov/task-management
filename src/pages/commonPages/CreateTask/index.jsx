@@ -1,8 +1,7 @@
+import { Box, Button, Popover } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { AudioRecorder } from "react-audio-voice-recorder";
 import RightSideTask from "./RightSideTask";
-import Button from "@mui/material/Button";
-import { Popover, Box } from "@mui/material";
 
 const CreateTaskindex = () => {
   const audioList = useRef([]);
@@ -94,7 +93,7 @@ const CreateTaskindex = () => {
               Message
             </label>
             <textarea
-              className="block w-full px-4 py-3 mb-2 text-sm placeholder-gray-500 bg-white border rounded dark:text-gray-400 dark:border-gray-900 dark:bg-gray-800"
+              className="block w-full px-4 py-3 mb-2 text-sm placeholder-gray-500 bg-white border rounded dark:text-gray-400 "
               name="field-name"
               rows="5"
               placeholder="Write something..."
@@ -132,7 +131,7 @@ const CreateTaskindex = () => {
             <div className="flex items-center justify-center w-full">
               <label
                 htmlFor="dropzone-file"
-                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 "
               >
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <svg

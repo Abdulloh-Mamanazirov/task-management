@@ -1,14 +1,8 @@
-import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select } from '@mui/material';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import dayjs from 'dayjs';
 import * as React from 'react';
 import { useDispatch } from "react-redux";
@@ -36,7 +30,6 @@ export default function RightSideTask({ handleUpload }) {
     }, []);
 
 
-    console.log(getManger, "manager");
 
     const filteredManagers = showOnlyManagers
         ? getManger.filter((option) => option.status === 'manager')
