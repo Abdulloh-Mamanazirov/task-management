@@ -106,7 +106,7 @@ const index = () => {
                         <Chip
                           label={
                             user?.sector
-                              ? sectors.map(
+                              ? sectors?.map?.(
                                   (i) => i.id === user?.sector && i.name
                                 )
                               : "Tayinlanmagan"
