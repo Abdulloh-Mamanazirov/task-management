@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Button, IconButton } from "@mui/material";
+import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { EditModal, ImageUpload } from "./components";
 
@@ -39,13 +39,13 @@ const index = () => {
             <img
               src={data?.photo}
               alt="user image"
-              className="w-full rounded-full object-cover"
+              className="w-full rounded-full aspect-square object-cover"
             />
             <div
               className={`${imageUpdate ? "grid" : "hidden"
                 } place-items-center absolute inset-0 rounded-full transition-all duration-300 bg-black/30`}
             >
-              <ImageUpload />
+              <ImageUpload id={id} handleClose={getData} />
             </div>
           </div>
           <p className="w-fit mx-auto text-center text-lg bg-white rounded-md border p-1 shadow-lg">

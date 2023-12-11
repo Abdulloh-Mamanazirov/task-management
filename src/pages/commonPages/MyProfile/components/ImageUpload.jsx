@@ -13,11 +13,17 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export default function InputFileUpload() {
+export default function InputFileUpload({ id, handleClose }) {
   async function handleImageUpload(image) {
     if (!image) return;
-    console.log(image);
-    // await axios
+    const formData = new FormData();
+    formData.append("photo", image);
+    await axios
+      .put(`/user/edit/${id}/`, formData)
+      .then((res) => {
+        if (res.status === 200) handleClose();
+      })
+      .catch((err) => toast.error("Nimadadir xatolik ketdi!"));
   }
 
   return (
