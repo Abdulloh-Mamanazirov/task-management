@@ -34,11 +34,11 @@ const Create = ({ getData }) => {
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    const { username, password } = e.target;
+    const { username, password, sector } = e.target;
     const data = {
       username: username.value,
       password: password.value,
-      sector: null,
+      sector: +sector.value,
       status: "xodim",
     };
 
