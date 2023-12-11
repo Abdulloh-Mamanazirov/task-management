@@ -21,6 +21,7 @@ import { useSelector } from "react-redux";
 
 const index = () => {
   const [data, setData] = useState([]);
+  const [userData, setUserData] = useState({ status: null, sector: null });
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -44,6 +45,10 @@ const index = () => {
 
   useEffect(() => {
     getData();
+    setUserData({
+      status: sessionStorage.getItem("status"),
+      sector: sessionStorage.getItem("sector_id"),
+    });
   }, []);
 
   async function handleDelete() {
@@ -93,7 +98,16 @@ const index = () => {
             <TableBody>
               {data?.filter?.((user) => user.status === "xodim")?.length > 0 ? (
                 data
-                  ?.filter((user) => user.status === "xodim")
+                  ?.filter((user) => {
+                    if (userData?.status === "manager") {
+                      return (
+                        user?.status === "xodim" &&
+                        user?.sector == userData.sector
+                      );
+                    } else {
+                      return user?.status === "xodim";
+                    }
+                  })
                   ?.slice?.(
                     page * rowsPerPage,
                     page * rowsPerPage + rowsPerPage
@@ -148,13 +162,30 @@ const index = () => {
                     50,
                     {
                       label: "Hammasi",
-                      value: data?.filter?.((user) => user.status === "xodim")
-                        ?.length,
+                      value: data?.filter?.((user) => {
+                        if (userData?.status === "manager") {
+                          return (
+                            user?.status === "xodim" &&
+                            user?.sector == userData.sector
+                          );
+                        } else {
+                          return user?.status === "xodim";
+                        }
+                      })?.length,
                     },
                   ]}
                   colSpan={4}
                   count={
-                    data?.filter?.((user) => user.status === "xodim")?.length
+                    data?.filter?.((user) => {
+                      if (userData?.status === "manager") {
+                        return (
+                          user?.status === "xodim" &&
+                          user?.sector == userData.sector
+                        );
+                      } else {
+                        return user?.status === "xodim";
+                      }
+                    })?.length
                   }
                   rowsPerPage={rowsPerPage}
                   page={page}
