@@ -47,7 +47,7 @@ export default function RightSideTask({ handleUpload }) {
                 >
                     <DemoItem label="DatePicker">
                         <DatePicker
-                            defaultValue={yesterday}
+                            defaultValue={dayjs}
                             disablePast
                             views={['year', 'month', 'day']}
                         />
