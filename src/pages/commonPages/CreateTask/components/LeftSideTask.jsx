@@ -1,9 +1,12 @@
 import { useRef, useState } from "react";
 import { Box, Button, Popover } from "@mui/material";
 import { AudioRecorder } from "react-audio-voice-recorder";
+import { useDispatch } from "react-redux";
+import { setAudio, setPhoto, setText } from "../../../../redux";
 
 const LeftSideTask = () => {
   const audioList = useRef([]);
+  const dispatch = useDispatch();
   const [audioKey, setAudioKey] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
@@ -11,6 +14,7 @@ const LeftSideTask = () => {
   const [imagePreviews, setImagePreviews] = useState([]);
 
   const addAudioElement = (blob) => {
+    dispatch(setAudio(blob));
     const url = URL.createObjectURL(blob);
     const audioKey = `audio_${Date.now()}`;
     audioList.current.push({
@@ -37,6 +41,7 @@ const LeftSideTask = () => {
   const selectImages = (e) => {
     let images = [];
     setSelectedImages(e.target.files);
+    dispatch(setPhoto(e.target.files));
 
     for (let i = 0; i < e.target.files.length; i++) {
       images.push(URL.createObjectURL(e.target.files[i]));
@@ -60,18 +65,21 @@ const LeftSideTask = () => {
             name="message"
             rows="5"
             placeholder="Biror nima yozing..."
+            onChange={(e) => dispatch(setText(e.target.value))}
           />
         </div>
         <div className="pb-5">
-          <AudioRecorder
-            onRecordingComplete={addAudioElement}
-            audioTrackConstraints={{
-              noiseSuppression: true,
-              echoCancellation: true,
-            }}
-            downloadOnSavePress={true}
-            downloadFileExtension="mp3"
-          />
+          {audioList.current?.length > 0 ? null : (
+            <AudioRecorder
+              onRecordingComplete={addAudioElement}
+              audioTrackConstraints={{
+                noiseSuppression: true,
+                echoCancellation: true,
+              }}
+              downloadOnSavePress={true}
+              downloadFileExtension="mp3"
+            />
+          )}
           <ul>
             {audioList.current.map((audio) => (
               <li key={audio.key} className="flex items-center gap-2 my-2">

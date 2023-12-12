@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import sectorReducer, { getManager } from "../sectors";
+import sectorReducer from "../sectors";
+import createTaskReducer from "../task";
 
 export const store = configureStore({
   reducer: {
     sector: sectorReducer,
-    manger: getManager,
+    task: createTaskReducer,
   },
 });

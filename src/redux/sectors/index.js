@@ -13,12 +13,9 @@ export const sectorsSlice = createSlice({
     getOneSector: (state, action) => {
       return state.sectors.map((i) => i.id === action.payload);
     },
-    getManager: (state, action) => {
-      return state.managers.map((i) => i.id === action.payload);
-    },
   },
 });
 
-export const { setSectors, getOneSector, getManager } = sectorsSlice.actions;
+export const { setSectors, getOneSector } = sectorsSlice.actions;
 
 export default sectorsSlice.reducer;
