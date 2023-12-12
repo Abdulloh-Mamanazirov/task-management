@@ -35,6 +35,7 @@ export default function EditModal({ open, data, handleClose }) {
       main_task: main_task.value,
       shior: shior.value,
     };
+    if (!birth_date.value) delete editedData.birth_date;
 
     await axios
       .put(`/user/edit/${data?.id}/`, editedData)
