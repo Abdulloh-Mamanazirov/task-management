@@ -15,8 +15,12 @@ import {
   LocalizationProvider,
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useDispatch, useSelector } from "react-redux";
+import { setDeadline, setTo } from "../../../../redux";
 
 export default function RightSideTask({ handleUpload }) {
+  const dispatch = useDispatch();
+  const { task } = useSelector((state) => state);
   const [getManger, setGetManger] = useState([]);
   const [showOnlyManagers, setShowOnlyManagers] = useState(false);
   const [selectedManager, setSelectedManager] = useState("");
@@ -34,8 +38,13 @@ export default function RightSideTask({ handleUpload }) {
   return (
     <div className="flex flex-col gap-5 mt-5">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker format="DD/MM/YYYY" label="Tugash sanasi *" disablePast />
-        <TimePicker label="Tugash soati *" />
+        <DatePicker
+          format="DD/MM/YYYY"
+          label="Tugash sanasi *"
+          disablePast
+          onChange={(e) => dispatch(setDeadline(new Date(e)))}
+        />
+        {/* <TimePicker label="Tugash soati *" /> */}
       </LocalizationProvider>
       <FormControl size="medium" required>
         <InputLabel htmlFor="manager-label">Vazifa qabul qiluvchi</InputLabel>
@@ -45,8 +54,8 @@ export default function RightSideTask({ handleUpload }) {
           id="manager"
           label="Vazifa qabul qiluvchi"
           name="manager"
-          value={selectedManager}
-          onChange={(e) => setSelectedManager(e.target.value)}
+          value={task._to}
+          onChange={(e) => dispatch(setTo(e.target.value))}
         >
           <MenuItem value="">Select Manager</MenuItem>
           {Array.isArray(filteredManagers) &&
