@@ -10,7 +10,7 @@ const Create = () => {
   const [loading, setLoading] = useState(false);
 
   async function handleCreateTask() {
-    setLoading(true);
+    setLoading(true); 
     const formData = new FormData();
     formData.append("text", task.text);
     formData.append("photo", task.photo);
