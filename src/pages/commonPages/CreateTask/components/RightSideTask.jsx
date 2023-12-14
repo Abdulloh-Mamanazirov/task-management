@@ -18,12 +18,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { setDeadline, setTo } from "../../../../redux";
 
-export default function RightSideTask({ handleUpload }) {
+export default function RightSideTask() {
   const dispatch = useDispatch();
   const { task } = useSelector((state) => state);
   const [getManger, setGetManger] = useState([]);
   const [showOnlyManagers, setShowOnlyManagers] = useState(false);
-  const [selectedManager, setSelectedManager] = useState("");
 
   useEffect(() => {
     axios.get("/signup/").then((res) => {
@@ -77,12 +76,6 @@ export default function RightSideTask({ handleUpload }) {
         }
         label="Faqat menejerlarni ko'rsatish"
       />
-
-      <div className="mt-5 float-right">
-        <Button onClick={handleUpload} variant="contained" color="primary">
-          Create Task
-        </Button>
-      </div>
     </div>
   );
 }
