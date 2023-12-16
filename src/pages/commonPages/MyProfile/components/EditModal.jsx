@@ -40,7 +40,10 @@ export default function EditModal({ open, data, handleClose }) {
     await axios
       .put(`/user/edit/${data?.id}/`, editedData)
       .then((res) => {
-        if (res.status === 200) handleClose();
+        if (res.status === 200) {
+          toast.success("Profil tahrirladi");
+          handleClose();
+        }
       })
       .catch((err) => toast.error("Nimadadir xatolik ketdi!"));
   }

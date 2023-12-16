@@ -21,7 +21,10 @@ export default function EditModal({ open, data, handleClose }) {
     await axios
       .put(`/bolim/edit/${data?.id}/`, { name: name.value })
       .then((res) => {
-        if (res.status === 200) handleClose();
+        if (res.status === 200) {
+          handleClose();
+          toast.success("Bo'lim tahrirlandi");
+        }
       })
       .catch((err) => toast.error("Nimadadir xatolik ketdi!"));
   }

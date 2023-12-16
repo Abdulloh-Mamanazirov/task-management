@@ -18,6 +18,7 @@ import {
   TablePagination,
 } from "@mui/material";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const index = () => {
   const [data, setData] = useState([]);
@@ -50,7 +51,10 @@ const index = () => {
     await axios
       .delete(`/user/edit/${deleteId}/`)
       .then((res) => {
-        if (res.status === 204) getData();
+        if (res.status === 204) {
+          getData();
+          toast.info("Menejer o'chirildi!");
+        }
       })
       .catch(() => toast.error("Nimadadir xatolik ketdi!"))
       .finally(() => {

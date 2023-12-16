@@ -16,6 +16,7 @@ import {
   TableContainer,
   TablePagination,
 } from "@mui/material";
+import { toast } from "react-toastify";
 
 const index = () => {
   const [data, setData] = useState([]);
@@ -48,7 +49,10 @@ const index = () => {
     await axios
       .delete(`/bolim/edit/${deleteId}/`)
       .then((res) => {
-        if (res.status === 204) getData();
+        if (res.status === 204) {
+          getData();
+          toast.info("Bo'lim o'chirildi!");
+        }
       })
       .catch(() => toast.error("Nimadadir xatolik ketdi!"))
       .finally(() => {
@@ -91,7 +95,7 @@ const index = () => {
                     <TableCell>{ind + 1}</TableCell>
                     <TableCell>{item.name}</TableCell>
                     <TableCell>
-                      <SeeAll id={item?.id} title={item.name}/>
+                      <SeeAll id={item?.id} title={item.name} />
                       <IconButton
                         color="primary"
                         onClick={() => {

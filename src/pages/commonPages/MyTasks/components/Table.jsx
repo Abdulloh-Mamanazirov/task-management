@@ -1,46 +1,47 @@
 import {
-    Chip,
-    Paper,
-    Table,
-    Avatar,
-    Button,
-    Dialog,
-    TableRow,
-    TableCell,
-    TableBody,
-    TableHead,
-    TableFooter,
-    AvatarGroup,
-    TableContainer,
-    TablePagination,
+  Chip,
+  Paper,
+  Table,
+  Avatar,
+  Button,
+  Dialog,
+  TableRow,
+  TableCell,
+  TableBody,
+  TableHead,
+  TableFooter,
+  AvatarGroup,
+  TableContainer,
+  TablePagination,
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const TableTasks = () => {
-    const [data, setData] = useState([]);
-    const [modal, setModal] = useState({ open: false, data: null });
-    const [modalPlay, setModalPlay] = useState({ open: false, data: null });
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [data, setData] = useState([]);
+  const [modal, setModal] = useState({ open: false, data: null });
+  const [modalPlay, setModalPlay] = useState({ open: false, data: null });
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
-    async function getData() {
-        const response = await axios.get("bolim/");
-        setData(response?.data);
-    }
+  async function getData() {
+    const response = await axios.get("bolim/");
+    setData(response?.data);
+  }
 
-    const handleChangePage = (_, newPage) => {
-        setPage(newPage);
-    };
+  const handleChangePage = (_, newPage) => {
+    setPage(newPage);
+  };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
-    useEffect(() => {
-        getData();
-    }, []);
+  useEffect(() => {
+    getData();
+  }, []);
+
 
     return (
         <>
@@ -248,60 +249,60 @@ const TableTasks = () => {
                 </div>
             </div>
 
-            <Dialog
-                open={modal.open}
-                onClose={() => setModal({ open: false, data: null })}
-                fullWidth
-                keepMounted
-                aria-describedby="edit-modal"
-            >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 px-5 mt-5 mb-5 rounded-md">
-                    <div className="cursor-pointer">
-                        <img
-                            src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e"
-                            className="rounded-xl"
-                            alt=""
-                        />
-                    </div>
-                    <div className="cursor-pointer">
-                        <img
-                            src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e"
-                            className="rounded-xl"
-                            alt=""
-                        />
-                    </div>
-                    <div className="cursor-pointer">
-                        <img
-                            src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e"
-                            className="rounded-xl"
-                            alt=""
-                        />
-                    </div>
-                    <div className="cursor-pointer">
-                        <img
-                            src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e"
-                            className="rounded-xl"
-                            alt=""
-                        />
-                    </div>
-                </div>
-            </Dialog>
+      <Dialog
+        open={modal.open}
+        onClose={() => setModal({ open: false, data: null })}
+        fullWidth
+        keepMounted
+        aria-describedby="edit-modal"
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 px-5 mt-5 mb-5 rounded-md">
+          <div className="cursor-pointer">
+            <img
+              src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e"
+              className="rounded-xl"
+              alt=""
+            />
+          </div>
+          <div className="cursor-pointer">
+            <img
+              src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e"
+              className="rounded-xl"
+              alt=""
+            />
+          </div>
+          <div className="cursor-pointer">
+            <img
+              src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e"
+              className="rounded-xl"
+              alt=""
+            />
+          </div>
+          <div className="cursor-pointer">
+            <img
+              src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e"
+              className="rounded-xl"
+              alt=""
+            />
+          </div>
+        </div>
+      </Dialog>
 
-            <Dialog
-                open={modalPlay.open}
-                onClose={() => setModalPlay({ open: false, data: null })}
-                fullWidth
-                keepMounted
-                aria-describedby="edit-modal"
-            >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 px-5 mt-5 mb-5 rounded-md">
-                    <audio controls>
-                        <source src=" https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3" />
-                    </audio>
-                </div>
-            </Dialog>
-        </>
-    );
+      <Dialog
+        open={modalPlay.open}
+        onClose={() => setModalPlay({ open: false, data: null })}
+        fullWidth
+        keepMounted
+        aria-describedby="edit-modal"
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 px-5 mt-5 mb-5 rounded-md">
+          <audio controls>
+            <source src=" https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3" />
+          </audio>
+        </div>
+      </Dialog>
+    </>
+  );
 };
 
 export default TableTasks;
