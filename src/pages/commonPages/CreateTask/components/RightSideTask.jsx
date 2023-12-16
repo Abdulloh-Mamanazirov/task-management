@@ -56,7 +56,6 @@ export default function RightSideTask() {
           value={task._to}
           onChange={(e) => dispatch(setTo(e.target.value))}
         >
-          <MenuItem value="">Select Manager</MenuItem>
           {Array.isArray(filteredManagers) &&
             filteredManagers.map((option, ind) => (
               <MenuItem key={ind} value={option.id}>

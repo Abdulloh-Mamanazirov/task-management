@@ -44,134 +44,209 @@ const TableTasks = () => {
 
     return (
         <>
-            <TableContainer
-                component={Paper}
-                style={{ maxHeight: "70vh" }}
-                className="drop-shadow-xl mt-5"
-            >
-                <Table stickyHeader>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell style={{ backgroundColor: "#1976D2", color: "white" }}>
-                                #
-                            </TableCell>
-                            <TableCell style={{ backgroundColor: "#1976D2", color: "white" }}>
-                                Xabar
-                            </TableCell>
-                            <TableCell style={{ backgroundColor: "#1976D2", color: "white" }}>
-                                Audio
-                            </TableCell>
-                            <TableCell style={{ backgroundColor: "#1976D2", color: "white" }}>
-                                Rasmlar
-                            </TableCell>
-                            <TableCell style={{ backgroundColor: "#1976D2", color: "white" }}>
-                                Status
-                            </TableCell>
-
-                            <TableCell style={{ backgroundColor: "#1976D2", color: "white" }}>
-                                Qachon Tugashi
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {Array.isArray(data) && data?.length > 0 ? (
-                            data
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((item, ind) => (
-                                    <TableRow key={ind}>
-                                        <TableCell>{ind + 1}</TableCell>
-                                        <TableCell>
-                                            {data?.first_name?.length > 0
-                                                ? data?.first_name
-                                                : "Xabar"}
-                                        </TableCell>
-
-                                        <TableCell>
-                                            {/* {data?.audio?.length > 0 ? data?.audio : "audio yoq"} */}
-
-                                            <Button
-                                                size="small"
-                                                onClick={() => {
-                                                    setModalPlay({ open: true, data: "modal data" });
-                                                }}
-                                                variant="contained"
-                                            >
-                                                Tinglash <span className="fa-solid fa-play ml-2" />
-                                            </Button>
-                                        </TableCell>
-
-                                        <TableCell>
-                                            <AvatarGroup
-                                                onClick={() =>
-                                                    setModal({ open: true, data: "modal data" })
-                                                }
-                                                className="w-fit"
-                                                max={3}
-                                                style={{ cursor: "pointer" }}
-                                            >
-                                                {new Array(5).fill(null).map((_, ind) => (
-                                                    <Avatar alt={`${ind}`} src="..." />
-                                                ))}
-                                            </AvatarGroup>
-                                        </TableCell>
-
-                                        <TableCell>
-                                            {/* {data?.status?.length > 0 ? data?.status : "Status"} */}
-                                            <Chip
-                                                label={
-                                                    data?.sector
-                                                        ? sectors?.map?.(
-                                                            (i) => i.id === data?.sector && i.name
-                                                        )
-                                                        : "Tayinlanmagan"
-                                                }
-                                                color={data?.sector ? "success" : "error"}
-                                                variant="outlined"
-                                            />
-                                        </TableCell>
-
-                                        <TableCell>
-                                            {data?.edn_time?.length > 0
-                                                ? data?.edn_time
-                                                : "Tugash vaqti"}
-                                        </TableCell>
-                                    </TableRow>
-                                ))
-                        ) : (
-                            <TableRow>
-                                <TableCell colSpan={7} align="center">
-                                    <div className="flex flex-col items-center gap-3">
-                                        <img src="/empty.png" alt="no data" width={100} />
-                                        <p className="text-gray-500">Ma'lumot mavjud emas.</p>
+            <div className="grid md:grid-cols-3 gap-10 justify-between mt-5">
+                <div className="md:w-full bg-white rounded-[5px] border border-zinc-800 p-5  shadow-md">
+                    <div className="flex items-center justify-around gap-10">
+                        <div>
+                            <p className="text-black font-normal">
+                                some text here and <br /> here and here
+                            </p>
+                            <div className="mt-4 rounded-md">
+                                <audio controls className="w-[250px]">
+                                    <source src=" https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3" />
+                                </audio>
+                            </div>
+                            <div className="mt-4">
+                                <AvatarGroup
+                                    onClick={() => setModal({ open: true, data: "modal data" })}
+                                    className="w-fit"
+                                    max={4}
+                                    style={{ cursor: "pointer" }}
+                                >
+                                    {new Array(5).fill(null).map((_, ind) => (
+                                        <Avatar alt={`${ind}`} src="..." />
+                                    ))}
+                                </AvatarGroup>
+                            </div>
+                        </div>
+                        <div>
+                            <div className=" ">
+                                <div className="text-black  font-medium ">
+                                    Boshlanish sanasi:
+                                </div>
+                                <div className="text-black text-center  font-normal ">
+                                    21-12-2024
+                                </div>
+                            </div>
+                            <div className="mt-5 ml-5 ">
+                                <div className="text-black  font-medium ">
+                                    Tugash sanasi:
+                                </div>
+                                <div className="text-black text-center  font-normal ">
+                                    21-12-2024
+                                </div>
+                            </div>
+                            <div className="mt-5 ">
+                                <div className="text-black text-center font-medium ">
+                                    Status:
+                                </div>
+                                <div className="text-black font-normal flex items-center justify-between ">
+                                    <Chip
+                                        label={
+                                            data?.sector
+                                                ? sectors?.map?.(
+                                                    (i) => i.id === data?.sector && i.name
+                                                )
+                                                : "tayinlanmadi"
+                                        }
+                                        color={data?.sector ? "primary" : "error"}
+                                        variant="outlined"
+                                    />
+                                    <div>
+                                        <span className="fa-solid fa-edit text-xl text-blue-500 cursor-pointer" />
                                     </div>
-                                </TableCell>
-                            </TableRow>
-                        )}
-                    </TableBody>
-                    <TableFooter>
-                        <TableRow>
-                            <TablePagination
-                                rowsPerPageOptions={[
-                                    10,
-                                    20,
-                                    50,
-                                    { label: "Hammasi", value: data?.length },
-                                ]}
-                                colSpan={7}
-                                count={data?.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                labelRowsPerPage="Bir sahifadagi qatorlar"
-                                labelDisplayedRows={({ from, to, count }) =>
-                                    `${count} ning ${from}-${to} tasi`
-                                }
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                            />
-                        </TableRow>
-                    </TableFooter>
-                </Table>
-            </TableContainer>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div className="w-full  bg-white rounded-[5px] border border-zinc-800 p-5">
+                    <div className="flex items-center justify-around gap-10">
+                        <div>
+                            <p className="text-black font-normal">
+                                some text here and <br /> here and here
+                            </p>
+                            <div className="mt-4 rounded-md">
+                                <audio controls className="w-[250px]">
+                                    <source src=" https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3" />
+                                </audio>
+                            </div>
+                            <div className="mt-4">
+                                <AvatarGroup
+                                    onClick={() => setModal({ open: true, data: "modal data" })}
+                                    className="w-fit"
+                                    max={4}
+                                    style={{ cursor: "pointer" }}
+                                >
+                                    {new Array(5).fill(null).map((_, ind) => (
+                                        <Avatar alt={`${ind}`} src="..." />
+                                    ))}
+                                </AvatarGroup>
+                            </div>
+                        </div>
+                        <div>
+                            <div className=" ">
+                                <div className="text-black  font-medium ">
+                                    Boshlanish sanasi:
+                                </div>
+                                <div className="text-black text-center  font-normal ">
+                                    21-12-2024
+                                </div>
+                            </div>
+                            <div className="mt-5 ml-5">
+                                <div className="text-black font-medium ">
+                                    Tugash sanasi:
+                                </div>
+                                <div className="text-black text-center  font-normal ">
+                                    21-12-2024
+                                </div>
+                            </div>
+                            <div className="mt-5 ">
+                                <div className="text-black text-center font-medium ">
+                                    Status:
+                                </div>
+                                <div className="text-black font-normal flex items-center justify-between ">
+                                    <Chip
+                                        label={
+                                            data?.sector
+                                                ? sectors?.map?.(
+                                                    (i) => i.id === data?.sector && i.name
+                                                )
+                                                : "tayinlanmadi"
+                                        }
+                                        color={data?.sector ? "primary" : "error"}
+                                        variant="outlined"
+                                    />
+                                    <div>
+                                        <span className="fa-solid fa-edit text-xl text-blue-500 cursor-pointer" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div className="w-full  bg-white rounded-[5px] border border-zinc-800 p-5">
+                    <div className="flex items-center justify-around gap-10">
+                        <div>
+                            <p className="text-black font-normal">
+                                some text here and <br /> here and here
+                            </p>
+                            <div className="mt-4 rounded-md">
+                                <audio controls className="w-[250px]">
+                                    <source src=" https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3" />
+                                </audio>
+                            </div>
+                            <div className="mt-4">
+                                <AvatarGroup
+                                    onClick={() => setModal({ open: true, data: "modal data" })}
+                                    className="w-fit"
+                                    max={4}
+                                    style={{ cursor: "pointer" }}
+                                >
+                                    {new Array(5).fill(null).map((_, ind) => (
+                                        <Avatar alt={`${ind}`} src="..." />
+                                    ))}
+                                </AvatarGroup>
+                            </div>
+                        </div>
+                        <div>
+                            <div className=" ">
+                                <div className="text-black  font-medium ">
+                                    Boshlanish sanasi:
+                                </div>
+                                <div className="text-black text-center  font-normal ">
+                                    21-12-2024
+                                </div>
+                            </div>
+                            <div className="mt-5 ml-5">
+                                <div className="text-black  font-medium ">
+                                    Tugash sanasi:
+                                </div>
+                                <div className="text-black text-center  font-normal ">
+                                    21-12-2024
+                                </div>
+                            </div>
+                            <div className="mt-5 ">
+                                <div className="text-black text-center font-medium ">
+                                    Status:
+                                </div>
+                                <div className="text-black font-normal flex items-center justify-between ">
+                                    <Chip
+                                        label={
+                                            data?.sector
+                                                ? sectors?.map?.(
+                                                    (i) => i.id === data?.sector && i.name
+                                                )
+                                                : "tayinlanmadi"
+                                        }
+                                        color={data?.sector ? "primary" : "error"}
+                                        variant="outlined"
+                                    />
+                                    <div>
+                                        <span className="fa-solid fa-edit text-xl text-blue-500 cursor-pointer" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
 
             <Dialog
                 open={modal.open}
