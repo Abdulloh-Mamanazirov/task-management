@@ -15,6 +15,7 @@ const Create = ({ getData }) => {
       .then((res) => {
         if (res.status === 201) {
           getData();
+          toast.success("Bo'lim yaratildi");
           e.target.reset();
         }
       })
