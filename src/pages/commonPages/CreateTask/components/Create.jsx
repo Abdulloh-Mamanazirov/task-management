@@ -21,14 +21,14 @@ const Create = () => {
       .patch("/task/", formData
       // , {
       //   headers: {
-          // "Content-Disposition": "filename.jpg",
-        //   "Accept-Encoding": "gzip, deflate, br",
-        //   "Accept-Language":
-        //     "en-GB,en;q=0.9,ru-RU;q=0.8,ru;q=0.7,en-US;q=0.6,uz;q=0.5",
-        //   Connection: "keep-alive",
-        //   "Content-Disposition": 'attachment; filename="filename.jpg"'
+      //     // "Content-Disposition": "filename.jpg",
+      //     "Accept-Encoding": "gzip, deflate, br",
+      //     "Accept-Language":
+      //       "en-GB,en;q=0.9,ru-RU;q=0.8,ru;q=0.7,en-US;q=0.6,uz;q=0.5",
+      //     Connection: "keep-alive",
+      //     "Content-Disposition": 'attachment; filename="filename.jpg"'
 
-        // },
+      //   },
       // }
       )
       .then((res) => console.log(res))
