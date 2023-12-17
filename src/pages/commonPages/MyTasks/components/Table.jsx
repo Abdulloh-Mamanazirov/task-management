@@ -42,212 +42,193 @@ const TableTasks = () => {
     getData();
   }, []);
 
-
-    return (
-        <>
-            <div className="grid md:grid-cols-3 gap-10 justify-between mt-5">
-                <div className="md:w-full bg-white rounded-[5px] border border-zinc-800 p-5  shadow-md">
-                    <div className="flex items-center justify-around gap-10">
-                        <div>
-                            <p className="text-black font-normal">
-                                some text here and <br /> here and here
-                            </p>
-                            <div className="mt-4 rounded-md">
-                                <audio controls className="w-[250px]">
-                                    <source src=" https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3" />
-                                </audio>
-                            </div>
-                            <div className="mt-4">
-                                <AvatarGroup
-                                    onClick={() => setModal({ open: true, data: "modal data" })}
-                                    className="w-fit"
-                                    max={4}
-                                    style={{ cursor: "pointer" }}
-                                >
-                                    {new Array(5).fill(null).map((_, ind) => (
-                                        <Avatar alt={`${ind}`} src="..." />
-                                    ))}
-                                </AvatarGroup>
-                            </div>
-                        </div>
-                        <div>
-                            <div className=" ">
-                                <div className="text-black  font-medium ">
-                                    Boshlanish sanasi:
-                                </div>
-                                <div className="text-black text-center  font-normal ">
-                                    21-12-2024
-                                </div>
-                            </div>
-                            <div className="mt-5 ml-5 ">
-                                <div className="text-black  font-medium ">
-                                    Tugash sanasi:
-                                </div>
-                                <div className="text-black text-center  font-normal ">
-                                    21-12-2024
-                                </div>
-                            </div>
-                            <div className="mt-5 ">
-                                <div className="text-black text-center font-medium ">
-                                    Status:
-                                </div>
-                                <div className="text-black font-normal flex items-center justify-between ">
-                                    <Chip
-                                        label={
-                                            data?.sector
-                                                ? sectors?.map?.(
-                                                    (i) => i.id === data?.sector && i.name
-                                                )
-                                                : "tayinlanmadi"
-                                        }
-                                        color={data?.sector ? "primary" : "error"}
-                                        variant="outlined"
-                                    />
-                                    <div>
-                                        <span className="fa-solid fa-edit text-xl text-blue-500 cursor-pointer" />
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div className="w-full  bg-white rounded-[5px] border border-zinc-800 p-5">
-                    <div className="flex items-center justify-around gap-10">
-                        <div>
-                            <p className="text-black font-normal">
-                                some text here and <br /> here and here
-                            </p>
-                            <div className="mt-4 rounded-md">
-                                <audio controls className="w-[250px]">
-                                    <source src=" https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3" />
-                                </audio>
-                            </div>
-                            <div className="mt-4">
-                                <AvatarGroup
-                                    onClick={() => setModal({ open: true, data: "modal data" })}
-                                    className="w-fit"
-                                    max={4}
-                                    style={{ cursor: "pointer" }}
-                                >
-                                    {new Array(5).fill(null).map((_, ind) => (
-                                        <Avatar alt={`${ind}`} src="..." />
-                                    ))}
-                                </AvatarGroup>
-                            </div>
-                        </div>
-                        <div>
-                            <div className=" ">
-                                <div className="text-black  font-medium ">
-                                    Boshlanish sanasi:
-                                </div>
-                                <div className="text-black text-center  font-normal ">
-                                    21-12-2024
-                                </div>
-                            </div>
-                            <div className="mt-5 ml-5">
-                                <div className="text-black font-medium ">
-                                    Tugash sanasi:
-                                </div>
-                                <div className="text-black text-center  font-normal ">
-                                    21-12-2024
-                                </div>
-                            </div>
-                            <div className="mt-5 ">
-                                <div className="text-black text-center font-medium ">
-                                    Status:
-                                </div>
-                                <div className="text-black font-normal flex items-center justify-between ">
-                                    <Chip
-                                        label={
-                                            data?.sector
-                                                ? sectors?.map?.(
-                                                    (i) => i.id === data?.sector && i.name
-                                                )
-                                                : "tayinlanmadi"
-                                        }
-                                        color={data?.sector ? "primary" : "error"}
-                                        variant="outlined"
-                                    />
-                                    <div>
-                                        <span className="fa-solid fa-edit text-xl text-blue-500 cursor-pointer" />
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div className="w-full  bg-white rounded-[5px] border border-zinc-800 p-5">
-                    <div className="flex items-center justify-around gap-10">
-                        <div>
-                            <p className="text-black font-normal">
-                                some text here and <br /> here and here
-                            </p>
-                            <div className="mt-4 rounded-md">
-                                <audio controls className="w-[250px]">
-                                    <source src=" https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3" />
-                                </audio>
-                            </div>
-                            <div className="mt-4">
-                                <AvatarGroup
-                                    onClick={() => setModal({ open: true, data: "modal data" })}
-                                    className="w-fit"
-                                    max={4}
-                                    style={{ cursor: "pointer" }}
-                                >
-                                    {new Array(5).fill(null).map((_, ind) => (
-                                        <Avatar alt={`${ind}`} src="..." />
-                                    ))}
-                                </AvatarGroup>
-                            </div>
-                        </div>
-                        <div>
-                            <div className=" ">
-                                <div className="text-black  font-medium ">
-                                    Boshlanish sanasi:
-                                </div>
-                                <div className="text-black text-center  font-normal ">
-                                    21-12-2024
-                                </div>
-                            </div>
-                            <div className="mt-5 ml-5">
-                                <div className="text-black  font-medium ">
-                                    Tugash sanasi:
-                                </div>
-                                <div className="text-black text-center  font-normal ">
-                                    21-12-2024
-                                </div>
-                            </div>
-                            <div className="mt-5 ">
-                                <div className="text-black text-center font-medium ">
-                                    Status:
-                                </div>
-                                <div className="text-black font-normal flex items-center justify-between ">
-                                    <Chip
-                                        label={
-                                            data?.sector
-                                                ? sectors?.map?.(
-                                                    (i) => i.id === data?.sector && i.name
-                                                )
-                                                : "tayinlanmadi"
-                                        }
-                                        color={data?.sector ? "primary" : "error"}
-                                        variant="outlined"
-                                    />
-                                    <div>
-                                        <span className="fa-solid fa-edit text-xl text-blue-500 cursor-pointer" />
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+  return (
+    <>
+      <div className="grid md:grid-cols-3 gap-10 justify-between mt-5">
+        <div className="md:w-full bg-white rounded-[5px] border border-zinc-800 p-5  shadow-md">
+          <div className="flex items-center justify-around gap-10">
+            <div>
+              <p className="text-black font-normal">
+                some text here and <br /> here and here
+              </p>
+              <div className="mt-4 rounded-md">
+                <audio controls className="w-[250px]">
+                  <source src=" https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3" />
+                </audio>
+              </div>
+              <div className="mt-4">
+                <AvatarGroup
+                  onClick={() => setModal({ open: true, data: "modal data" })}
+                  className="w-fit"
+                  max={4}
+                  style={{ cursor: "pointer" }}
+                >
+                  {new Array(5).fill(null).map((_, ind) => (
+                    <Avatar alt={`${ind}`} src="..." />
+                  ))}
+                </AvatarGroup>
+              </div>
             </div>
+            <div>
+              <div className=" ">
+                <div className="text-black  font-medium ">
+                  Boshlanish sanasi:
+                </div>
+                <div className="text-black text-center  font-normal ">
+                  21-12-2024
+                </div>
+              </div>
+              <div className="mt-5 ml-5 ">
+                <div className="text-black  font-medium ">Tugash sanasi:</div>
+                <div className="text-black text-center  font-normal ">
+                  21-12-2024
+                </div>
+              </div>
+              <div className="mt-5 ">
+                <div className="text-black text-center font-medium ">
+                  Status:
+                </div>
+                <div className="text-black font-normal flex items-center justify-between ">
+                  <Chip
+                    label={
+                      data?.sector
+                        ? sectors?.map?.((i) => i.id === data?.sector && i.name)
+                        : "tayinlanmadi"
+                    }
+                    color={data?.sector ? "primary" : "error"}
+                    variant="outlined"
+                  />
+                  <div>
+                    <span className="fa-solid fa-edit text-xl text-blue-500 cursor-pointer" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="w-full  bg-white rounded-[5px] border border-zinc-800 p-5">
+          <div className="flex items-center justify-around gap-10">
+            <div>
+              <p className="text-black font-normal">
+                some text here and <br /> here and here
+              </p>
+              <div className="mt-4 rounded-md">
+                <audio controls className="w-[250px]">
+                  <source src=" https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3" />
+                </audio>
+              </div>
+              <div className="mt-4">
+                <AvatarGroup
+                  onClick={() => setModal({ open: true, data: "modal data" })}
+                  className="w-fit"
+                  max={4}
+                  style={{ cursor: "pointer" }}
+                >
+                  {new Array(5).fill(null).map((_, ind) => (
+                    <Avatar alt={`${ind}`} src="..." />
+                  ))}
+                </AvatarGroup>
+              </div>
+            </div>
+            <div>
+              <div className=" ">
+                <div className="text-black  font-medium ">
+                  Boshlanish sanasi:
+                </div>
+                <div className="text-black text-center  font-normal ">
+                  21-12-2024
+                </div>
+              </div>
+              <div className="mt-5 ml-5">
+                <div className="text-black font-medium ">Tugash sanasi:</div>
+                <div className="text-black text-center  font-normal ">
+                  21-12-2024
+                </div>
+              </div>
+              <div className="mt-5 ">
+                <div className="text-black text-center font-medium ">
+                  Status:
+                </div>
+                <div className="text-black font-normal flex items-center justify-between ">
+                  <Chip
+                    label={
+                      data?.sector
+                        ? sectors?.map?.((i) => i.id === data?.sector && i.name)
+                        : "tayinlanmadi"
+                    }
+                    color={data?.sector ? "primary" : "error"}
+                    variant="outlined"
+                  />
+                  <div>
+                    <span className="fa-solid fa-edit text-xl text-blue-500 cursor-pointer" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="w-full  bg-white rounded-[5px] border border-zinc-800 p-5">
+          <div className="flex items-center justify-around gap-10">
+            <div>
+              <p className="text-black font-normal">
+                some text here and <br /> here and here
+              </p>
+              <div className="mt-4 rounded-md">
+                <audio controls className="w-[250px]">
+                  <source src=" https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3" />
+                </audio>
+              </div>
+              <div className="mt-4">
+                <AvatarGroup
+                  onClick={() => setModal({ open: true, data: "modal data" })}
+                  className="w-fit"
+                  max={4}
+                  style={{ cursor: "pointer" }}
+                >
+                  {new Array(5).fill(null).map((_, ind) => (
+                    <Avatar alt={`${ind}`} src="..." />
+                  ))}
+                </AvatarGroup>
+              </div>
+            </div>
+            <div>
+              <div className=" ">
+                <div className="text-black  font-medium ">
+                  Boshlanish sanasi:
+                </div>
+                <div className="text-black text-center  font-normal ">
+                  21-12-2024
+                </div>
+              </div>
+              <div className="mt-5 ml-5">
+                <div className="text-black  font-medium ">Tugash sanasi:</div>
+                <div className="text-black text-center  font-normal ">
+                  21-12-2024
+                </div>
+              </div>
+              <div className="mt-5 ">
+                <div className="text-black text-center font-medium ">
+                  Status:
+                </div>
+                <div className="text-black font-normal flex items-center justify-between ">
+                  <Chip
+                    label={
+                      data?.sector
+                        ? sectors?.map?.((i) => i.id === data?.sector && i.name)
+                        : "tayinlanmadi"
+                    }
+                    color={data?.sector ? "primary" : "error"}
+                    variant="outlined"
+                  />
+                  <div>
+                    <span className="fa-solid fa-edit text-xl text-blue-500 cursor-pointer" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <Dialog
         open={modal.open}
