@@ -1,16 +1,19 @@
 import axios from "axios";
 import { useState } from "react";
 import { Button } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LeftSideTask from "./LeftSideTask";
 import RightSideTask from "./RightSideTask";
+import { toast } from "react-toastify";
+import { removeTask } from "../../../../redux";
 
 const Create = () => {
   const { task } = useSelector((state) => state);
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
   async function handleCreateTask() {
-    setLoading(true); 
+    setLoading(true);
     const formData = new FormData();
     formData.append("text", task.text);
     formData.append("photo", task.photo);
@@ -18,20 +21,13 @@ const Create = () => {
     formData.append("deadline", task.deadline);
     formData.append("_to", task._to);
     await axios
-      .patch("/task/", formData
-      // , {
-      //   headers: {
-      //     // "Content-Disposition": "filename.jpg",
-      //     "Accept-Encoding": "gzip, deflate, br",
-      //     "Accept-Language":
-      //       "en-GB,en;q=0.9,ru-RU;q=0.8,ru;q=0.7,en-US;q=0.6,uz;q=0.5",
-      //     Connection: "keep-alive",
-      //     "Content-Disposition": 'attachment; filename="filename.jpg"'
-
-      //   },
-      // }
-      )
-      .then((res) => console.log(res))
+      .patch("/task/", formData)
+      .then((res) => {
+        if (res?.data?.id) {
+          dispatch(removeTask());
+          toast.success("Vazifa yuklandi!");
+        }
+      })
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
   }
