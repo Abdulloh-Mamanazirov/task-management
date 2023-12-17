@@ -21,18 +21,23 @@ import { setDeadline, setTo } from "../../../../redux";
 export default function RightSideTask() {
   const dispatch = useDispatch();
   const { task } = useSelector((state) => state);
-  const [getManger, setGetManger] = useState([]);
-  const [showOnlyManagers, setShowOnlyManagers] = useState(false);
+  const [people, setPeople] = useState({
+    managers: [],
+    employees: [],
+  });
+
+  async function getPeople() {
+    await axios.get("/xodim/").then((res) => {
+      setPeople((old) => ({ ...old, employees: res?.data }));
+    });
+    await axios.get("/manager/").then((res) => {
+      setPeople((old) => ({ ...old, managers: res?.data }));
+    });
+  }
 
   useEffect(() => {
-    axios.get("/signup/").then((res) => {
-      setGetManger(res?.data);
-    });
+    getPeople();
   }, []);
-
-  const filteredManagers = showOnlyManagers
-    ? getManger.filter((option) => option.status === "manager")
-    : getManger;
 
   return (
     <div className="flex flex-col gap-5 mt-5">
@@ -43,7 +48,6 @@ export default function RightSideTask() {
           disablePast
           onChange={(e) => dispatch(setDeadline(new Date(e)))}
         />
-        {/* <TimePicker label="Tugash soati *" /> */}
       </LocalizationProvider>
       <FormControl size="medium" required>
         <InputLabel htmlFor="manager-label">Vazifa qabul qiluvchi</InputLabel>
@@ -56,10 +60,20 @@ export default function RightSideTask() {
           value={task._to}
           onChange={(e) => dispatch(setTo(e.target.value))}
         >
-          {Array.isArray(filteredManagers) &&
-            filteredManagers.map((option, ind) => (
+          {Array.isArray(people.employees) &&
+            people.employees.map((option, ind) => (
               <MenuItem key={ind} value={option.id}>
-                {option?.username}
+                {option?.user?.first_name?.length > 0 ? (
+                  option?.user?.first_name
+                ) : (
+                  <em className="text-sm">Ism kiritilmagan</em>
+                )}
+                &nbsp;
+                {option?.user?.last_name?.length > 0 ? (
+                  option?.user?.last_name
+                ) : (
+                  <em className="text-sm">Familiya kiritilmagan</em>
+                )}
               </MenuItem>
             ))}
         </Select>
@@ -67,7 +81,6 @@ export default function RightSideTask() {
       <FormControlLabel
         control={
           <Checkbox
-            checked={showOnlyManagers}
             onChange={() => setShowOnlyManagers(!showOnlyManagers)}
             name="showOnlyManagers"
             color="primary"
