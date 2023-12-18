@@ -17,12 +17,20 @@ const Tasks = ({ data }) => {
           Jarayonda
         </div>
       );
-    } else {
+    } else if (status === "bajarilmadi") {
       return (
         <div className="border-4 border-custom-red bg-custom-light-red rounded-full px-3 py-[1px]">
           Bajarilmadi
         </div>
       );
+    } else if (status === "bekor") {
+      return (
+        <div className="border-4 border-gray-500 bg-gray-200 rounded-full px-3 py-[1px]">
+          Bekor qilindi
+        </div>
+      );
+    } else {
+      return null;
     }
   };
 
