@@ -1,20 +1,8 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Avatar, AvatarGroup, Dialog } from "@mui/material";
 
-const Tasks = () => {
-  const [data, setData] = useState();
+const Tasks = ({ data }) => {
   const [modal, setModal] = useState({ open: false, data: null });
-  const user_id = sessionStorage.getItem("user_id");
-
-  async function getData() {
-    const response = await axios.get(`/task/${user_id}/`);
-    setData(response?.data);
-  }
-
-  useEffect(() => {
-    getData();
-  }, []);
 
   const getStatus = (status) => {
     if (status === "bajarildi") {
@@ -138,7 +126,7 @@ const Tasks = () => {
                         style={{ cursor: "pointer" }}
                       >
                         {new Array(3).fill(null).map((_, ind) => (
-                          <Avatar alt={ind + 1} key={ind} src={"..."} />
+                          <Avatar alt={String(ind + 1)} key={ind} src={"..."} />
                         ))}
                       </AvatarGroup>
                     </div>
