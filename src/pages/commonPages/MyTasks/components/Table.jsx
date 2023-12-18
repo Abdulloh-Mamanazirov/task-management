@@ -1,6 +1,6 @@
-import { Avatar, AvatarGroup, Chip, Dialog } from "@mui/material";
+import { Avatar, AvatarGroup, Dialog } from "@mui/material";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const TableTasks = () => {
   const [data, setData] = useState([]);
