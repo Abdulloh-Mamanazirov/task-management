@@ -1,4 +1,4 @@
-import { Table, Calendar } from "./components";
+import { Tasks, Calendar } from "./components";
 
 const index = () => {
   return (
@@ -7,7 +7,7 @@ const index = () => {
         <Calendar />
       </div>
       <div>
-        <Table />
+        <Tasks />
       </div>
     </>
   );
