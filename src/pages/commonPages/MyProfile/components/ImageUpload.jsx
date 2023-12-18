@@ -1,5 +1,6 @@
-import { styled, IconButton } from "@mui/material";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { styled, IconButton } from "@mui/material";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -21,7 +22,10 @@ export default function InputFileUpload({ id, handleClose }) {
     await axios
       .put(`/user/edit/${id}/`, formData)
       .then((res) => {
-        if (res.status === 200) handleClose();
+        if (res.status === 200) {
+          toast.success("Rasm yuklandi");
+          handleClose();
+        }
       })
       .catch((err) => toast.error("Nimadadir xatolik ketdi!"));
   }

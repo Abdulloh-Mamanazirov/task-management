@@ -41,7 +41,7 @@ const LeftSideTask = () => {
   const selectImages = (e) => {
     let images = [];
     setSelectedImages(e.target.files);
-    dispatch(setPhoto(e.target.files));
+    dispatch(setPhoto(e.target.files[0]));
 
     for (let i = 0; i < e.target.files.length; i++) {
       images.push(URL.createObjectURL(e.target.files[i]));

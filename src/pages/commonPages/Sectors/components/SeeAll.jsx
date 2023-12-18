@@ -62,7 +62,9 @@ const SeeAll = ({ id, title }) => {
                 </div>
                 <hr className="my-3" />
                 <div>
-                  <h3 className="text-lg font-medium">Xodimlar ro'yxati ({data?.xodim?.length} ta):</h3>
+                  <h3 className="text-lg font-medium">
+                    Xodimlar ro'yxati ({data?.xodim?.length} ta):
+                  </h3>
                   <table className="w-full text-center border">
                     <thead>
                       <tr className="border">
@@ -73,8 +75,20 @@ const SeeAll = ({ id, title }) => {
                     <tbody>
                       {data?.xodim?.map?.((e, ind) => (
                         <tr key={ind} className="border">
-                          <td className="border p-2">{e?.user?.first_name}</td>
-                          <td className="border p-2">{e?.user?.last_name}</td>
+                          <td className="border p-2">
+                            {e?.user?.first_name?.length > 0 ? (
+                              e?.user?.first_name
+                            ) : (
+                              <em className="text-sm">Ism kiritilmagan</em>
+                            )}
+                          </td>
+                          <td className="border p-2">
+                            {e?.user?.last_name?.length > 0 ? (
+                              e?.user?.last_name
+                            ) : (
+                              <em className="text-sm">Familiya kiritilmagan</em>
+                            )}
+                          </td>
                         </tr>
                       ))}
                     </tbody>

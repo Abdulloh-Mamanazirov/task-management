@@ -47,6 +47,7 @@ const Create = ({ getData }) => {
       .then((res) => {
         if (res.status === 201) {
           getData();
+          toast.success("Menejer yaratildi");
           e.target.reset();
         }
       })

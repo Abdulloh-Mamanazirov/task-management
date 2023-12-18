@@ -3,11 +3,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const TableTasks = () => {
-    const [data, setData] = useState([]);
-    const [modal, setModal] = useState({ open: false, data: null });
-    const [modalPlay, setModalPlay] = useState({ open: false, data: null });
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [data, setData] = useState([]);
+  const [modal, setModal] = useState({ open: false, data: null });
+  const [modalPlay, setModalPlay] = useState({ open: false, data: null });
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const user_id = sessionStorage.getItem("user_id")
     console.log(user_id);
@@ -17,9 +17,6 @@ const TableTasks = () => {
     }
     console.log(data, "task");
 
-    useEffect(() => {
-        getData();
-    }, []);
 
     const getStatusColor = (status) => {
         if (status === "bajarildi") {
