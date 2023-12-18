@@ -52,7 +52,7 @@ const director_routes = [
   {
     key: 5,
     path: "/director/tasks",
-    title: "Vazifalar",
+    title: "Vazifa yuklash",
     icon: <span className="fa-solid fa-list-check" />,
     element: <CreateTask />,
     showInNav: true,
@@ -113,7 +113,7 @@ const manager_routes = [
   {
     key: 5,
     path: "/manager/tasks",
-    title: "Vazifalar",
+    title: "Vazifa yuklash",
     icon: <span className="fa-solid fa-list-check" />,
     element: <CreateTask />,
     showInNav: true,
