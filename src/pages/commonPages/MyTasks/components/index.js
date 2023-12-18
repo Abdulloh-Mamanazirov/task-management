@@ -1,4 +1,4 @@
-import Table from "./Table";
+import Tasks from "./Tasks";
 import Calendar from "./Calendar";
 
-export { Table, Calendar };
+export { Tasks, Calendar };
