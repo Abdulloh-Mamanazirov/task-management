@@ -25,10 +25,17 @@ export const createTaskSlice = createSlice({
     setTo: (state, action) => {
       state._to = action.payload;
     },
+    removeTask: (state) => {
+      state.text = "";
+      state.photo = [];
+      state.audio = null;
+      state.deadline = null;
+      state._to = null;
+    },
   },
 });
 
-export const { setText, setPhoto, setAudio, setDeadline, setTo } =
+export const { setText, setPhoto, setAudio, setDeadline, setTo, removeTask } =
   createTaskSlice.actions;
 
 export default createTaskSlice.reducer;

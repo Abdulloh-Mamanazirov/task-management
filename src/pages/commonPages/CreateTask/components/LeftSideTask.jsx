@@ -1,16 +1,16 @@
 import { useRef, useState } from "react";
 import { Box, Button, Popover } from "@mui/material";
 import { AudioRecorder } from "react-audio-voice-recorder";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAudio, setPhoto, setText } from "../../../../redux";
 
 const LeftSideTask = () => {
   const audioList = useRef([]);
   const dispatch = useDispatch();
+  const { task } = useSelector((state) => state);
   const [audioKey, setAudioKey] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
-  const [selectedImages, setSelectedImages] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
 
   const addAudioElement = (blob) => {
@@ -40,7 +40,6 @@ const LeftSideTask = () => {
 
   const selectImages = (e) => {
     let images = [];
-    setSelectedImages(e.target.files);
     dispatch(setPhoto(e.target.files[0]));
 
     for (let i = 0; i < e.target.files.length; i++) {
@@ -58,13 +57,14 @@ const LeftSideTask = () => {
             htmlFor="message"
             className="block mb-2 text-sm font-medium text-gray-400"
           >
-            Xabar: <span className="text-red-500">*</span>
+            Xabar:
           </label>
           <textarea
             className="block w-full p-3 mb-2 placeholder-gray-500 bg-white border rounded hover:border-black focus:outline-primary"
             name="message"
             rows="5"
             placeholder="Biror nima yozing..."
+            value={task.text}
             onChange={(e) => dispatch(setText(e.target.value))}
           />
         </div>
