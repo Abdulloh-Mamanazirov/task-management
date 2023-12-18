@@ -28,7 +28,7 @@ const Create = () => {
           toast.success("Vazifa yuklandi!");
         }
       })
-      .catch((err) => console.log(err))
+      .catch((err) => toast.error("Vazifa yuklashda xato!"))
       .finally(() => setLoading(false));
   }
   return (
