@@ -36,7 +36,7 @@ function ServerDay(props) {
       <PickersDay
         {...other}
         day={day}
-        sx={isSelected ? { bgcolor: "#0051a105" } : {}}
+        sx={isSelected ? { bgcolor: "#f051a115" } : {}}
         onDaySelect={(e) => {
           if (isSelected)
             setModal({ open: true, data: `${e.$y}-${e.$M + 1}-${e.$D}` });
