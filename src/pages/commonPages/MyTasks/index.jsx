@@ -14,7 +14,7 @@ const index = () => {
   useEffect(() => {
     getData();
   }, []);
-  
+
   return (
     <>
       <div>
