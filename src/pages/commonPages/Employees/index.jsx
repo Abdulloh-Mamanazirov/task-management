@@ -21,8 +21,9 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 const index = () => {
+  const status = sessionStorage.getItem("status");
+  const sector = sessionStorage.getItem("sector_id");
   const [data, setData] = useState([]);
-  const [userData, setUserData] = useState({ status: null, sector: null });
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -31,8 +32,13 @@ const index = () => {
   const open = Boolean(anchorEl);
 
   async function getData() {
-    const response = await axios.get("/signup/");
-    setData(response?.data);
+    if (status === "manager") {
+      const response = await axios.get(`/bolim/${sector}/`);
+      setData(response?.data?.xodim);
+    } else if (status === "director") {
+      const response = await axios.get(`/xodim/`);
+      setData(response?.data);
+    }
   }
 
   const handleChangePage = (_, newPage) => {
@@ -46,10 +52,6 @@ const index = () => {
 
   useEffect(() => {
     getData();
-    setUserData({
-      status: sessionStorage.getItem("status"),
-      sector: sessionStorage.getItem("sector_id"),
-    });
   }, []);
 
   async function handleDelete() {
@@ -85,6 +87,11 @@ const index = () => {
                 <TableCell
                   style={{ backgroundColor: "#1976D2", color: "white" }}
                 >
+                  Ism Familiya
+                </TableCell>
+                <TableCell
+                  style={{ backgroundColor: "#1976D2", color: "white" }}
+                >
                   Username
                 </TableCell>
                 <TableCell
@@ -100,36 +107,31 @@ const index = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data?.filter?.((user) => user.status === "xodim")?.length > 0 ? (
+              {data?.length > 0 ? (
                 data
-                  ?.filter((user) => {
-                    if (userData?.status === "manager") {
-                      return (
-                        user?.status === "xodim" &&
-                        user?.sector == userData.sector
-                      );
-                    } else {
-                      return user?.status === "xodim";
-                    }
-                  })
                   ?.slice?.(
                     page * rowsPerPage,
                     page * rowsPerPage + rowsPerPage
                   )
-                  ?.map((user, ind) => (
+                  ?.map((item, ind) => (
                     <TableRow key={ind}>
                       <TableCell>{ind + 1}</TableCell>
-                      <TableCell>{user.username}</TableCell>
+                      <TableCell>
+                        {item?.user?.first_name} {item?.user?.last_name}
+                      </TableCell>
+                      <TableCell>
+                        {item?.user?.username}
+                      </TableCell>
                       <TableCell>
                         <Chip
                           label={
-                            user?.sector
+                            item?.user?.sector
                               ? sectors?.map?.(
-                                  (i) => i.id === user?.sector && i.name
+                                  (i) => i.id === item?.user?.sector && i.name
                                 )
                               : "Tayinlanmagan"
                           }
-                          color={user?.sector ? "success" : "error"}
+                          color={item?.user?.sector ? "success" : "error"}
                           variant="outlined"
                         />
                       </TableCell>
@@ -138,7 +140,7 @@ const index = () => {
                           color="error"
                           onClick={(event) => {
                             setAnchorEl(event.currentTarget);
-                            setDeleteId(user?.id);
+                            setDeleteId(item?.user?.id);
                           }}
                         >
                           <span className="fa-solid fa-trash" />
@@ -166,31 +168,11 @@ const index = () => {
                     50,
                     {
                       label: "Hammasi",
-                      value: data?.filter?.((user) => {
-                        if (userData?.status === "manager") {
-                          return (
-                            user?.status === "xodim" &&
-                            user?.sector == userData.sector
-                          );
-                        } else {
-                          return user?.status === "xodim";
-                        }
-                      })?.length,
+                      value: data?.length,
                     },
                   ]}
                   colSpan={4}
-                  count={
-                    data?.filter?.((user) => {
-                      if (userData?.status === "manager") {
-                        return (
-                          user?.status === "xodim" &&
-                          user?.sector == userData.sector
-                        );
-                      } else {
-                        return user?.status === "xodim";
-                      }
-                    })?.length
-                  }
+                  count={data?.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={handleChangePage}
