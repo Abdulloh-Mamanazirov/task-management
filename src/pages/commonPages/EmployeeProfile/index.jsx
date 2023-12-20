@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Avatar, AvatarGroup, Dialog } from "@mui/material";
+import {EditModal} from "../MyProfile/components/index.js";
 
 const index = () => {
   const { id } = useParams();
@@ -63,6 +64,14 @@ const index = () => {
                         ? item?.text?.[0]?.text
                         : null}{" "}
                     </p>
+                      <EditModal
+                          open={editModal?.open}
+                          data={editModal?.data}
+                          handleClose={() => {
+                              setEditModal({ open: false, data: {} });
+                              getData();
+                          }}
+                      />
                     <div className="mt-4 rounded-md">
                       <p className="text-left font-medium ">Audio:</p>
                       {!item?.audio?.[0]?.audio.includes("null") ? (
