@@ -1,7 +1,15 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Avatar, AvatarGroup, Dialog } from "@mui/material";
+import { Avatar, AvatarGroup, Button, Dialog } from "@mui/material";
+import {
+  EditDeadline,
+  EditModal,
+  DeleteAudio,
+  ImageUpload,
+  DeleteImage,
+} from "./components";
+// import { EditModal } from "../EmployeeProfile/components/index.js";
 
 const index = () => {
   const { id } = useParams();
@@ -63,6 +71,12 @@ const index = () => {
                         ? item?.text?.[0]?.text
                         : null}{" "}
                     </p>
+                    <EditModal
+                      data={item}
+                      getData={() => {
+                        getData();
+                      }}
+                    />
                     <div className="mt-4 rounded-md">
                       <p className="text-left font-medium ">Audio:</p>
                       {!item?.audio?.[0]?.audio.includes("null") ? (
@@ -77,6 +91,12 @@ const index = () => {
                       ) : (
                         <em className="text-sm">Audio mavjud emas</em>
                       )}
+                      <DeleteAudio
+                        data={item.id}
+                        getData={() => {
+                          getData();
+                        }}
+                      />
                     </div>
                     <div className="mt-4">
                       <p className="text-left font-medium ">Rasmlar:</p>
@@ -115,7 +135,15 @@ const index = () => {
                     </div>
                     <div className="mt-5">
                       <p className="text-right font-medium">Tugash sanasi:</p>
-                      <p className="text-right font-normal">{item?.deadline}</p>
+                      <p className="text-right font-normal">
+                        {item?.deadline}
+                        <EditDeadline
+                          data={item}
+                          getData={() => {
+                            getData();
+                          }}
+                        />
+                      </p>
                     </div>
                     <div className="mt-5 ">
                       <p className="text-right font-medium ">Status:</p>
@@ -181,6 +209,12 @@ const index = () => {
                   alt="salom"
                   key={item.id}
                   src={`https://xodim.pythonanywhere.com/` + item?.photo}
+                />
+                <DeleteImage
+                  data={item.id}
+                  getData={() => {
+                    getData();
+                  }}
                 />
               </div>
             );
