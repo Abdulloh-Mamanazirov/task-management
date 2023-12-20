@@ -150,7 +150,7 @@ const index = () => {
                   ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={4} align="center">
+                  <TableCell colSpan={5} align="center">
                     <div className="flex flex-col items-center gap-3">
                       <img src="/empty.png" alt="no data" width={100} />
                       <p className="text-gray-500">Ma'lumot mavjud emas.</p>
@@ -171,7 +171,7 @@ const index = () => {
                       value: data?.length,
                     },
                   ]}
-                  colSpan={4}
+                  colSpan={5}
                   count={data?.length}
                   rowsPerPage={rowsPerPage}
                   page={page}

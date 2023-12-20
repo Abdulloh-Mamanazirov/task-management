@@ -30,7 +30,7 @@ const index = () => {
   const open = Boolean(anchorEl);
 
   async function getData() {
-    const response = await axios.get("/signup/");
+    const response = await axios.get("/manager/");
     setData(response?.data);
   }
 
@@ -80,6 +80,11 @@ const index = () => {
                 <TableCell
                   style={{ backgroundColor: "#1976D2", color: "white" }}
                 >
+                  Ism Familiya
+                </TableCell>
+                <TableCell
+                  style={{ backgroundColor: "#1976D2", color: "white" }}
+                >
                   Username
                 </TableCell>
                 <TableCell
@@ -95,25 +100,29 @@ const index = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data?.filter?.((user) => user.status === "manager")?.length >
-              0 ? (
+              {data?.length > 0 ? (
                 data
-                  ?.filter((user) => user.status === "manager")
-                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  ?.map((user, ind) => (
+                  ?.slice?.(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                  ?.map((item, ind) => (
                     <TableRow key={ind}>
                       <TableCell>{ind + 1}</TableCell>
-                      <TableCell>{user.username}</TableCell>
+                      <TableCell>
+                        {item?.user?.first_name} {item?.user?.last_name}
+                      </TableCell>
+                      <TableCell>{item?.user?.username}</TableCell>
                       <TableCell>
                         <Chip
                           label={
-                            user?.sector
+                            item?.user?.sector
                               ? sectors?.map?.(
-                                  (i) => i.id === user?.sector && i.name
+                                  (i) => i.id === item?.user?.sector && i.name
                                 )
                               : "Tayinlanmagan"
                           }
-                          color={user?.sector ? "success" : "error"}
+                          color={item?.user?.sector ? "success" : "error"}
                           variant="outlined"
                         />
                       </TableCell>
@@ -122,7 +131,7 @@ const index = () => {
                           color="error"
                           onClick={(event) => {
                             setAnchorEl(event.currentTarget);
-                            setDeleteId(user?.id);
+                            setDeleteId(item?.user?.id);
                           }}
                         >
                           <span className="fa-solid fa-trash" />
@@ -132,7 +141,7 @@ const index = () => {
                   ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={4} align="center">
+                  <TableCell colSpan={5} align="center">
                     <div className="flex flex-col items-center gap-3">
                       <img src="/empty.png" alt="no data" width={100} />
                       <p className="text-gray-500">Ma'lumot mavjud emas.</p>
@@ -150,14 +159,11 @@ const index = () => {
                     50,
                     {
                       label: "Hammasi",
-                      value: data?.filter?.((user) => user.status === "manager")
-                        ?.length,
+                      value: data?.length,
                     },
                   ]}
-                  colSpan={4}
-                  count={
-                    data?.filter?.((user) => user.status === "manager")?.length
-                  }
+                  colSpan={5}
+                  count={data?.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={handleChangePage}
