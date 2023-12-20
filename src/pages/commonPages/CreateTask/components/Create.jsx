@@ -10,13 +10,13 @@ import { removeTask } from "../../../../redux";
 const Create = () => {
   const { task } = useSelector((state) => state);
   const dispatch = useDispatch();
-  const status = sessionStorage.getItem('status')
+  const status = sessionStorage.getItem("status");
   const [loading, setLoading] = useState(false);
 
   async function handleCreateTask() {
     setLoading(true);
     const formData = new FormData();
-    formData.append("text", task.text);
+    formData.append("text", JSON.stringify(task.text));
     formData.append("photo", task.photo);
     formData.append("audio", task.audio);
     formData.append("deadline", task.deadline);

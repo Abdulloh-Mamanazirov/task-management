@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const createTaskSlice = createSlice({
   name: "task",
   initialState: {
-    text: "",
+    text: [],
     photo: [],
     audio: null,
     deadline: null,
