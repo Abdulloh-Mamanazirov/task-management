@@ -40,7 +40,7 @@ const LeftSideTask = () => {
 
   const selectImages = (e) => {
     let images = [];
-    dispatch(setPhoto(e.target.files[0]));
+    dispatch(setPhoto(e.target.files));
 
     for (let i = 0; i < e.target.files.length; i++) {
       images.push(URL.createObjectURL(e.target.files[i]));
@@ -65,7 +65,7 @@ const LeftSideTask = () => {
             rows="5"
             placeholder="Biror nima yozing..."
             value={task.text}
-            onChange={(e) => dispatch(setText(e.target.value))}
+            onChange={(e) => dispatch(setText([e.target.value]))}
           />
         </div>
         <div className="pb-5">
