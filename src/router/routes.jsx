@@ -8,6 +8,7 @@ import {
   EmployeeHome,
   MyTasks,
   CreateTask,
+  Employeeprofile,
 } from "../pages";
 
 const director_routes = [
@@ -48,6 +49,12 @@ const director_routes = [
     icon: <span className="fa-solid fa-user-group" />,
     element: <Employees />,
     showInNav: true,
+  },
+  {
+    key: 8,
+    path: "/director/employees/:id",
+    element: <Employeeprofile />,
+    showInNav: false,
   },
   {
     key: 5,
@@ -101,6 +108,12 @@ const manager_routes = [
     icon: <span className="fa-solid fa-user-group" />,
     element: <Employees />,
     showInNav: true,
+  },
+  {
+    key: 8,
+    path: "/manager/employees/:id",
+    element: <Employeeprofile />,
+    showInNav: false,
   },
   {
     key: 4,

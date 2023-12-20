@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const index = () => {
   const status = sessionStorage.getItem("status");
@@ -119,9 +120,7 @@ const index = () => {
                       <TableCell>
                         {item?.user?.first_name} {item?.user?.last_name}
                       </TableCell>
-                      <TableCell>
-                        {item?.user?.username}
-                      </TableCell>
+                      <TableCell>{item?.user?.username}</TableCell>
                       <TableCell>
                         <Chip
                           label={
@@ -136,15 +135,28 @@ const index = () => {
                         />
                       </TableCell>
                       <TableCell>
-                        <IconButton
-                          color="error"
-                          onClick={(event) => {
-                            setAnchorEl(event.currentTarget);
-                            setDeleteId(item?.user?.id);
-                          }}
-                        >
-                          <span className="fa-solid fa-trash" />
-                        </IconButton>
+                        <div className="flex items-center gap-3">
+                          <IconButton
+                            title="Xodimni o'chirish"
+                            color="error"
+                            onClick={(event) => {
+                              setAnchorEl(event.currentTarget);
+                              setDeleteId(item?.user?.id);
+                            }}
+                          >
+                            <span className="fa-solid fa-trash" />
+                          </IconButton>
+                          <Link
+                            title="Xodim profili"
+                            to={
+                              status === "director"
+                                ? `/director/employees/${item?.user?.id}`
+                                : `/manager/employees/${item?.user?.id}`
+                            }
+                          >
+                            <span className="fa-solid fa-bars text-green-500 text-2xl" />
+                          </Link>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))
