@@ -10,6 +10,7 @@ import { removeTask } from "../../../../redux";
 const Create = () => {
   const { task } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const status = sessionStorage.getItem('status')
   const [loading, setLoading] = useState(false);
 
   async function handleCreateTask() {
@@ -21,7 +22,7 @@ const Create = () => {
     formData.append("deadline", task.deadline);
     formData.append("_to", task._to);
     await axios
-      .patch("/task/", formData)
+      .patch(status === "manager" ? "/task/" : "/task/to_manager/", formData)
       .then((res) => {
         if (res?.data?.id) {
           dispatch(removeTask());

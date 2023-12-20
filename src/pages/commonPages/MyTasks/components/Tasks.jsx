@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Avatar, AvatarGroup, Dialog } from "@mui/material";
+import EditTaskStatus from "./EditTaskStatus";
 
 const Tasks = ({ data }) => {
   const [modal, setModal] = useState({ open: false, data: null });
@@ -108,7 +109,8 @@ const Tasks = ({ data }) => {
                       <p className="text-right font-medium ">Status:</p>
                       <div className="font-normal flex gap-2 items-center justify-end">
                         {getStatus(item?.status)}
-                        <span className="fa-solid fa-edit text-xl text-blue-500 cursor-pointer" />
+                        <EditTaskStatus/>
+                        {/* <span className="fa-solid fa-edit text-xl text-blue-500 cursor-pointer" /> */}
                       </div>
                     </div>
                   </div>
