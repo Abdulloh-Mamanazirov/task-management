@@ -3,7 +3,8 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Slide
+  IconButton,
+  Slide,
 } from "@mui/material";
 import axios from "axios";
 import React, { Fragment, forwardRef, useState } from "react";
@@ -35,17 +36,15 @@ export default function EditDeadline({ data, getData }) {
 
   return (
     <Fragment>
-      <Button
+      <IconButton
         disabled={loading}
         onClick={handleDelete}
         variant="contained"
         className="text-xl text-white cursor-pointer"
         color="error"
-        sx={{ mt: 2 }}
       >
         <span className="fa-solid fa-trash" />
-        <p className="ml-2 capitalize">O'chirish</p>
-      </Button>
+      </IconButton>
       <Dialog
         open={open}
         TransitionComponent={Transition}

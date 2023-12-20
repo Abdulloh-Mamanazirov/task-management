@@ -2,14 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Avatar, AvatarGroup, Button, Dialog } from "@mui/material";
-import {
-  EditDeadline,
-  EditModal,
-  DeleteAudio,
-  ImageUpload,
-  DeleteImage,
-} from "./components";
-// import { EditModal } from "../EmployeeProfile/components/index.js";
+import { EditDeadline, EditModal, DeleteAudio } from "./components";
 
 const index = () => {
   const { id } = useParams();
@@ -57,46 +50,54 @@ const index = () => {
 
   return (
     <>
-      <div className="w-full flex items-center flex-wrap gap-5 mt-5">
+      <div className="grid grid-cols-2 gap-5 mt-5">
         {Array.isArray(data)
           ? data.map((item) => {
               return (
                 <div
                   key={item?.id}
-                  className="bg-white rounded-lg border border-gray-400 p-2  shadow-md flex items-start flex-col sm:flex-row gap-3 sm:gap-0 w-full sm:min-w-[404px] min-h-[221px] sm:w-auto"
+                  className="bg-white rounded-lg border border-gray-400 p-2  shadow-md flex items-start flex-col sm:flex-row gap-3 sm:gap-0"
                 >
                   <div>
-                    <p className="text-black font-normal text-lg max-w-xs">
-                      {item?.text?.[0]?.text.length > 0
-                        ? item?.text?.[0]?.text
-                        : null}{" "}
-                    </p>
-                    <EditModal
-                      data={item}
-                      getData={() => {
-                        getData();
-                      }}
-                    />
-                    <div className="mt-4 rounded-md">
-                      <p className="text-left font-medium ">Audio:</p>
-                      {!item?.audio?.[0]?.audio.includes("null") ? (
-                        <audio controls className="sm:w-[250px]">
-                          <source
-                            src={
-                              `https://xodim.pythonanywhere.com/` +
-                              item?.audio?.[0]?.audio
-                            }
-                          />
-                        </audio>
-                      ) : (
-                        <em className="text-sm">Audio mavjud emas</em>
-                      )}
-                      <DeleteAudio
-                        data={item.id}
+                    <div className="flex items-center gap-2">
+                      <p className="text-black font-normal text-lg">
+                        {item?.text?.[0]?.text.length > 0 ? (
+                          item?.text?.[0]?.text
+                        ) : (
+                          <em className="text-sm whitespace-nowrap">
+                            Vazifa matni mavjud emas
+                          </em>
+                        )}{" "}
+                      </p>
+                      <EditModal
+                        data={item}
                         getData={() => {
                           getData();
                         }}
                       />
+                    </div>
+                    <div className="mt-4 rounded-md">
+                      <p className="text-left font-medium">Audio:</p>
+                      {!item?.audio?.[0]?.audio.includes("null") ? (
+                        <div className="flex items-center gap-2">
+                          <audio controls className="sm:w-[250px]">
+                            <source
+                              src={
+                                `https://xodim.pythonanywhere.com/` +
+                                item?.audio?.[0]?.audio
+                              }
+                            />
+                          </audio>
+                          <DeleteAudio
+                            data={item.id}
+                            getData={() => {
+                              getData();
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <em className="text-sm">Audio mavjud emas</em>
+                      )}
                     </div>
                     <div className="mt-4">
                       <p className="text-left font-medium ">Rasmlar:</p>
@@ -210,12 +211,14 @@ const index = () => {
                   key={item.id}
                   src={`https://xodim.pythonanywhere.com/` + item?.photo}
                 />
-                <DeleteImage
-                  data={item.id}
-                  getData={() => {
-                    getData();
-                  }}
-                />
+                <Button
+                  color="error"
+                  variant="contained"
+                  fullWidth
+                  startIcon={<span className="fa-solid fa-trash" />}
+                >
+                  O'chirish
+                </Button>
               </div>
             );
           })}
