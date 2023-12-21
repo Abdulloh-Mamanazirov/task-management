@@ -23,14 +23,17 @@ export default function EditDeadline({ data, getData }) {
     setLoading(true);
     const { deadline } = e.target;
     const editedData = {
-      deadline: deadline.value,
+      deadline: new Date(deadline.value)
+        .toLocaleDateString("ru-Ru")
+        .replaceAll(".", "-"),
     };
     await axios
-      .patch(`/task/edit/${data?.deadline?.[0]?.id}/`, editedData)
+      .patch(`/task/edit/${data?.id}/`, editedData)
       .then((res) => {
         if (res.status === 200) {
-          toast.success("Vazifa matni tahrirladi");
           getData();
+          setOpen(false);
+          toast.success("Vazifa tugash sanasi tahrirladi", { autoClose: 700 });
         }
       })
       .catch(() => toast.error("Nimadadir xatolik ketdi!"))
@@ -55,10 +58,16 @@ export default function EditDeadline({ data, getData }) {
         <DialogContent>
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <div>
-              <label htmlFor="deadline">Xabarni Tahrirlash:</label>
+              <label htmlFor="deadline">
+                Tugash sanasini tahrirlash:{" "}
+                <span className="text-sm text-gray-600">
+                  ('format: MM/DD/YYYY')
+                </span>
+              </label>
               <input
                 defaultValue={data?.deadline}
                 required
+                type="date"
                 name="deadline"
                 id="deadline"
                 className="border border-blue-500 w-full rounded-md p-2 focus:outline-2 focus:outline-blue-700"
