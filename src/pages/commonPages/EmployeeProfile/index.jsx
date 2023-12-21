@@ -78,21 +78,25 @@ const index = () => {
                 >
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="text-black font-normal text-lg">
-                        {item?.text?.[0]?.text.length > 0 ? (
-                          item?.text?.[0]?.text
-                        ) : (
-                          <em className="text-sm whitespace-nowrap">
-                            Vazifa matni mavjud emas
-                          </em>
-                        )}{" "}
-                      </p>
-                      <EditModal
-                        data={item}
-                        getData={() => {
-                          getData();
-                        }}
-                      />
+                      {item?.text?.[0]?.text.length > 0 ? (
+                        <div className="flex items-center gap-2">
+                          <p className="text-black font-normal text-lg">
+                            {item?.text?.[0]?.text
+                              .replaceAll("[", "")
+                              .replaceAll("]", "")}
+                          </p>
+                          <EditModal
+                            data={item}
+                            getData={() => {
+                              getData();
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <em className="text-sm whitespace-nowrap">
+                          Vazifa matni mavjud emas
+                        </em>
+                      )}
                     </div>
                     <div className="mt-4 rounded-md">
                       <p className="text-left font-medium">Audio:</p>

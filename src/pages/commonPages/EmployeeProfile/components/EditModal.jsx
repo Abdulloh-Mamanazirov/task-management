@@ -25,18 +25,20 @@ export default function EditModal({ data, getData }) {
     const editedData = {
       text: text.value,
     };
-    await axios
-      .patch(`/text/edit/${data?.text?.[0]?.id}/`, editedData)
-      .then((res) => {
-        if (res.status === 200) {
-          toast.success("Vazifa matni tahrirladi");
-          getData();
-        }
-      })
-      .catch(() => toast.error("Nimadadir xatolik ketdi!"))
-      .finally(() => setLoading(false));
+    if (data?.text?.[0]?.id) {
+      await axios
+        .patch(`/text/edit/${data?.text?.[0]?.id}/`, editedData)
+        .then((res) => {
+          if (res.status === 200) {
+            getData();
+            setOpen(false);
+            toast.success("Vazifa matni tahrirladi");
+          }
+        })
+        .catch(() => toast.error("Nimadadir xatolik ketdi!"))
+        .finally(() => setLoading(false));
+    }
   }
-  console.log(data, "edit");
 
   return (
     <Fragment>
@@ -58,7 +60,9 @@ export default function EditModal({ data, getData }) {
             <div>
               <label htmlFor="text">Xabarni Tahrirlash:</label>
               <input
-                defaultValue={data?.text?.[0]?.text}
+                defaultValue={data?.text?.[0]?.text
+                  .replaceAll("[", "")
+                  .replaceAll("]", "")}
                 required
                 name="text"
                 id="text"
