@@ -77,13 +77,19 @@ const index = () => {
                   className="bg-white rounded-lg border border-gray-400 p-2  shadow-md flex items-start flex-col sm:flex-row gap-3 sm:gap-0"
                 >
                   <div>
-                    <div className="flex items-center gap-2">
-                      {item?.text?.[0]?.text.length > 0 ? (
+                    <div>
+                      <p className="text-left font-medium">Vazifa matni:</p>
+                      <hr />
+                      {item?.text?.[0]?.text
+                        .replaceAll("[", "")
+                        .replaceAll("]", "")
+                        .replaceAll('"', "").length > 0 ? (
                         <div className="flex items-center gap-2">
                           <p className="text-black font-normal text-lg">
                             {item?.text?.[0]?.text
                               .replaceAll("[", "")
-                              .replaceAll("]", "")}
+                              .replaceAll("]", "")
+                              .replaceAll('"', "")}
                           </p>
                           <EditModal
                             data={item}
@@ -93,13 +99,22 @@ const index = () => {
                           />
                         </div>
                       ) : (
-                        <em className="text-sm whitespace-nowrap">
-                          Vazifa matni mavjud emas
-                        </em>
+                        <div className="flex items-center gap-2">
+                          <em className="text-sm whitespace-nowrap">
+                            Vazifa matni mavjud emas
+                          </em>
+                          <EditModal
+                            data={item}
+                            getData={() => {
+                              getData();
+                            }}
+                          />
+                        </div>
                       )}
                     </div>
                     <div className="mt-4 rounded-md">
                       <p className="text-left font-medium">Audio:</p>
+                      <hr className="mb-1" />
                       {!item?.audio?.[0]?.audio.includes("null") &&
                       item?.audio?.length > 0 ? (
                         <div className="flex items-center gap-2">
@@ -126,6 +141,7 @@ const index = () => {
                     </div>
                     <div className="mt-4">
                       <p className="text-left font-medium ">Rasmlar:</p>
+                      <hr className="mb-1" />
                       <AvatarGroup
                         onClick={() =>
                           setModal({ open: true, data: item.photo })
@@ -159,10 +175,12 @@ const index = () => {
                       <p className="text-right font-medium ">
                         Boshlanish sanasi:
                       </p>
+                      <hr />
                       <p className="text-right font-normal ">21-12-2024</p>
                     </div>
                     <div className="mt-5">
                       <p className="text-right font-medium">Tugash sanasi:</p>
+                      <hr />
                       <p className="text-right font-normal">
                         {item?.deadline}
                         <EditDeadline
