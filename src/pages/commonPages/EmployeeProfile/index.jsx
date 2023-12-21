@@ -96,7 +96,8 @@ const index = () => {
                     </div>
                     <div className="mt-4 rounded-md">
                       <p className="text-left font-medium">Audio:</p>
-                      {!item?.audio?.[0]?.audio.includes("null") ? (
+                      {!item?.audio?.[0]?.audio.includes("null") &&
+                      item?.audio?.length > 0 ? (
                         <div className="flex items-center gap-2">
                           <audio controls className="sm:w-[250px]">
                             <source
@@ -107,14 +108,16 @@ const index = () => {
                             />
                           </audio>
                           <DeleteAudio
-                            data={item.id}
+                            id={item?.audio?.[0]?.id}
                             getData={() => {
                               getData();
                             }}
                           />
                         </div>
                       ) : (
-                        <em className="text-sm">Audio mavjud emas</em>
+                        <em className="text-sm whitespace-nowrap">
+                          Audio mavjud emas
+                        </em>
                       )}
                     </div>
                     <div className="mt-4">
@@ -140,7 +143,9 @@ const index = () => {
                             />
                           ))
                         ) : (
-                          <em className="text-sm">Rasm mavjud emas</em>
+                          <em className="text-sm whitespace-nowrap">
+                            Rasm mavjud emas
+                          </em>
                         )}
                       </AvatarGroup>
                     </div>
