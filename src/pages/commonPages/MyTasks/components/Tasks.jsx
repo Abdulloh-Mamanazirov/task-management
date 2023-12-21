@@ -49,11 +49,14 @@ const Tasks = ({ data }) => {
                     <p className="text-black font-normal text-lg max-w-xs">
                       {item?.text?.[0]?.text.length > 0
                         ? item?.text?.[0]?.text
+                            .replaceAll("[", "")
+                            .replaceAll("]", "")
                         : null}{" "}
                     </p>
                     <div className="mt-4 rounded-md">
                       <p className="text-left font-medium ">Audio:</p>
-                      {!item?.audio?.[0]?.audio.includes("null") ? (
+                      {!item?.audio?.[0]?.audio.includes("null") &&
+                      item?.audio?.length > 0 ? (
                         <audio controls className="sm:w-[250px]">
                           <source
                             src={
@@ -63,7 +66,9 @@ const Tasks = ({ data }) => {
                           />
                         </audio>
                       ) : (
-                        <em className="text-sm">Audio mavjud emas</em>
+                        <em className="text-sm whitespace-nowrap">
+                          Audio mavjud emas
+                        </em>
                       )}
                     </div>
                     <div className="mt-4">
@@ -89,7 +94,9 @@ const Tasks = ({ data }) => {
                             />
                           ))
                         ) : (
-                          <em className="text-sm">Rasm mavjud emas</em>
+                          <em className="text-sm whitespace-nowrap">
+                            Rasm mavjud emas
+                          </em>
                         )}
                       </AvatarGroup>
                     </div>
@@ -109,7 +116,7 @@ const Tasks = ({ data }) => {
                       <p className="text-right font-medium ">Status:</p>
                       <div className="font-normal flex gap-2 items-center justify-end">
                         {getStatus(item?.status)}
-                        <EditTaskStatus/>
+                        <EditTaskStatus />
                         {/* <span className="fa-solid fa-edit text-xl text-blue-500 cursor-pointer" /> */}
                       </div>
                     </div>
