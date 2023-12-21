@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Avatar, AvatarGroup, Button, Dialog } from "@mui/material";
@@ -7,7 +8,8 @@ import { EditDeadline, EditModal, DeleteAudio } from "./components";
 const index = () => {
   const { id } = useParams();
   const [modal, setModal] = useState({ open: false, data: null });
-  const [data, setData] = useState();
+  const [data, setData] = useState(null);
+  const [deletingImageId, setDeletingImageId] = useState(null);
 
   async function getData() {
     const response = await axios.get(`/task/${id}/`);
@@ -17,6 +19,22 @@ const index = () => {
   useEffect(() => {
     getData();
   }, [id]);
+
+  async function handleDeleteImage(deletingImageId) {
+    await axios
+      .delete(`/photo/delete/${deletingImageId}/`)
+      .then((res) => {
+        if (res.status === 200) {
+          getData();
+          setModal({ open: false, data: null });
+          toast.info("Rasm o'chirildi!", { autoClose: 800 });
+        }
+      })
+      .catch(() => toast.error("Nimadadir xatolik ketdi!"))
+      .finally(() => {
+        setDeletingImageId(null);
+      });
+  }
 
   const getStatus = (status) => {
     if (status === "bajarildi") {
@@ -50,7 +68,7 @@ const index = () => {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-5 mt-5">
+      <div className="grid lg:grid-cols-2 gap-5 mt-5">
         {Array.isArray(data)
           ? data.map((item) => {
               return (
@@ -195,6 +213,8 @@ const index = () => {
               );
             })}
       </div>
+
+      {/* images */}
       <Dialog
         open={modal.open}
         onClose={() => setModal({ open: false, data: null })}
@@ -207,14 +227,19 @@ const index = () => {
             return (
               <div className="cursor-pointer" key={item.id}>
                 <img
-                  alt="salom"
+                  alt="task image"
                   key={item.id}
                   src={`https://xodim.pythonanywhere.com/` + item?.photo}
                 />
                 <Button
+                  disabled={item?.id === deletingImageId}
                   color="error"
                   variant="contained"
                   fullWidth
+                  onClick={() => {
+                    setDeletingImageId(item?.id);
+                    handleDeleteImage(item?.id);
+                  }}
                   startIcon={<span className="fa-solid fa-trash" />}
                 >
                   O'chirish
