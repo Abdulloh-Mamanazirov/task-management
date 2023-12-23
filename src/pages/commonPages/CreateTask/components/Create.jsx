@@ -17,7 +17,9 @@ const Create = () => {
     setLoading(true);
     const formData = new FormData();
     formData.append("text", JSON.stringify(task.text));
-    formData.append("photo", task.photo);
+    for (let i = 0; i < task.photo.length; i++) {
+      formData.append("photo", task.photo[i]);
+    }
     formData.append("audio", task.audio);
     formData.append("deadline", task.deadline);
     formData.append("_to", task._to);
