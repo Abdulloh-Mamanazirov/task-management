@@ -8,7 +8,7 @@ import {
   EmployeeHome,
   MyTasks,
   CreateTask,
-  Employeeprofile,
+  EmployeeProfile,
 } from "../pages";
 
 const director_routes = [
@@ -53,7 +53,7 @@ const director_routes = [
   {
     key: 8,
     path: "/director/employees/:id",
-    element: <Employeeprofile />,
+    element: <EmployeeProfile />,
     showInNav: false,
   },
   {
@@ -112,7 +112,7 @@ const manager_routes = [
   {
     key: 8,
     path: "/manager/employees/:id",
-    element: <Employeeprofile />,
+    element: <EmployeeProfile />,
     showInNav: false,
   },
   {
