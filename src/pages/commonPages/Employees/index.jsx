@@ -90,11 +90,11 @@ const index = () => {
                 >
                   Ism Familiya
                 </TableCell>
-                <TableCell
+                {/* <TableCell
                   style={{ backgroundColor: "#1976D2", color: "white" }}
                 >
                   Username
-                </TableCell>
+                </TableCell> */}
                 <TableCell
                   style={{ backgroundColor: "#1976D2", color: "white" }}
                 >
@@ -120,7 +120,7 @@ const index = () => {
                       <TableCell>
                         {item?.user?.first_name} {item?.user?.last_name}
                       </TableCell>
-                      <TableCell>{item?.user?.username}</TableCell>
+                      {/* <TableCell>{item?.user?.username}</TableCell> */}
                       <TableCell>
                         <Chip
                           label={
