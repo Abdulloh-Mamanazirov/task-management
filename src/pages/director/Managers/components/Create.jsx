@@ -69,82 +69,87 @@ const Create = ({ getData }) => {
 
   return (
     <>
-      <fieldset className="border border-black/30 bg-white shadow-lg rounded-md p-2 my-5">
-        <legend className="text-2xl font-medium ml-2">Yangi menejer:</legend>
-        <Box
-          component="form"
-          onSubmit={handleSubmit}
-          sx={{ mt: 1 }}
-          className="grid grid-cols-2 items-center gap-3"
-        >
-          <TextField
-            margin="normal"
-            size="small"
-            required
-            fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            value={username}
-            onChange={(e) => handleValidation(e)}
-            error={!isUsernameValid}
-          />
-          <FormControl size="small" required>
-            <InputLabel htmlFor="password-label">Parol</InputLabel>
-            <OutlinedInput
-              id="password-label"
-              name="password"
-              type={showPassword ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPassword(!showPassword)}
-                    onMouseDown={(e) => e.preventDefault()}
-                    size="small"
-                    edge="end"
-                  >
-                    {showPassword ? (
-                      <span className="fa-regular fa-eye-slash" />
-                    ) : (
-                      <span className="fa-regular fa-eye" />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Parol"
-            />
-          </FormControl>
-          {/* menga kerak  */}
-          <FormControl size="small" required>
-            <InputLabel htmlFor="sector-label">Bo'lim</InputLabel>
-            <Select
-              labelId="sector-label"
-              size="small"
-              id="sector"
-              label="Bo'lim"
-              name="sector"
-            >
-              {sectors?.map?.((option, ind) => (
-                <MenuItem key={ind} value={option.id}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <Button
-            disabled={!isUsernameValid}
-            startIcon={
-              <span hidden={!loading} className="fa-solid fa-spinner fa-spin" />
-            }
-            type="submit"
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+      <details>
+        <summary className="text-2xl font-medium ml-2 py-3">Yangi menejer:</summary>
+        <fieldset className="border border-black/30 bg-white shadow-lg rounded-md p-2 my-5">
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            sx={{ mt: 1 }}
+            className="grid grid-cols-2 items-center gap-3"
           >
-            Yuborish
-          </Button>
-        </Box>
-      </fieldset>
+            <TextField
+              margin="normal"
+              size="small"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              value={username}
+              onChange={(e) => handleValidation(e)}
+              error={!isUsernameValid}
+            />
+            <FormControl size="small" required>
+              <InputLabel htmlFor="password-label">Parol</InputLabel>
+              <OutlinedInput
+                id="password-label"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setShowPassword(!showPassword)}
+                      onMouseDown={(e) => e.preventDefault()}
+                      size="small"
+                      edge="end"
+                    >
+                      {showPassword ? (
+                        <span className="fa-regular fa-eye-slash" />
+                      ) : (
+                        <span className="fa-regular fa-eye" />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Parol"
+              />
+            </FormControl>
+            {/* menga kerak  */}
+            <FormControl size="small" required>
+              <InputLabel htmlFor="sector-label">Bo'lim</InputLabel>
+              <Select
+                labelId="sector-label"
+                size="small"
+                id="sector"
+                label="Bo'lim"
+                name="sector"
+              >
+                {sectors?.map?.((option, ind) => (
+                  <MenuItem key={ind} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Button
+              disabled={!isUsernameValid}
+              startIcon={
+                <span
+                  hidden={!loading}
+                  className="fa-solid fa-spinner fa-spin"
+                />
+              }
+              type="submit"
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Yuborish
+            </Button>
+          </Box>
+        </fieldset>
+      </details>
     </>
   );
 };

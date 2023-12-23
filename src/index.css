@@ -7,3 +7,18 @@ body {
     "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
     sans-serif;
 }
+
+details[open] summary ~ * {
+  animation: sweep .5s ease-in-out;
+}
+
+details summary {
+  user-select: none;
+  cursor: pointer;
+  color: rgb(0, 0, 171);
+} 
+
+@keyframes sweep {
+  0%    {opacity: 0; margin-top: -50px}
+  100%  {opacity: 1; margin-top: 0px}
+}
