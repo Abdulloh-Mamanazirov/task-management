@@ -47,10 +47,14 @@ const Tasks = ({ data }) => {
                 >
                   <div>
                     <p className="text-black font-normal text-lg max-w-xs">
-                      {item?.text?.[0]?.text.length > 0
+                      {item?.text?.[0]?.text
+                        .replaceAll("[", "")
+                        .replaceAll("]", "")
+                        .replaceAll('"', "").length > 0
                         ? item?.text?.[0]?.text
                             .replaceAll("[", "")
                             .replaceAll("]", "")
+                            .replaceAll('"', "")
                         : null}{" "}
                     </p>
                     <div className="mt-4 rounded-md">
