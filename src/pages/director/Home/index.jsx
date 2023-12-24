@@ -3,7 +3,7 @@ import { Bar, Pie, HorizontalBar } from "./components";
 const index = () => {
   return (
     <div>
-      <Bar />
+      {/* <Bar /> */}
       <Pie />
       <HorizontalBar />
     </div>
