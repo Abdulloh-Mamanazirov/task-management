@@ -47,9 +47,7 @@ export default function index() {
         className="text-center"
       >
         Vazifalarni bajarish ko'rsatkichi{" "}
-        <span className="text-black/50">
-          (umumiy korxona bo'yicha)
-        </span>
+        <span className="text-black/50">(umumiy korxona bo'yicha)</span>
       </h3>
     </div>
   );
