@@ -5,6 +5,7 @@ const index = () => {
     <div>
       {/* <Bar /> */}
       <Pie />
+      <hr className="my-10" />
       <HorizontalBar />
     </div>
   );
