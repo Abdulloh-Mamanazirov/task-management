@@ -13,17 +13,6 @@ const chartSettings = {
 export default function index() {
   return (
     <div>
-      <h3
-        style={{
-          width:
-            window.innerWidth > 600
-              ? window.innerWidth / 2
-              : window.innerWidth - 30,
-        }}
-        className="text-center font-medium sm:text-xl"
-      >
-        Vazifalarni bajarish ko'rsatkichi <br /> (umumiy korxona bo'yicha)
-      </h3>
       <PieChart
         series={[
           {
@@ -46,6 +35,22 @@ export default function index() {
         ]}
         {...chartSettings}
       />
+      <h3
+        style={{
+          width:
+            window.innerWidth > 1000
+              ? window.innerWidth / 2
+              : window.innerWidth > 600
+              ? window.innerWidth - 300
+              : window.innerWidth - 30,
+        }}
+        className="text-center"
+      >
+        Vazifalarni bajarish ko'rsatkichi{" "}
+        <span className="text-black/50">
+          (umumiy korxona bo'yicha)
+        </span>
+      </h3>
     </div>
   );
 }
