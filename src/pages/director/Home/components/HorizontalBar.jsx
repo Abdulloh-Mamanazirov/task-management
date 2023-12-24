@@ -1,50 +1,74 @@
-import { BarChart } from "@mui/x-charts";
+import { BarChart } from "@mui/x-charts/BarChart";
 
-const HorizontalBar = () => {
+const chartSetting = {
+  xAxis: [
+    {
+      label: "Vazifalarni bajarish ko'rsatkichi (%)",
+    },
+  ],
+  yAxis: [{ scaleType: "band", dataKey: "sector" }],
+  width:
+    window.innerWidth > 600 ? window.innerWidth - 300 : window.innerWidth - 30,
+  height: 300,
+};
+
+const dataset = [
+  {
+    finished: 43,
+    doing: 37,
+    not_finished: 15,
+    cancelled: 5,
+    sector: "Marketing",
+  },
+  {
+    finished: 59,
+    doing: 11,
+    not_finished: 20,
+    cancelled: 10,
+    sector: "Sotuv",
+  },
+];
+
+const valueFormatter = (value) => `${value}%`;
+
+export default function BarsDataset() {
   return (
-    <div>
+    <div className="sectors-statistics-bar">
       <BarChart
+        dataset={dataset}
         series={[
           {
-            data: [3, 4, 1],
-            stack: "A",
+            dataKey: "finished",
+            stack: "a",
             label: "Bajarilgan",
             color: "#00ef00",
-            valueFormatter: (value) => `${value}s`,
+            valueFormatter,
           },
           {
-            data: [4, 2, 1],
-            stack: "A",
+            dataKey: "doing",
+            stack: "a",
             label: "Jarayonda",
             color: "#efef00",
-            valueFormatter: (value) => `${value}s`,
+            valueFormatter,
           },
           {
-            data: [4, 1, 2],
-            stack: "A",
+            dataKey: "not_finished",
+            stack: "a",
             label: "Bajarilmagan",
             color: "#f00",
-            valueFormatter: (value) => `${value}s`,
+            valueFormatter,
           },
           {
-            data: [4, 1, 2],
-            stack: "A",
+            dataKey: "cancelled",
+            stack: "a",
             label: "Bekor qilingan",
             color: "#bbb",
-            valueFormatter: (value) => `${value}s`,
-          },
-        ]}
-        xAxis={[
-          {
-            label: "Vazifalarni bajarish foizi (%)",
+            valueFormatter,
           },
         ]}
         layout="horizontal"
-        width={600}
-        height={350}
+        {...chartSetting}
       />
     </div>
   );
-};
-
-export default HorizontalBar;
+}
