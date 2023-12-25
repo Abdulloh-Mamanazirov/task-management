@@ -1,20 +1,33 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Pie, Results, ThreePage } from "./components";
 
 const index = () => {
+  const [data, setData] = useState(null);
+
+  async function getData() {
+    const response = await axios.get(`/task/${sessionStorage.getItem('user_id')}/`);
+    setData(response?.data);
+  }
+console.log(data);
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 items-start justify-between">
-      <div className="shadow-md rounded-md h-[400px] p-5">
+    <div className="grid md-lg:grid-cols-2 gap-5 items-start justify-between">
+      {/* <div className="shadow-md rounded-md h-[400px] p-5">
         <p className="border-b py-2 font-medium ">Your stats</p>
         <Results />
-      </div>
+      </div> */}
 
-      <div className="shadow-md rounded-md p-5 h-[300px]" >
+      <div className="shadow-md rounded-md p-5 h-[300px]">
         <p className="border-b py-2 font-medium ">Diagramm</p>
         <Pie />
       </div>
 
       <div className="shadow-md rounded-md  p-5 h-[350px]">
-        <p className="border-b py-2 font-medium ">Active Tasks</p>
+        <p className="border-b py-2 font-medium ">Mavjud topshiriqlar</p>
         <ThreePage />
       </div>
     </div>
