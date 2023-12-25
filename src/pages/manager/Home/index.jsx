@@ -1,6 +1,21 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Pie, Results, ThreePage } from "./components";
 
 const index = () => {
+  const [data, setData] = useState(null);
+
+  async function getData() {
+    const response = await axios.get(
+      `/task/${sessionStorage.getItem("user_id")}/`
+    );
+    setData(response?.data?.filter((item) => item.status === "doing"));
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div className="grid md-lg:grid-cols-2 gap-5 items-start justify-between">
       {/* <div className="shadow-md rounded-md h-[400px] p-5">
@@ -8,14 +23,14 @@ const index = () => {
         <Results />
       </div> */}
 
-      <div className="shadow-md rounded-md p-5 h-[300px]" >
+      <div className="shadow-md rounded-md p-5 h-[300px]">
         <p className="border-b py-2 font-medium ">Diagramm</p>
         <Pie />
       </div>
 
       <div className="shadow-md rounded-md  p-5 h-[350px]">
         <p className="border-b py-2 font-medium ">Mavjud topshiriqlar</p>
-        <ThreePage />
+        <ThreePage data={data} />
       </div>
     </div>
   );

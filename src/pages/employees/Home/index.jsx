@@ -6,10 +6,12 @@ const index = () => {
   const [data, setData] = useState(null);
 
   async function getData() {
-    const response = await axios.get(`/task/${sessionStorage.getItem('user_id')}/`);
-    setData(response?.data);
+    const response = await axios.get(
+      `/task/${sessionStorage.getItem("user_id")}/`
+    );
+    setData(response?.data?.filter((item) => item.status === "doing"));
   }
-console.log(data);
+  console.log(data);
   useEffect(() => {
     getData();
   }, []);
@@ -28,7 +30,7 @@ console.log(data);
 
       <div className="shadow-md rounded-md  p-5 h-[350px]">
         <p className="border-b py-2 font-medium ">Mavjud topshiriqlar</p>
-        <ThreePage />
+        <ThreePage data={data} />
       </div>
     </div>
   );
