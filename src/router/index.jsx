@@ -51,7 +51,13 @@ function index() {
 
   const drawer = (
     <div>
-      <Toolbar />
+      <Toolbar>
+        <img
+          src="https://www.logodesign.net/logo/line-art-house-roof-and-buildings-4485ld.png"
+          alt="company logo"
+          className="w-24 mx-auto"
+        />
+      </Toolbar>
       <Divider />
       <List>
         {routes
@@ -92,7 +98,7 @@ function index() {
               <span className="fa-solid fa-bars" />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              Some title
+              Company
             </Typography>
           </div>
           <div className="ml-auto">
