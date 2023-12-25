@@ -8,7 +8,11 @@ const chartSetting = {
   ],
   yAxis: [{ scaleType: "band", dataKey: "sector" }],
   width:
-    window.innerWidth > 600 ? window.innerWidth - 300 : window.innerWidth - 30,
+    window.innerWidth > 1000
+      ? window.innerWidth / 2
+      : window.innerWidth > 600
+      ? window.innerWidth - 300
+      : window.innerWidth - 30,
   height: 300,
 };
 
