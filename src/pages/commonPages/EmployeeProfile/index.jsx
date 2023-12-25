@@ -3,12 +3,18 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Avatar, AvatarGroup, Button, Dialog } from "@mui/material";
-import { EditDeadline, EditModal, DeleteAudio } from "./components";
+import {
+  EditModal,
+  DeleteAudio,
+  EditDeadline,
+  DeadlineFilter,
+} from "./components";
 
 const index = () => {
   const { id } = useParams();
   const [modal, setModal] = useState({ open: false, data: null });
   const [data, setData] = useState(null);
+  const [filteredData, setFilteredData] = useState(data);
   const [deletingImageId, setDeletingImageId] = useState(null);
 
   async function getData() {
@@ -66,141 +72,139 @@ const index = () => {
     }
   };
 
+  const taskCard = (item) => {
+    return (
+      <div
+        key={item?.id}
+        className="bg-white rounded-lg border border-gray-400 p-2  shadow-md flex items-start flex-col sm:flex-row gap-3 sm:gap-0"
+      >
+        <div>
+          <div>
+            <p className="text-left font-medium">Vazifa matni:</p>
+            <hr />
+            {item?.text?.[0]?.text
+              .replaceAll("[", "")
+              .replaceAll("]", "")
+              .replaceAll('"', "").length > 0 ? (
+              <div className="flex items-center gap-2">
+                <p className="text-black font-normal text-lg">
+                  {item?.text?.[0]?.text
+                    .replaceAll("[", "")
+                    .replaceAll("]", "")
+                    .replaceAll('"', "")}
+                </p>
+                <EditModal
+                  data={item}
+                  getData={() => {
+                    getData();
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <em className="text-sm whitespace-nowrap">
+                  Vazifa matni mavjud emas
+                </em>
+                <EditModal
+                  data={item}
+                  getData={() => {
+                    getData();
+                  }}
+                />
+              </div>
+            )}
+          </div>
+          <div className="mt-4 rounded-md">
+            <p className="text-left font-medium">Audio:</p>
+            <hr className="mb-1" />
+            {!item?.audio?.[0]?.audio.includes("null") &&
+            item?.audio?.length > 0 ? (
+              <div className="flex items-center gap-2">
+                <audio controls className="sm:w-[250px]">
+                  <source
+                    src={
+                      `https://xodim.pythonanywhere.com/` +
+                      item?.audio?.[0]?.audio
+                    }
+                  />
+                </audio>
+                <DeleteAudio
+                  id={item?.audio?.[0]?.id}
+                  getData={() => {
+                    getData();
+                  }}
+                />
+              </div>
+            ) : (
+              <em className="text-sm whitespace-nowrap">Audio mavjud emas</em>
+            )}
+          </div>
+          <div className="mt-4">
+            <p className="text-left font-medium ">Rasmlar:</p>
+            <hr className="mb-1" />
+            <AvatarGroup
+              onClick={() => setModal({ open: true, data: item.photo })}
+              className="w-fit"
+              max={4}
+              style={{ cursor: "pointer" }}
+            >
+              {item?.photo?.length > 0 ? (
+                item?.photo?.map((item) => (
+                  <Avatar
+                    alt="Image"
+                    style={{ border: "1px solid black" }}
+                    key={item.id}
+                    src={`https://xodim.pythonanywhere.com/` + item?.photo}
+                  />
+                ))
+              ) : (
+                <em className="text-sm whitespace-nowrap">Rasm mavjud emas</em>
+              )}
+            </AvatarGroup>
+          </div>
+        </div>
+        <div className="w-full">
+          <div>
+            <p className="text-right font-medium ">Boshlanish sanasi:</p>
+            <hr />
+            <p className="text-right font-normal ">21-12-2024</p>
+          </div>
+          <div className="mt-5">
+            <p className="text-right font-medium">Tugash sanasi:</p>
+            <hr />
+            <p className="text-right font-normal">
+              {item?.deadline}
+              <EditDeadline
+                data={item}
+                getData={() => {
+                  getData();
+                }}
+              />
+            </p>
+          </div>
+          <div className="mt-5 ">
+            <p className="text-right font-medium ">Status:</p>
+            <div className="font-normal flex gap-2 items-center justify-end">
+              {getStatus(item?.status)}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
+      <DeadlineFilter data={data} filter={setFilteredData} />
       <div className="grid lg:grid-cols-2 gap-5 mt-5">
         {Array.isArray(data)
-          ? data.map((item) => {
-              return (
-                <div
-                  key={item?.id}
-                  className="bg-white rounded-lg border border-gray-400 p-2  shadow-md flex items-start flex-col sm:flex-row gap-3 sm:gap-0"
-                >
-                  <div>
-                    <div>
-                      <p className="text-left font-medium">Vazifa matni:</p>
-                      <hr />
-                      {item?.text?.[0]?.text
-                        .replaceAll("[", "")
-                        .replaceAll("]", "")
-                        .replaceAll('"', "").length > 0 ? (
-                        <div className="flex items-center gap-2">
-                          <p className="text-black font-normal text-lg">
-                            {item?.text?.[0]?.text
-                              .replaceAll("[", "")
-                              .replaceAll("]", "")
-                              .replaceAll('"', "")}
-                          </p>
-                          <EditModal
-                            data={item}
-                            getData={() => {
-                              getData();
-                            }}
-                          />
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2">
-                          <em className="text-sm whitespace-nowrap">
-                            Vazifa matni mavjud emas
-                          </em>
-                          <EditModal
-                            data={item}
-                            getData={() => {
-                              getData();
-                            }}
-                          />
-                        </div>
-                      )}
-                    </div>
-                    <div className="mt-4 rounded-md">
-                      <p className="text-left font-medium">Audio:</p>
-                      <hr className="mb-1" />
-                      {!item?.audio?.[0]?.audio.includes("null") &&
-                      item?.audio?.length > 0 ? (
-                        <div className="flex items-center gap-2">
-                          <audio controls className="sm:w-[250px]">
-                            <source
-                              src={
-                                `https://xodim.pythonanywhere.com/` +
-                                item?.audio?.[0]?.audio
-                              }
-                            />
-                          </audio>
-                          <DeleteAudio
-                            id={item?.audio?.[0]?.id}
-                            getData={() => {
-                              getData();
-                            }}
-                          />
-                        </div>
-                      ) : (
-                        <em className="text-sm whitespace-nowrap">
-                          Audio mavjud emas
-                        </em>
-                      )}
-                    </div>
-                    <div className="mt-4">
-                      <p className="text-left font-medium ">Rasmlar:</p>
-                      <hr className="mb-1" />
-                      <AvatarGroup
-                        onClick={() =>
-                          setModal({ open: true, data: item.photo })
-                        }
-                        className="w-fit"
-                        max={4}
-                        style={{ cursor: "pointer" }}
-                      >
-                        {item?.photo?.length > 0 ? (
-                          item?.photo?.map((item) => (
-                            <Avatar
-                              alt="Image"
-                              style={{ border: "1px solid black" }}
-                              key={item.id}
-                              src={
-                                `https://xodim.pythonanywhere.com/` +
-                                item?.photo
-                              }
-                            />
-                          ))
-                        ) : (
-                          <em className="text-sm whitespace-nowrap">
-                            Rasm mavjud emas
-                          </em>
-                        )}
-                      </AvatarGroup>
-                    </div>
-                  </div>
-                  <div className="w-full">
-                    <div>
-                      <p className="text-right font-medium ">
-                        Boshlanish sanasi:
-                      </p>
-                      <hr />
-                      <p className="text-right font-normal ">21-12-2024</p>
-                    </div>
-                    <div className="mt-5">
-                      <p className="text-right font-medium">Tugash sanasi:</p>
-                      <hr />
-                      <p className="text-right font-normal">
-                        {item?.deadline}
-                        <EditDeadline
-                          data={item}
-                          getData={() => {
-                            getData();
-                          }}
-                        />
-                      </p>
-                    </div>
-                    <div className="mt-5 ">
-                      <p className="text-right font-medium ">Status:</p>
-                      <div className="font-normal flex gap-2 items-center justify-end">
-                        {getStatus(item?.status)}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })
+          ? filteredData
+            ? filteredData.map((item) => {
+                return taskCard(item);
+              })
+            : data.map((item) => {
+                return taskCard(item);
+              })
           : new Array(2).fill(null).map((_, ind) => {
               return (
                 <div
