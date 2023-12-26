@@ -16,6 +16,7 @@ import {
   TableContainer,
   TablePagination,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const index = () => {
@@ -95,7 +96,15 @@ const index = () => {
                     <TableCell>{ind + 1}</TableCell>
                     <TableCell>{item.name}</TableCell>
                     <TableCell>
-                      <SeeAll id={item?.id} title={item.name} />
+                      <Link
+                        to={`/${sessionStorage.getItem("status")}/sector/${
+                          item?.id
+                        }`}
+                      >
+                        <IconButton color="success">
+                          <span className="fa-solid fa-eye" />
+                        </IconButton>
+                      </Link>
                       <IconButton
                         color="primary"
                         onClick={() => {
