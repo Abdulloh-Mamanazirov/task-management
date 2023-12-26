@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Tasks, Calendar } from "./components";
+import { Tasks, Calendar, MyTaskTable } from "./components";
 
 const index = () => {
   const [data, setData] = useState();
@@ -22,6 +22,9 @@ const index = () => {
       </div>
       <div>
         <Tasks data={data} />
+      </div>
+      <div>
+        <MyTaskTable data={data} />
       </div>
     </>
   );
