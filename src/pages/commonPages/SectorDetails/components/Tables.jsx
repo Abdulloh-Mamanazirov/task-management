@@ -27,7 +27,7 @@ const Table = () => {
     if (shape === "rectangle") {
       return (
         <div
-          className={`bg-status-${color} text-${
+          className={`${color} text-${
             color === "yellow" ? "black" : "white"
           } w-full p-3 inline-flex items-center justify-center`}
         >
@@ -37,8 +37,8 @@ const Table = () => {
     } else {
       return (
         <div
-          className={`bg-status-${color} text-${
-            color === "yellow" ? "black" : "white"
+          className={`${color} text-${
+            color === "bg-status-yellow" ? "black" : "white"
           } w-10 aspect-square rounded-full border border-black shadow-md shadow-black mx-auto inline-flex items-center justify-center`}
         >
           {value}
@@ -126,34 +126,58 @@ const Table = () => {
                 <td className="border p-2">John Doe</td>
                 <td className="border p-2">12</td>
                 <td className="border">
-                  {getStatsNumber("orange", "80%", "rectangle")}
+                  {getStatsNumber("bg-status-orange", "80%", "rectangle")}
                 </td>
-                <td className="border p-2">{getStatsNumber("green", 5)}</td>
-                <td className="border p-2">{getStatsNumber("yellow", 3)}</td>
-                <td className="border p-2">{getStatsNumber("red", 2)}</td>
-                <td className="border p-2">{getStatsNumber("gray", 1)}</td>
+                <td className="border p-2">
+                  {getStatsNumber("bg-status-green", 5)}
+                </td>
+                <td className="border p-2">
+                  {getStatsNumber("bg-status-yellow", 3)}
+                </td>
+                <td className="border p-2">
+                  {getStatsNumber("bg-status-red", 2)}
+                </td>
+                <td className="border p-2">
+                  {getStatsNumber("bg-status-gray", 1)}
+                </td>
               </tr>
               <tr className="border">
                 <td className="border p-2">Sarah Thompson</td>
                 <td className="border p-2">20</td>
                 <td className="border">
-                  {getStatsNumber("green", "88%", "rectangle")}
+                  {getStatsNumber("bg-status-green", "88%", "rectangle")}
                 </td>
-                <td className="border p-2">{getStatsNumber("green", 5)}</td>
-                <td className="border p-2">{getStatsNumber("yellow", 3)}</td>
-                <td className="border p-2">{getStatsNumber("red", 2)}</td>
-                <td className="border p-2">{getStatsNumber("gray", 1)}</td>
+                <td className="border p-2">
+                  {getStatsNumber("bg-status-green", 5)}
+                </td>
+                <td className="border p-2">
+                  {getStatsNumber("bg-status-yellow", 3)}
+                </td>
+                <td className="border p-2">
+                  {getStatsNumber("bg-status-red", 2)}
+                </td>
+                <td className="border p-2">
+                  {getStatsNumber("bg-status-gray", 1)}
+                </td>
               </tr>
               <tr className="border">
                 <td className="border p-2">Arthur Johnathan</td>
                 <td className="border p-2">16</td>
                 <td className="border">
-                  {getStatsNumber("red", "60%", "rectangle")}
+                  {getStatsNumber("bg-status-red", "60%", "rectangle")}
                 </td>
-                <td className="border p-2">{getStatsNumber("green", 5)}</td>
-                <td className="border p-2">{getStatsNumber("yellow", 3)}</td>
-                <td className="border p-2">{getStatsNumber("red", 2)}</td>
-                <td className="border p-2">{getStatsNumber("gray", 1)}</td>
+                <td className="border p-2">
+                  {getStatsNumber("bg-status-green", 5)}
+                </td>
+                <td className="border p-2">
+                  {getStatsNumber("bg-status-yellow", 3)}
+                </td>
+                <td className="border p-2">
+                  {getStatsNumber("bg-status-red", 2)}
+                </td>
+                <td className="border p-2">
+                  {getStatsNumber("bg-status-gray", 1)}
+                </td>
               </tr>
             </tbody>
           </table>
