@@ -17,7 +17,7 @@ const ThreePage = ({ data }) => {
                 <th className="border p-2">
                   {JSON.parse(item?.text?.[0]?.text ?? {})}
                 </th>
-                <td className="border p-2">{item?.deadline}</td>
+                <td className="border p-2 min-w-[128px]">{item?.deadline}</td>
               </tr>
             ))}
           </tbody>
