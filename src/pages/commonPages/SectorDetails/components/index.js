@@ -1,3 +1,4 @@
 import Tables from "./Tables";
+import Pie from "./Pie";
 
-export { Tables };
+export { Pie, Tables };

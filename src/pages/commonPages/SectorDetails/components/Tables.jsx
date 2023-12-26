@@ -3,25 +3,25 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 const Table = () => {
-  const { id } = useParams();
-  const [data, setData] = useState(null);
-  const status = sessionStorage.getItem("status");
+  // const { id } = useParams();
+  // const [data, setData] = useState(null);
+  // const status = sessionStorage.getItem("status");
 
-  async function getData() {
-    if (status === "director") {
-      const { data } = await axios.get(`/bolim/${id}/`);
-      setData(data);
-    } else if (status === "manager") {
-      const { data } = await axios.get(
-        `/bolim/${sessionStorage.getItem("sector_id")}/`
-      );
-      setData(data);
-    }
-  }
+  // async function getData() {
+  //   if (status === "director") {
+  //     const { data } = await axios.get(`/bolim/${id}/`);
+  //     setData(data);
+  //   } else if (status === "manager") {
+  //     const { data } = await axios.get(
+  //       `/bolim/${sessionStorage.getItem("sector_id")}/`
+  //     );
+  //     setData(data);
+  //   }
+  // }
 
-  useEffect(() => {
-    getData();
-  }, [id]);
+  // useEffect(() => {
+  //   getData();
+  // }, [id]);
 
   function getStatsNumber(color, value, shape) {
     if (shape === "rectangle") {
@@ -49,7 +49,7 @@ const Table = () => {
 
   return (
     <div>
-      {Boolean(data) ? (
+      {/* {Boolean(data) ? (
         <div className="mt-5 overflow-x-auto">
           <div className="text-lg flex items-center gap-3">
             <h3 className="font-medium">Menejer:</h3>
@@ -102,9 +102,9 @@ const Table = () => {
           <img src="/empty.png" alt="no data" width={100} />
           <p className="text-gray-500">Ma'lumot mavjud emas.</p>
         </div>
-      )}
+      )} */}
 
-      <div className="mt-10 mb-2">
+      <div className="mb-2">
         <h3 className="text-lg sm:text-2xl font-medium text-center p-2">
           Topshiriqlarning bajarilish tahlili jadvali
         </h3>

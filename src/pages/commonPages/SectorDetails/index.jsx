@@ -1,9 +1,14 @@
-import { Tables } from "./components";
+import { Pie, Tables } from "./components";
 
 const index = () => {
   return (
     <div>
-      <Tables />
+      <div className="mx-auto w-fit">
+        <Pie />
+      </div>
+      <div>
+        <Tables />
+      </div>
     </div>
   );
 };
