@@ -5,6 +5,12 @@ export default {
     extend: {
       colors: {
         primary: "#1976d2",
+        "dark-blue": "#012060",
+        "status-green": "#00b052",
+        "status-yellow": "#ffff01",
+        "status-orange": "#ffc000",
+        "status-red": "#fd0101",
+        "status-gray": "#7e7e7e",
         "custom-green": "#14FF00",
         "custom-red": "#FF0000",
         "custom-yellow": "#FFF500",
