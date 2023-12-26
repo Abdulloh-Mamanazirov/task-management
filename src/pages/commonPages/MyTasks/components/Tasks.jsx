@@ -46,7 +46,7 @@ const Tasks = ({ data }) => {
                   className="bg-white rounded-lg border border-gray-400 p-2  shadow-md flex items-start flex-col sm:flex-row gap-3 sm:gap-0 w-full sm:min-w-[404px] min-h-[221px] sm:w-auto"
                 >
                   <div>
-                    <p className="text-black font-normal text-lg max-w-xs">
+                    <p className="text-black font-normal text-lg max-w-sm">
                       {item?.text?.[0]?.text
                         .replaceAll("[", "")
                         .replaceAll("]", "")
