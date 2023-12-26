@@ -167,7 +167,9 @@ const index = () => {
           <div>
             <p className="text-right font-medium ">Boshlanish sanasi:</p>
             <hr />
-            <p className="text-right font-normal ">21-12-2024</p>
+            <p className="text-right font-normal ">
+              {item?.created_at?.slice(0, 10)}
+            </p>
           </div>
           <div className="mt-5">
             <p className="text-right font-medium">Tugash sanasi:</p>
