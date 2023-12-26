@@ -9,6 +9,7 @@ import {
   MyTasks,
   CreateTask,
   EmployeeProfile,
+  SectorDetails,
 } from "../pages";
 
 const director_routes = [
@@ -33,6 +34,12 @@ const director_routes = [
     icon: <span className="fa-solid fa-layer-group" />,
     element: <Sectors />,
     showInNav: true,
+  },
+  {
+    key: 9,
+    path: "/director/sector/:id",
+    element: <SectorDetails />,
+    showInNav: false,
   },
   {
     key: 3,
@@ -96,9 +103,9 @@ const manager_routes = [
   {
     key: 2,
     path: "/manager/sectors",
-    title: "Bo'limlar",
+    title: "Bo'lim",
     icon: <span className="fa-solid fa-layer-group" />,
-    element: <Sectors />,
+    element: <SectorDetails />,
     showInNav: true,
   },
   {
