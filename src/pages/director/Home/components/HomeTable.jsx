@@ -50,15 +50,21 @@ const HomeTable = ({ data, getData }) => {
 
   return (
     <div>
-      <div className="flex justify-around">
+      <div className="flex justify-around whitespace-nowrap">
         <div>
-          <h1>Jami Tadbirlar soni - 30 ta</h1>
+          <h3>Jami Tadbirlar soni - 30 ta</h3>
         </div>
-        <div className="flex items-center   ">
-          <div className="bg-status-green px-[80px] ">Bajarilgan</div>
-          <div className="bg-status-red px-[80px]">Bajarilmagan</div>
-          <div className="bg-status-yellow px-[80px]">Jarayonda</div>
-          <div className="bg-status-gray px-[80px]">Bekor qilingan</div>
+        <div className="flex items-center">
+          <div className="bg-status-green text-white w-40 text-center ">
+            Bajarilgan
+          </div>
+          <div className="bg-status-red text-white w-40 text-center">
+            Bajarilmagan
+          </div>
+          <div className="bg-status-yellow w-40 text-center">Jarayonda</div>
+          <div className="bg-status-gray text-white w-40 text-center">
+            Bekor qilingan
+          </div>
         </div>
       </div>
       <div className="mb-2 mt-5">

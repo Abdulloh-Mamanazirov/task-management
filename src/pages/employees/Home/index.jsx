@@ -23,8 +23,8 @@ const index = () => {
         <Results />
       </div> */}
 
-      <div className="shadow-md rounded-md p-5 h-[300px]">
-        <p className="border-b py-2 font-medium ">Diagramm</p>
+      <div className="shadow-md rounded-md p-5">
+        <p className="border-b py-2 font-medium">Diagramm</p>
         <Pie />
       </div>
 

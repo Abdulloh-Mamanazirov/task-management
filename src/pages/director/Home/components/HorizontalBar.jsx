@@ -70,6 +70,7 @@ export default function BarsDataset() {
             valueFormatter,
           },
         ]}
+        margin={{ top: 80 }}
         layout="horizontal"
         {...chartSetting}
       />

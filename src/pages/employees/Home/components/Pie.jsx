@@ -38,8 +38,16 @@ export default function index() {
           arcLabel: "value",
         },
       ]}
+      slotProps={{
+        legend: {
+          direction: "row",
+          position: { vertical: "top", horizontal: "middle" },
+          padding: 0,
+        },
+      }}
+      margin={{ top: 55 }}
       width={window.innerWidth > 600 ? 500 : window.innerWidth - 100}
-      height={200}
+      height={250}
     >
       <PieCenterLabel>Topshiriqlar</PieCenterLabel>
     </PieChart>

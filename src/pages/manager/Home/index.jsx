@@ -4,11 +4,10 @@ import { Pie, Results, ThreePage } from "./components";
 
 const index = () => {
   const [data, setData] = useState(null);
+  const user_id = sessionStorage.getItem("user_id");
 
   async function getData() {
-    const response = await axios.get(
-      `/task/${sessionStorage.getItem("user_id")}/`
-    );
+    const response = await axios.get(`/task/one/manager/${user_id}/`);
     setData(response?.data?.filter((item) => item.status === "doing"));
   }
 
@@ -23,7 +22,7 @@ const index = () => {
         <Results />
       </div> */}
 
-      <div className="shadow-md rounded-md p-5 h-[300px]">
+      <div className="shadow-md rounded-md p-5">
         <p className="border-b py-2 font-medium ">Diagramm</p>
         <Pie />
       </div>

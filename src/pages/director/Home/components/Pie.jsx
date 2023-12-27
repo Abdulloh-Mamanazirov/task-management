@@ -33,6 +33,14 @@ export default function index() {
             paddingAngle: 1,
           },
         ]}
+        slotProps={{
+          legend: {
+            direction: "row",
+            position: { vertical: "top", horizontal: "middle" },
+            padding: 0,
+          },
+        }}
+        margin={{ top: 55 }}
         {...chartSettings}
       />
       <h3
@@ -47,7 +55,9 @@ export default function index() {
         className="text-center"
       >
         Vazifalarni bajarish ko'rsatkichi{" "}
-        <span className="text-black/50">(umumiy korxona bo'yicha)</span>
+        <span className="text-black/50 text-center">
+          (umumiy korxona bo'yicha)
+        </span>
       </h3>
     </div>
   );
