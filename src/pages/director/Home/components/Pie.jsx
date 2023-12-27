@@ -1,64 +1,80 @@
-import { PieChart } from "@mui/x-charts/PieChart";
+import { ResponsivePie } from "@nivo/pie";
 
-const chartSettings = {
-  width:
-    window.innerWidth > 1000
-      ? window.innerWidth / 2
-      : window.innerWidth > 600
-      ? window.innerWidth - 300
-      : window.innerWidth - 30,
-  height: 300,
-};
+let data = [
+  {
+    id: "Bajarilgan",
+    label: "Bajarilgan",
+    value: 98,
+    color: "lime",
+  },
+  {
+    id: "Jarayonda",
+    label: "Jarayonda",
+    value: 19,
+    color: "yellow",
+  },
+  {
+    id: "Bajarilmagan",
+    label: "Bajarilmagan",
+    value: 72,
+    color: "red",
+  },
+  {
+    id: "Bekor qilingan",
+    label: "Bekor qilingan",
+    value: 11,
+    color: "#bbb",
+  },
+];
 
-export default function index() {
-  return (
-    <div>
-      <PieChart
-        series={[
+const Pie = ({}) => (
+  <ResponsivePie
+    data={data}
+    colors={(d) => d.data.color}
+    margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+    innerRadius={0.5}
+    padAngle={0.7}
+    cornerRadius={3}
+    activeOuterRadiusOffset={8}
+    borderWidth={1}
+    borderColor={{
+      from: "color",
+      modifiers: [["darker", 0.2]],
+    }}
+    arcLinkLabelsSkipAngle={10}
+    arcLinkLabelsTextColor="#333333"
+    arcLinkLabelsThickness={2}
+    arcLinkLabelsColor={{ from: "color" }}
+    arcLabelsSkipAngle={10}
+    arcLabelsTextColor={{
+      from: "color",
+      modifiers: [["darker", 2]],
+    }}
+    legends={[
+      {
+        anchor: "bottom",
+        direction: window.innerWidth > 500 ? "row" : "column",
+        justify: false,
+        translateX: 0,
+        translateY: 56,
+        itemsSpacing: 0,
+        itemWidth: 100,
+        itemHeight: 18,
+        itemTextColor: "#999",
+        itemDirection: "left-to-right",
+        itemOpacity: 1,
+        symbolSize: 18,
+        symbolShape: "circle",
+        effects: [
           {
-            data: [
-              { id: 0, value: 55, label: "Bajarilgan", color: "#00ef00" },
-              { id: 1, value: 25, label: "Jarayonda", color: "#efef00" },
-              { id: 2, value: 15, label: "Bajarilmagan", color: "#f00" },
-              {
-                id: 3,
-                value: 5,
-                label: "Bekor qilingan",
-                color: "#bbb",
-              },
-            ],
-            arcLabel: "value",
-            cornerRadius: 5,
-            innerRadius: 30,
-            paddingAngle: 1,
+            on: "hover",
+            style: {
+              itemTextColor: "#000",
+            },
           },
-        ]}
-        slotProps={{
-          legend: {
-            direction: "row",
-            position: { vertical: "top", horizontal: "middle" },
-            padding: 0,
-          },
-        }}
-        margin={{ top: 55 }}
-        {...chartSettings}
-      />
-      <h3
-        style={{
-          width:
-            window.innerWidth > 1000
-              ? window.innerWidth / 2
-              : window.innerWidth > 600
-              ? window.innerWidth - 300
-              : window.innerWidth - 30,
-        }}
-        className="text-center"
-      >
-        Vazifalarni bajarish ko'rsatkichi{" "}
-        <span className="text-black/50 text-center">
-          (umumiy korxona bo'yicha)
-        </span>
-      </h3>
-    </div>
-  );
-}
+        ],
+      },
+    ]}
+  />
+);
+export default Pie;
