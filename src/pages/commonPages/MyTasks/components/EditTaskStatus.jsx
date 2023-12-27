@@ -1,3 +1,4 @@
+import axios from "axios";
 import { forwardRef, useState } from "react";
 import {
   Box,
@@ -10,25 +11,44 @@ import {
   DialogContent,
   FormControlLabel,
 } from "@mui/material";
+import { toast } from "react-toastify";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const EditTaskStatus = () => {
+const EditTaskStatus = ({ data, getData, hidden }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const user_status = sessionStorage.getItem("status");
 
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
     const { status } = e.target;
-    setTimeout(() => alert(status.value), 1200);
-    setTimeout(() => setLoading(false), 1000);
+    const editData = {
+      status: status.value,
+    };
+    await axios
+      .patch(
+        user_status === "manager"
+          ? `/finish/taskmanager/${data?.id}/`
+          : `/finish/task/${data?.id}/`,
+        editData
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          getData();
+          setOpen(false);
+          toast.success("Vazifa xolati tahrirladi");
+        }
+      })
+      .catch(() => toast.error("Nimadadir xatolik ketdi!"))
+      .finally(() => setLoading(false));
   }
 
   return (
-    <div>
+    <div hidden={hidden}>
       <span
         role={"button"}
         onClick={() => setOpen(true)}
@@ -41,17 +61,17 @@ const EditTaskStatus = () => {
         keepMounted
         aria-describedby="edit-status-modal"
       >
-        <DialogTitle>{"Vazifa holati"}</DialogTitle>
+        <DialogTitle>{"Vazifa xolati"}</DialogTitle>
         <DialogContent>
           <Box component="form" onSubmit={handleSubmit}>
             <RadioGroup
               row
-              defaultValue="doing"
+              defaultValue={data?.status}
               name="status"
               aria-labelledby="edit-status-modal"
             >
               <FormControlLabel
-                value="bajarildi"
+                value="finished"
                 control={
                   <Radio
                     sx={{
@@ -79,21 +99,7 @@ const EditTaskStatus = () => {
                 label="Jarayonda"
               />
               <FormControlLabel
-                value="bajarilmadi"
-                control={
-                  <Radio
-                    sx={{
-                      color: "red",
-                      "&.Mui-checked": {
-                        color: "red",
-                      },
-                    }}
-                  />
-                }
-                label="Bajarilmadi"
-              />
-              <FormControlLabel
-                value="bekor"
+                value="canceled"
                 control={
                   <Radio
                     sx={{

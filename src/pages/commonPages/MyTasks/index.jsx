@@ -33,11 +33,11 @@ const index = () => {
       </div>
       {windowWidth > 1000 ? (
         <div className="overflow-x-auto">
-          <MyTaskTable data={data} />
+          <MyTaskTable data={data} getData={getData} />
         </div>
       ) : (
         <div>
-          <Tasks data={data} />
+          <Tasks data={data} getData={getData} />
         </div>
       )}
     </>

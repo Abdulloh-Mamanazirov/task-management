@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import EditTaskStatus from "./EditTaskStatus";
 import { Avatar, AvatarGroup, Checkbox, Dialog } from "@mui/material";
 
-const MyTaskTable = ({ data }) => {
+const MyTaskTable = ({ data, getData }) => {
   const [modal, setModal] = useState({ open: false, data: null });
 
   function findDiff(created_day, deadline) {
@@ -19,7 +19,7 @@ const MyTaskTable = ({ data }) => {
   }
 
   const getStatus = (status) => {
-    if (status === "bajarildi") {
+    if (status === "finished") {
       return (
         <div className="border-4 border-custom-green bg-custom-light-green rounded-full px-3 py-[1px]">
           Bajarildi
@@ -31,13 +31,13 @@ const MyTaskTable = ({ data }) => {
           Jarayonda
         </div>
       );
-    } else if (status === "bajarilmadi") {
+    } else if (status === "missed") {
       return (
         <div className="border-4 border-custom-red bg-custom-light-red rounded-full px-3 py-[1px]">
           Bajarilmadi
         </div>
       );
-    } else if (status === "bekor") {
+    } else if (status === "canceled") {
       return (
         <div className="border-4 border-gray-500 bg-gray-200 rounded-full px-3 py-[1px]">
           Bekor qilindi
@@ -145,7 +145,11 @@ const MyTaskTable = ({ data }) => {
                         <td className="border p-2">
                           <div className="font-normal flex gap-2 items-center justify-end">
                             {getStatus(item?.status)}
-                            <EditTaskStatus />
+                            <EditTaskStatus
+                              data={item}
+                              hidden={item?.status === "missed"}
+                              getData={getData}
+                            />
                           </div>
                         </td>
                         <td className="border p-2">
@@ -243,7 +247,11 @@ const MyTaskTable = ({ data }) => {
                         <td className="border p-2">
                           <div className="font-normal flex gap-2 items-center justify-end">
                             {getStatus(item?.status)}
-                            <EditTaskStatus />
+                            <EditTaskStatus
+                              data={item}
+                              hidden={item?.status === "missed"}
+                              getData={getData}
+                            />
                           </div>
                         </td>
                         <td className="border p-2">
