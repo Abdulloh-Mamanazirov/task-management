@@ -43,7 +43,7 @@ const index = () => {
   }
 
   const getStatus = (status) => {
-    if (status === "bajarildi") {
+    if (status === "finished") {
       return (
         <div className="border-4 border-custom-green bg-custom-light-green rounded-full px-3 py-[1px]">
           Bajarildi
@@ -55,13 +55,13 @@ const index = () => {
           Jarayonda
         </div>
       );
-    } else if (status === "bajarilmadi") {
+    } else if (status === "missed") {
       return (
         <div className="border-4 border-custom-red bg-custom-light-red rounded-full px-3 py-[1px]">
           Bajarilmadi
         </div>
       );
-    } else if (status === "bekor") {
+    } else if (status === "canceled") {
       return (
         <div className="border-4 border-gray-500 bg-gray-200 rounded-full px-3 py-[1px]">
           Bekor qilindi
