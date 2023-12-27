@@ -108,7 +108,7 @@ const Table = () => {
         <h3 className="text-lg sm:text-2xl font-medium text-center p-2">
           Topshiriqlarning bajarilish tahlili jadvali
         </h3>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto max-w-[100vw]">
           <table className="w-full text-center border">
             <thead className="bg-dark-blue text-white">
               <tr className="border">
