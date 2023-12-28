@@ -1,9 +1,24 @@
-import React, { useState } from "react";
+import Aos from "aos";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Avatar, AvatarGroup, Checkbox, Dialog } from "@mui/material";
-import EditTaskStatus from "./../../../commonPages/MyTasks/components/EditTaskStatus";
 
-const HomeTable = ({ data, getData }) => {
+const HomeTable = () => {
+  Aos.init()
   const [modal, setModal] = useState({ open: false, data: null });
+  const [data, setData] = useState(null);
+
+  async function getData() {
+    let response = await axios.get("/all/tasks/");
+    setData([
+      ...response?.data?.manager_tasks,
+      ...response?.data?.xodimlar_tasks,
+    ]);
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   function findDiff(created_day, deadline) {
     let date1 = new Date(created_day);
@@ -15,7 +30,7 @@ const HomeTable = ({ data, getData }) => {
     let currentDate = new Date();
     let date2 = new Date(deadline);
     let diffDays = parseInt((date2 - currentDate) / (1000 * 60 * 60 * 24), 10);
-    return diffDays + 1;
+    return diffDays < 0 ? diffDays : diffDays + 1;
   }
 
   const getStatus = (status) => {
@@ -49,20 +64,22 @@ const HomeTable = ({ data, getData }) => {
   };
 
   return (
-    <div className="mt-10 overflow-x-auto max-w-[100vw]">
-      <div className="hidden sm:flex justify-around whitespace-nowrap">
-        <div>
-          <h3>Jami Tadbirlar soni - 30 ta</h3>
+    <div className="mt-16 overflow-x-auto max-w-[100vw] scrollbar-gutter">
+      <div className="hidden sm:flex justify-around gap-2 whitespace-nowrap">
+        <div className="ml-3">
+          <h3>Jami Tadbirlar soni - {data?.length} ta</h3>
         </div>
         <div className="flex items-center">
-          <div className="bg-status-green text-white w-40 text-center ">
+          <div className="bg-status-green text-white w-28 md:w-40 text-center ">
             Bajarilgan
           </div>
-          <div className="bg-status-red text-white w-40 text-center">
+          <div className="bg-status-red text-white w-28 md:w-40 text-center">
             Bajarilmagan
           </div>
-          <div className="bg-status-yellow w-40 text-center">Jarayonda</div>
-          <div className="bg-status-gray text-white w-40 text-center">
+          <div className="bg-status-yellow w-28 md:w-40 text-center">
+            Jarayonda
+          </div>
+          <div className="bg-status-gray text-white w-28 md:w-40 text-center">
             Bekor qilingan
           </div>
         </div>
@@ -94,8 +111,11 @@ const HomeTable = ({ data, getData }) => {
                 ? data
                     ?.filter?.((item) => findDiffFromNow(item?.deadline) < 30)
                     ?.map?.((item, index) => (
-                      <tr key={item?.id} className="border">
+                      <tr data-aos="fade-up" data-aos-offset="100" key={item?.id} className="border">
                         <td className="border p-2">{index + 1}</td>
+                        <td className="border p-2 min-w-[100px]">
+                          {item?.bolim}
+                        </td>
                         <td className="border px-2 max-w-md">
                           {item?.text?.[0]?.text
                             .replaceAll("[", "")
@@ -145,7 +165,9 @@ const HomeTable = ({ data, getData }) => {
                         </td>
                         <td className="border p-2">{item?.reason}</td>{" "}
                         <td className="border p-2">{item?.event}</td>
-                        <td className="border p-2">{item?._from}</td>
+                        <td className="border p-2">
+                          {item?.first_name + " " + item?.last_name}
+                        </td>
                         <td className="border p-2">{item?.deadline}</td>
                         <td className="border p-2">
                           {findDiff(item?.created_at, item?.deadline)}
@@ -155,19 +177,13 @@ const HomeTable = ({ data, getData }) => {
                             findDiffFromNow(item?.deadline)
                           ) : (
                             <span className="text-status-red">
-                              {Math.abs(findDiffFromNow(item?.deadline))} kun
-                              o'tdi
+                              -{findDiffFromNow(item?.deadline)}
                             </span>
                           )}
                         </td>
                         <td className="border p-2">
-                          <div className="font-normal flex gap-2 items-center justify-end">
+                          <div className="font-normal flex gap-2 items-center justify-center">
                             {getStatus(item?.status)}
-                            <EditTaskStatus
-                              data={item}
-                              hidden={item?.status === "missed"}
-                              getData={getData}
-                            />
                           </div>
                         </td>
                         <td className="border p-2">
@@ -196,8 +212,11 @@ const HomeTable = ({ data, getData }) => {
                 ? data
                     ?.filter?.((item) => findDiffFromNow(item?.deadline) > 30)
                     ?.map?.((item, index) => (
-                      <tr key={item?.id} className="border">
+                      <tr data-aos="fade-up" data-aos-offset="100" key={item?.id} className="border">
                         <td className="border p-2">{index + 1}</td>
+                        <td className="border p-2 min-w-[100px]">
+                          {item?.bolim}
+                        </td>
                         <td className="border px-2 max-w-md">
                           {item?.text?.[0]?.text
                             .replaceAll("[", "")
@@ -247,7 +266,9 @@ const HomeTable = ({ data, getData }) => {
                         </td>
                         <td className="border p-2">{item?.reason}</td>{" "}
                         <td className="border p-2">{item?.event}</td>
-                        <td className="border p-2">{item?._from}</td>
+                        <td className="border p-2">
+                          {item?.first_name + " " + item?.last_name}
+                        </td>
                         <td className="border p-2">{item?.deadline}</td>
                         <td className="border p-2">
                           {findDiff(item?.created_at, item?.deadline)}
@@ -257,19 +278,13 @@ const HomeTable = ({ data, getData }) => {
                             findDiffFromNow(item?.deadline)
                           ) : (
                             <span className="text-status-red">
-                              {Math.abs(findDiffFromNow(item?.deadline))} kun
-                              o'tdi
+                              -{Math.abs(findDiffFromNow(item?.deadline))}
                             </span>
                           )}
                         </td>
                         <td className="border p-2">
-                          <div className="font-normal flex gap-2 items-center justify-end">
+                          <div className="font-normal flex gap-2 items-center justify-center">
                             {getStatus(item?.status)}
-                            <EditTaskStatus
-                              data={item}
-                              hidden={item?.status === "missed"}
-                              getData={getData}
-                            />
                           </div>
                         </td>
                         <td className="border p-2">

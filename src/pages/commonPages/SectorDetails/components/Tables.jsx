@@ -1,27 +1,29 @@
+import Aos from "aos";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 const Table = () => {
-  // const { id } = useParams();
-  // const [data, setData] = useState(null);
-  // const status = sessionStorage.getItem("status");
+  Aos.init();
+  const { id } = useParams();
+  const [data, setData] = useState(null);
+  const status = sessionStorage.getItem("status");
 
-  // async function getData() {
-  //   if (status === "director") {
-  //     const { data } = await axios.get(`/bolim/${id}/`);
-  //     setData(data);
-  //   } else if (status === "manager") {
-  //     const { data } = await axios.get(
-  //       `/bolim/${sessionStorage.getItem("sector_id")}/`
-  //     );
-  //     setData(data);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   getData();
-  // }, [id]);
+  async function getData() {
+    if (status === "director") {
+      const { data } = await axios.get(`/bolim/xodim/statistika/${id}/`);
+      setData(data);
+    } else if (status === "manager") {
+      const { data } = await axios.get(
+        `/bolim/xodim/statistika/${sessionStorage.getItem("sector_id")}/`
+      );
+      setData(data);
+    }
+  }
+  console.log(data);
+  useEffect(() => {
+    getData();
+  }, [id]);
 
   function getStatsNumber(color, value, shape) {
     if (shape === "rectangle") {
@@ -108,7 +110,7 @@ const Table = () => {
         <h3 className="text-lg sm:text-2xl font-medium text-center p-2">
           Topshiriqlarning bajarilish tahlili jadvali
         </h3>
-        <div className="overflow-x-auto max-w-[100vw]">
+        <div className="overflow-x-auto max-w-[100vw] scrollbar-gutter">
           <table className="w-full text-center border">
             <thead className="bg-dark-blue text-white">
               <tr className="border">
@@ -122,63 +124,49 @@ const Table = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="border">
-                <td className="border p-2">John Doe</td>
-                <td className="border p-2">12</td>
-                <td className="border">
-                  {getStatsNumber("bg-status-orange", "80%", "rectangle")}
-                </td>
-                <td className="border p-2">
-                  {getStatsNumber("bg-status-green", 5)}
-                </td>
-                <td className="border p-2">
-                  {getStatsNumber("bg-status-yellow", 3)}
-                </td>
-                <td className="border p-2">
-                  {getStatsNumber("bg-status-red", 2)}
-                </td>
-                <td className="border p-2">
-                  {getStatsNumber("bg-status-gray", 1)}
-                </td>
-              </tr>
-              <tr className="border">
-                <td className="border p-2">Sarah Thompson</td>
-                <td className="border p-2">20</td>
-                <td className="border">
-                  {getStatsNumber("bg-status-green", "88%", "rectangle")}
-                </td>
-                <td className="border p-2">
-                  {getStatsNumber("bg-status-green", 5)}
-                </td>
-                <td className="border p-2">
-                  {getStatsNumber("bg-status-yellow", 3)}
-                </td>
-                <td className="border p-2">
-                  {getStatsNumber("bg-status-red", 2)}
-                </td>
-                <td className="border p-2">
-                  {getStatsNumber("bg-status-gray", 1)}
-                </td>
-              </tr>
-              <tr className="border">
-                <td className="border p-2">Arthur Johnathan</td>
-                <td className="border p-2">16</td>
-                <td className="border">
-                  {getStatsNumber("bg-status-red", "60%", "rectangle")}
-                </td>
-                <td className="border p-2">
-                  {getStatsNumber("bg-status-green", 5)}
-                </td>
-                <td className="border p-2">
-                  {getStatsNumber("bg-status-yellow", 3)}
-                </td>
-                <td className="border p-2">
-                  {getStatsNumber("bg-status-red", 2)}
-                </td>
-                <td className="border p-2">
-                  {getStatsNumber("bg-status-gray", 1)}
-                </td>
-              </tr>
+              {data?.map?.((item, ind) => {
+                return (
+                  <tr
+                    key={ind}
+                    data-aos="fade-up"
+                    data-aos-offset="100"
+                    className="border"
+                  >
+                    <td className="border p-2">
+                      {item?.first_name + " " + item?.last_name}
+                    </td>
+                    <td className="border p-2">
+                      {item?.finished +
+                        item?.doing +
+                        item?.canceled +
+                        item?.missed}
+                    </td>
+                    <td className="border">
+                      {getStatsNumber(
+                        item?.finished_protsent < 60
+                          ? "bg-status-red"
+                          : item?.finished_protsent < 80
+                          ? "bg-status-orange"
+                          : "bg-status-green",
+                        `${item?.finished_protsent?.toFixed(2)} %`,
+                        "rectangle"
+                      )}
+                    </td>
+                    <td className="border p-2">
+                      {getStatsNumber("bg-status-green", item?.finished)}
+                    </td>
+                    <td className="border p-2">
+                      {getStatsNumber("bg-status-yellow", item?.doing)}
+                    </td>
+                    <td className="border p-2">
+                      {getStatsNumber("bg-status-red", item?.missed)}
+                    </td>
+                    <td className="border p-2">
+                      {getStatsNumber("bg-status-gray", item?.canceled)}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

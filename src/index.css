@@ -8,22 +8,35 @@ body {
     sans-serif;
 }
 
-div.sectors-statistics-bar 
+.scrollbar-gutter {
+  scrollbar-gutter: stable both-edges;
+}
+.scrollbar-gutter::-webkit-scrollbar {
+  display: none;
+}
+
+div.sectors-statistics-bar
   text[dominant-baseline="central"].MuiChartsAxis-tickLabel {
   transform: translateX(20%);
 }
 
 details[open] summary ~ * {
-  animation: sweep .5s ease-in-out;
+  animation: sweep 0.5s ease-in-out;
 }
 
 details summary {
   user-select: none;
   cursor: pointer;
   color: rgb(0, 0, 171);
-} 
+}
 
 @keyframes sweep {
-  0%    {opacity: 0; margin-top: -50px}
-  100%  {opacity: 1; margin-top: 0px}
+  0% {
+    opacity: 0;
+    margin-top: -50px;
+  }
+  100% {
+    opacity: 1;
+    margin-top: 0px;
+  }
 }

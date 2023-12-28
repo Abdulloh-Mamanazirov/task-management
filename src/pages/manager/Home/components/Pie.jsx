@@ -5,25 +5,25 @@ const Pie = ({ data }) => {
     {
       id: "Bajarilgan",
       label: "Bajarilgan",
-      value: data?.finished_protsent,
+      value: data?.finished_protsent?.toFixed(2),
       color: "lime",
     },
     {
       id: "Jarayonda",
       label: "Jarayonda",
-      value: data?.doing_protsent,
+      value: data?.doing_protsent?.toFixed(2),
       color: "yellow",
     },
     {
       id: "Bajarilmagan",
       label: "Bajarilmagan",
-      value: data?.missed_protsent,
+      value: data?.missed_protsent?.toFixed(2),
       color: "red",
     },
     {
       id: "Bekor qilingan",
       label: "Bekor qilingan",
-      value: data?.canceled_protsent,
+      value: data?.canceled_protsent?.toFixed(2),
       color: "#bbb",
     },
   ];

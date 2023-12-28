@@ -1,8 +1,10 @@
+import Aos from "aos";
 import React, { useState } from "react";
 import EditTaskStatus from "./EditTaskStatus";
 import { Avatar, AvatarGroup, Checkbox, Dialog } from "@mui/material";
 
 const MyTaskTable = ({ data, getData }) => {
+  Aos.init();
   const [modal, setModal] = useState({ open: false, data: null });
 
   function findDiff(created_day, deadline) {
@@ -15,7 +17,7 @@ const MyTaskTable = ({ data, getData }) => {
     let currentDate = new Date();
     let date2 = new Date(deadline);
     let diffDays = parseInt((date2 - currentDate) / (1000 * 60 * 60 * 24), 10);
-    return diffDays + 1;
+    return diffDays < 0 ? diffDays : diffDays + 1;
   }
 
   const getStatus = (status) => {
@@ -76,7 +78,13 @@ const MyTaskTable = ({ data, getData }) => {
                 ? data
                     ?.filter?.((item) => findDiffFromNow(item?.deadline) < 30)
                     ?.map?.((item, index) => (
-                      <tr key={item?.id} className="border">
+                      <tr
+                        data-aos="fade-up"
+                        data-aos-offset="100"
+                        data-aos-delay={100 + index * 10}
+                        key={item?.id}
+                        className="border"
+                      >
                         <td className="border p-2">{index + 1}</td>
                         <td className="border px-2 max-w-md">
                           {item?.text?.[0]?.text
@@ -137,8 +145,7 @@ const MyTaskTable = ({ data, getData }) => {
                             findDiffFromNow(item?.deadline)
                           ) : (
                             <span className="text-status-red">
-                              {Math.abs(findDiffFromNow(item?.deadline))} kun
-                              o'tdi
+                              -{Math.abs(findDiffFromNow(item?.deadline))}
                             </span>
                           )}
                         </td>
@@ -178,7 +185,13 @@ const MyTaskTable = ({ data, getData }) => {
                 ? data
                     ?.filter?.((item) => findDiffFromNow(item?.deadline) > 30)
                     ?.map?.((item, index) => (
-                      <tr key={item?.id} className="border">
+                      <tr
+                        data-aos="fade-up"
+                        data-aos-offset="100"
+                        data-aos-delay={100 + index * 10}
+                        key={item?.id}
+                        className="border"
+                      >
                         <td className="border p-2">{index + 1}</td>
                         <td className="border px-2 max-w-md">
                           {item?.text?.[0]?.text
@@ -239,8 +252,7 @@ const MyTaskTable = ({ data, getData }) => {
                             findDiffFromNow(item?.deadline)
                           ) : (
                             <span className="text-status-red">
-                              {Math.abs(findDiffFromNow(item?.deadline))} kun
-                              o'tdi
+                              -{Math.abs(findDiffFromNow(item?.deadline))}
                             </span>
                           )}
                         </td>

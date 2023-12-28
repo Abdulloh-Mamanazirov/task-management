@@ -1,8 +1,10 @@
+import Aos from "aos";
 import { useState } from "react";
 import { Avatar, AvatarGroup, Dialog } from "@mui/material";
 import EditTaskStatus from "./EditTaskStatus";
 
 const Tasks = ({ data, getData }) => {
+  Aos.init();
   const [modal, setModal] = useState({ open: false, data: null });
 
   const getStatus = (status) => {
@@ -43,6 +45,7 @@ const Tasks = ({ data, getData }) => {
               return (
                 <div
                   key={item?.id}
+                  data-aos="fade-up"
                   className="bg-white rounded-lg border border-gray-400 p-2  shadow-md flex items-start flex-col sm:flex-row gap-3 sm:gap-0 w-full sm:min-w-[404px] min-h-[221px] sm:w-auto"
                 >
                   <div>

@@ -6,12 +6,17 @@ import { Pie, Results, ThreePage } from "./components";
 const index = () => {
   Aos.init();
   const [data, setData] = useState(null);
+  const [statsData, setStatsData] = useState(null);
 
   async function getData() {
     const response = await axios.get(
       `/task/${sessionStorage.getItem("user_id")}/`
     );
     setData(response?.data?.filter((item) => item.status === "doing"));
+    const res = await axios.get(
+      `/xodim/statistika/${sessionStorage.getItem("user_id")}/`
+    );
+    setStatsData(res?.data);
   }
 
   useEffect(() => {
@@ -31,7 +36,7 @@ const index = () => {
         className="shadow-md rounded-md p-5 h-96"
       >
         <p className="border-b py-2 font-medium">Diagramm</p>
-        <Pie />
+        <Pie data={statsData} />
       </div>
 
       <div

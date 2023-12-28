@@ -1,9 +1,11 @@
+import Aos from "aos";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Pie, Tables } from "./components";
 
 const index = () => {
+  Aos.init();
   const { id } = useParams();
   const [data, setData] = useState(null);
   const status = sessionStorage.getItem("status");
@@ -25,7 +27,7 @@ const index = () => {
 
   return (
     <div>
-      <div className="mx-auto h-96">
+      <div data-aos="fade-up" data-aos-delay="600" className="mx-auto h-96">
         <Pie data={data} />
       </div>
       <div>

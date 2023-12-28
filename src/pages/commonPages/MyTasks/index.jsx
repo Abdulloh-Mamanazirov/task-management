@@ -32,7 +32,7 @@ const index = () => {
         <Calendar data={data} />
       </div>
       {windowWidth > 1000 ? (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto scrollbar-gutter">
           <MyTaskTable data={data} getData={getData} />
         </div>
       ) : (
