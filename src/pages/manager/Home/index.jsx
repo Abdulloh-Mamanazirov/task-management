@@ -22,7 +22,7 @@ const index = () => {
         <Results />
       </div> */}
 
-      <div className="shadow-md rounded-md p-5">
+      <div className="shadow-md rounded-md p-5 h-96">
         <p className="border-b py-2 font-medium ">Diagramm</p>
         <Pie />
       </div>
