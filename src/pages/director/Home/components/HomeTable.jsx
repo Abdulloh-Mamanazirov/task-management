@@ -49,8 +49,8 @@ const HomeTable = ({ data, getData }) => {
   };
 
   return (
-    <div>
-      <div className="flex justify-around whitespace-nowrap">
+    <div className="mt-10 overflow-x-auto max-w-[100vw]">
+      <div className="hidden sm:flex justify-around whitespace-nowrap">
         <div>
           <h3>Jami Tadbirlar soni - 30 ta</h3>
         </div>
