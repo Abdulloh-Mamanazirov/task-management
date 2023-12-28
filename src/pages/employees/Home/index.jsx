@@ -1,8 +1,10 @@
+import Aos from "aos";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Pie, Results, ThreePage } from "./components";
 
 const index = () => {
+  Aos.init();
   const [data, setData] = useState(null);
 
   async function getData() {
@@ -11,7 +13,7 @@ const index = () => {
     );
     setData(response?.data?.filter((item) => item.status === "doing"));
   }
-  console.log(data);
+
   useEffect(() => {
     getData();
   }, []);
@@ -23,12 +25,20 @@ const index = () => {
         <Results />
       </div> */}
 
-      <div className="shadow-md rounded-md p-5">
+      <div
+        data-aos="fade-right"
+        data-aos-delay="500"
+        className="shadow-md rounded-md p-5 h-96"
+      >
         <p className="border-b py-2 font-medium">Diagramm</p>
         <Pie />
       </div>
 
-      <div className="shadow-md rounded-md  p-5 h-[350px]">
+      <div
+        data-aos="fade-right"
+        data-aos-delay="700"
+        className="shadow-md rounded-md  p-5 overflow-y-auto h-[350px]"
+      >
         <p className="border-b py-2 font-medium ">Mavjud topshiriqlar</p>
         <ThreePage data={data} />
       </div>

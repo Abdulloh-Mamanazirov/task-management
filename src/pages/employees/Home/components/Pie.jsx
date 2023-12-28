@@ -1,55 +1,83 @@
-import { styled } from "@mui/material";
-import { useDrawingArea } from "@mui/x-charts";
-import { PieChart } from "@mui/x-charts/PieChart";
+import { ResponsivePie } from "@nivo/pie";
 
-const StyledText = styled("text")(({ theme }) => ({
-  fill: theme.palette.text.primary,
-  textAnchor: "middle",
-  dominantBaseline: "central",
-  fontSize: 20,
-}));
+const Pie = ({ data }) => {
+  let pie_data = [
+    {
+      id: "Bajarilgan",
+      label: "Bajarilgan",
+      value: data?.finished_protsent,
+      color: "lime",
+    },
+    {
+      id: "Jarayonda",
+      label: "Jarayonda",
+      value: data?.doing_protsent,
+      color: "yellow",
+    },
+    {
+      id: "Bajarilmagan",
+      label: "Bajarilmagan",
+      value: data?.missed_protsent,
+      color: "red",
+    },
+    {
+      id: "Bekor qilingan",
+      label: "Bekor qilingan",
+      value: data?.canceled_protsent,
+      color: "#bbb",
+    },
+  ];
 
-function PieCenterLabel({ children }) {
-  const { width, height, left, top } = useDrawingArea();
   return (
-    <StyledText x={left + width / 2} y={top + height / 2}>
-      {children}
-    </StyledText>
-  );
-}
-
-export default function index() {
-  return (
-    <PieChart
-      series={[
+    <ResponsivePie
+      data={pie_data}
+      valueFormat={(v) => `${v} %`}
+      colors={(d) => d.data.color}
+      margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+      innerRadius={0.5}
+      padAngle={0.7}
+      cornerRadius={3}
+      activeOuterRadiusOffset={8}
+      borderWidth={1}
+      borderColor={{
+        from: "color",
+        modifiers: [["darker", 0.2]],
+      }}
+      arcLinkLabelsSkipAngle={10}
+      arcLinkLabelsTextColor="#333333"
+      arcLinkLabelsThickness={2}
+      arcLinkLabelsColor={{ from: "color" }}
+      arcLabelsSkipAngle={10}
+      arcLabelsTextColor={{
+        from: "color",
+        modifiers: [["darker", 2]],
+      }}
+      legends={[
         {
-          innerRadius: 60,
-          data: [
-            { id: 0, value: 68, label: "Bajarilgan", color: "#00ef00" },
-            { id: 1, value: 12, label: "Jarayonda", color: "#efef00" },
-            { id: 2, value: 16, label: "Bajarilmagan", color: "#f00" },
+          anchor: "bottom",
+          direction: window.innerWidth > 500 ? "row" : "column",
+          justify: false,
+          translateX: 0,
+          translateY: 56,
+          itemsSpacing: 0,
+          itemWidth: 100,
+          itemHeight: 18,
+          itemTextColor: "#999",
+          itemDirection: "left-to-right",
+          itemOpacity: 1,
+          symbolSize: 18,
+          symbolShape: "circle",
+          effects: [
             {
-              id: 3,
-              value: 4,
-              label: "Bekor qilingan",
-              color: "#bbb",
+              on: "hover",
+              style: {
+                itemTextColor: "#000",
+              },
             },
           ],
-          arcLabel: "value",
         },
       ]}
-      slotProps={{
-        legend: {
-          direction: "row",
-          position: { vertical: "top", horizontal: "middle" },
-          padding: 0,
-        },
-      }}
-      margin={{ top: 55 }}
-      width={window.innerWidth > 600 ? 500 : window.innerWidth - 100}
-      height={250}
-    >
-      <PieCenterLabel>Topshiriqlar</PieCenterLabel>
-    </PieChart>
+    />
   );
-}
+};
+export default Pie;

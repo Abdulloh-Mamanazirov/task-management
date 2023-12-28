@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import App from "./App.jsx";
 
 import "./index.css";
+import "aos/dist/aos.css";
 import "react-toastify/dist/ReactToastify.css";
 
 axios.defaults.baseURL = "https://xodim.pythonanywhere.com";

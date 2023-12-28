@@ -1,8 +1,10 @@
+import Aos from "aos";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Pie, Results, ThreePage } from "./components";
 
 const index = () => {
+  Aos.init();
   const [data, setData] = useState(null);
   const user_id = sessionStorage.getItem("user_id");
 
@@ -22,12 +24,20 @@ const index = () => {
         <Results />
       </div> */}
 
-      <div className="shadow-md rounded-md p-5 h-96">
+      <div
+        data-aos="fade-right"
+        data-aos-delay="500"
+        className="shadow-md rounded-md p-5 h-96"
+      >
         <p className="border-b py-2 font-medium ">Diagramm</p>
         <Pie />
       </div>
 
-      <div className="shadow-md rounded-md  p-5 h-[350px]">
+      <div
+        data-aos="fade-right"
+        data-aos-delay="700"
+        className="shadow-md rounded-md overflow-y-auto p-5 h-[350px]"
+      >
         <p className="border-b py-2 font-medium ">Mavjud topshiriqlar</p>
         <ThreePage data={data} />
       </div>
