@@ -1,5 +1,6 @@
 import Aos from "aos";
 import axios from "axios";
+import { Stats } from "../../../components";
 import { useEffect, useState } from "react";
 import { Bar, Pie, HorizontalBar, HomeTable } from "./components";
 
@@ -21,6 +22,13 @@ const index = () => {
 
   return (
     <div>
+      <Stats
+        all={data?.all_tasks}
+        finished={data?.finished}
+        doing={data?.doing}
+        missed={data?.missed}
+        cancelled={data?.canceled}
+      />
       {/* <Bar /> */}
       <div className="grid md:grid-cols-2">
         <div data-aos="fade-right" data-aos-delay="500" className="h-96">
@@ -30,7 +38,7 @@ const index = () => {
           <HorizontalBar data={sectorsData} />
         </div>
       </div>
-      <div data-aos="fade-up" data-aos-delay="600">
+      <div data-aos="fade-up" data-aos-delay="600" data-aos-offset="0">
         <HomeTable />
       </div>
     </div>
