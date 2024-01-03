@@ -50,7 +50,7 @@ function index() {
   };
 
   const drawer = (
-    <div>
+    <div className="h-screen flex flex-col">
       <Toolbar>
         <img
           src="https://www.logodesign.net/logo/line-art-house-roof-and-buildings-4485ld.png"
@@ -73,6 +73,18 @@ function index() {
             </ListItem>
           ))}
       </List>
+      <div className="mt-auto px-3">
+        <Button
+          variant="contained"
+          color="error"
+          startIcon={<span className="fa-solid fa-arrow-right-from-bracket" />}
+          size="small"
+          onClick={handleLogOut}
+          fullWidth
+        >
+          Chiqish
+        </Button>
+      </div>
     </div>
   );
 
@@ -107,17 +119,16 @@ function index() {
                 <span className="fa-solid fa-circle-user" />
               </Link>
             </IconButton>
-            <Button
-              variant="contained"
-              color="error"
-              startIcon={
-                <span className="fa-solid fa-arrow-right-from-bracket" />
-              }
-              size="small"
-              onClick={handleLogOut}
-            >
-              Chiqish
-            </Button>
+            <Link to="/director/tasks">
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                startIcon={<span className="fa-solid fa-list-check" />}
+              >
+                Vazifa yuklash
+              </Button>
+            </Link>
           </div>
         </Toolbar>
       </AppBar>
