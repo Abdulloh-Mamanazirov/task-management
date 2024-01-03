@@ -35,6 +35,7 @@ const director_routes = [
     icon: <span className="fa-solid fa-layer-group" />,
     element: <Sectors />,
     showInNav: true,
+    isLink: true,
   },
   {
     key: 9,
