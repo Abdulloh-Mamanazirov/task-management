@@ -73,7 +73,7 @@ function index() {
             </ListItem>
           ))}
       </List>
-      <div className="mt-auto px-3">
+      <div className="mt-auto p-3">
         <Button
           variant="contained"
           color="error"
