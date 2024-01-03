@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Avatar, AvatarGroup, Checkbox, Dialog } from "@mui/material";
 
 const HomeTable = () => {
-  Aos.init()
+  Aos.init();
   const [modal, setModal] = useState({ open: false, data: null });
   const [data, setData] = useState(null);
 
@@ -54,7 +54,7 @@ const HomeTable = () => {
       );
     } else if (status === "canceled") {
       return (
-        <div className="border-4 border-gray-500 bg-gray-200 rounded-full px-3 py-[1px]">
+        <div className="border-4 border-gray-500 bg-gray-200 rounded-full px-3 py-[1px] whitespace-nowrap">
           Bekor qilindi
         </div>
       );
@@ -111,7 +111,12 @@ const HomeTable = () => {
                 ? data
                     ?.filter?.((item) => findDiffFromNow(item?.deadline) < 30)
                     ?.map?.((item, index) => (
-                      <tr data-aos="fade-up" data-aos-offset="100" key={item?.id} className="border">
+                      <tr
+                        data-aos="fade-up"
+                        data-aos-offset="100"
+                        key={item?.id}
+                        className="border"
+                      >
                         <td className="border p-2">{index + 1}</td>
                         <td className="border p-2 min-w-[100px]">
                           {item?.bolim}
@@ -212,7 +217,12 @@ const HomeTable = () => {
                 ? data
                     ?.filter?.((item) => findDiffFromNow(item?.deadline) > 30)
                     ?.map?.((item, index) => (
-                      <tr data-aos="fade-up" data-aos-offset="100" key={item?.id} className="border">
+                      <tr
+                        data-aos="fade-up"
+                        data-aos-offset="100"
+                        key={item?.id}
+                        className="border"
+                      >
                         <td className="border p-2">{index + 1}</td>
                         <td className="border p-2 min-w-[100px]">
                           {item?.bolim}

@@ -63,7 +63,7 @@ const index = () => {
       );
     } else if (status === "canceled") {
       return (
-        <div className="border-4 border-gray-500 bg-gray-200 rounded-full px-3 py-[1px]">
+        <div className="border-4 border-gray-500 bg-gray-200 rounded-full px-3 py-[1px] whitespace-nowrap">
           Bekor qilindi
         </div>
       );
