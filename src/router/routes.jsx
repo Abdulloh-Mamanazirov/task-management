@@ -10,6 +10,7 @@ import {
   CreateTask,
   EmployeeProfile,
   SectorDetails,
+  Notes,
 } from "../pages";
 
 const director_routes = [
@@ -72,7 +73,15 @@ const director_routes = [
     showInNav: true,
   },
   {
-    key: 5,
+    key: 10,
+    path: "/director/my-notes",
+    title: "Mening qaydlarim",
+    icon: <span className="fa-solid fa-calendar-check" />,
+    element: <Notes />,
+    showInNav: true,
+  },
+  {
+    key: 6,
     path: "/my-profile",
     element: <MyProfile />,
     showInNav: false,

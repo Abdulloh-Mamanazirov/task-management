@@ -82,6 +82,7 @@ function index() {
       <AppBar
         position="fixed"
         sx={{
+          zIndex: 10,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
@@ -123,7 +124,7 @@ function index() {
       </AppBar>
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{ zIndex: 10, width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="navigation bar"
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}

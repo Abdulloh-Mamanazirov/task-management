@@ -5,8 +5,10 @@ import EmployeeProfile from "./EmployeeProfile";
 import CreateTask from "./CreateTask";
 import MyProfile from "./MyProfile";
 import MyTasks from "./MyTasks";
+import Notes from "./Notes";
 
 export {
+  Notes,
   MyTasks,
   Sectors,
   Employees,
