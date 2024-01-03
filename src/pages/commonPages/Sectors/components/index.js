@@ -1,5 +1,5 @@
 import Create from "./Create";
-import EditModal from "./EditModal";
+import EditModal from "../../SectorDetails/components/EditModal";
 import SeeAll from "./SeeAll";
 
 export { Create, EditModal, SeeAll };

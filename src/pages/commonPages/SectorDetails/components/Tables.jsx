@@ -1,13 +1,39 @@
 import Aos from "aos";
 import axios from "axios";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Box, Button, Popover } from "@mui/material";
+import { setTriggerGetSectors } from "../../../../redux";
+import EditModal from "./EditModal";
 
-const Table = () => {
+const Table = ({ sectorDetails }) => {
   Aos.init();
+  const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [editModal, setEditModal] = useState({ open: false, data: {} });
+  const dispatch = useDispatch();
   const status = sessionStorage.getItem("status");
+
+  const open = Boolean(anchorEl);
+
+  async function handleDelete() {
+    await axios
+      .delete(`/bolim/edit/${id}/`)
+      .then((res) => {
+        if (res.status === 204) {
+          navigate("/");
+          dispatch(setTriggerGetSectors());
+          toast.info("Bo'lim o'chirildi!");
+        }
+      })
+      .catch(() => toast.error("Nimadadir xatolik ketdi!"))
+      .finally(() => {
+        setAnchorEl(null);
+      });
+  }
 
   async function getData() {
     if (status === "director") {
@@ -20,7 +46,6 @@ const Table = () => {
       setData(data);
     }
   }
-  console.log(data);
   useEffect(() => {
     getData();
   }, [id]);
@@ -51,61 +76,6 @@ const Table = () => {
 
   return (
     <div>
-      {/* {Boolean(data) ? (
-        <div className="mt-5 overflow-x-auto">
-          <div className="text-lg flex items-center gap-3">
-            <h3 className="font-medium">Menejer:</h3>
-            <p>
-              {data?.manager?.user?.first_name ?? (
-                <em className="text-sm">Ism kiritilmagan</em>
-              )}{" "}
-              {data?.manager?.user?.last_name ?? (
-                <em className="text-sm">Familiya kiritilmagan</em>
-              )}
-            </p>
-          </div>
-          <hr className="my-3" />
-          <div>
-            <h3 className="text-lg font-medium">
-              Xodimlar ro'yxati ({data?.xodim?.length} ta):
-            </h3>
-            <table className="w-full text-center border">
-              <thead>
-                <tr className="border">
-                  <th className="border p-2">Ism</th>
-                  <th className="border p-2">Familiya</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.xodim?.map?.((e, ind) => (
-                  <tr key={ind} className="border">
-                    <td className="border p-2">
-                      {e?.user?.first_name?.length > 0 ? (
-                        e?.user?.first_name
-                      ) : (
-                        <em className="text-sm">Ism kiritilmagan</em>
-                      )}
-                    </td>
-                    <td className="border p-2">
-                      {e?.user?.last_name?.length > 0 ? (
-                        e?.user?.last_name
-                      ) : (
-                        <em className="text-sm">Familiya kiritilmagan</em>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      ) : (
-        <div className="flex flex-col items-center gap-3 mt-5 overflow-x-auto">
-          <img src="/empty.png" alt="no data" width={100} />
-          <p className="text-gray-500">Ma'lumot mavjud emas.</p>
-        </div>
-      )} */}
-
       <div className="mb-2">
         <h3 className="text-lg sm:text-2xl font-medium text-center p-2">
           Topshiriqlarning bajarilish tahlili jadvali
@@ -171,6 +141,75 @@ const Table = () => {
           </table>
         </div>
       </div>
+
+      <div className="w-full flex items-center justify-end gap-5 mt-20">
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={() => {
+            setEditModal({ open: true, data: sectorDetails });
+          }}
+          startIcon={<span className="fa-solid fa-edit" />}
+        >
+          Tahrirlash
+        </Button>
+        <Button
+          color="error"
+          variant="outlined"
+          onClick={(event) => {
+            setAnchorEl(event.currentTarget);
+          }}
+          startIcon={<span className="fa-solid fa-trash" />}
+        >
+          O'chirish
+        </Button>
+      </div>
+      {/* pop confirm */}
+      <Popover
+        open={open}
+        anchorEl={anchorEl}
+        onClose={() => setAnchorEl(null)}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <Box sx={{ padding: "5px 10px" }}>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="fa-solid fa-trash text-red-500" />
+            <p className="text-lg font-medium">
+              Bu bo'limni o'chirmoqchimisiz?
+            </p>
+          </div>
+          <div className="flex items-center justify-end gap-3">
+            <Button
+              onClick={() => setAnchorEl(null)}
+              variant="outlined"
+              color="primary"
+              size="small"
+            >
+              Yo'q
+            </Button>
+            <Button
+              onClick={() => handleDelete()}
+              variant="contained"
+              color="error"
+              size="small"
+            >
+              Ha
+            </Button>
+          </div>
+        </Box>
+      </Popover>
+
+      {/* edit Modal */}
+      <EditModal
+        open={editModal?.open}
+        data={editModal?.data}
+        handleClose={() => {
+          setEditModal({ open: false, data: {} });
+        }}
+      />
     </div>
   );
 };

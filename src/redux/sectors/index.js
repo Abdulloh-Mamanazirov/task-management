@@ -5,6 +5,7 @@ export const sectorsSlice = createSlice({
   initialState: {
     sectors: [],
     managers: [],
+    change: true,
   },
   reducers: {
     setSectors: (state, action) => {
@@ -13,9 +14,13 @@ export const sectorsSlice = createSlice({
     getOneSector: (state, action) => {
       return state.sectors.map((i) => i.id === action.payload);
     },
+    setTriggerGetSectors: (state) => {
+      state.change = !state.change;
+    },
   },
 });
 
-export const { setSectors, getOneSector } = sectorsSlice.actions;
+export const { setSectors, getOneSector, setTriggerGetSectors } =
+  sectorsSlice.actions;
 
 export default sectorsSlice.reducer;

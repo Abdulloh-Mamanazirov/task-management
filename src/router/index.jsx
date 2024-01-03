@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import {
   Box,
@@ -8,28 +9,35 @@ import {
   Divider,
   Toolbar,
   ListItem,
+  Accordion,
   Typography,
   IconButton,
   CssBaseline,
   ListItemIcon,
   ListItemText,
   ListItemButton,
+  AccordionDetails,
+  AccordionSummary,
 } from "@mui/material";
 import { Link, Route, Routes } from "react-router-dom";
 import { manager_routes, director_routes, employee_routes } from "./routes";
 import { Login } from "../pages";
+import { useSelector } from "react-redux";
 
 const drawerWidth = 240;
 
 function index() {
+  const [sectors, setSectors] = useState([]);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [status, setStatus] = useState("");
   const [routes, setRoutes] = useState([]);
+  const state = useSelector((state) => state.sector);
 
   useEffect(() => {
     const status = sessionStorage.getItem("status");
     setStatus(status);
-  }, []);
+    getSectors();
+  }, [state.change]);
 
   useEffect(() => {
     if (status === "director") setRoutes(director_routes);
@@ -62,16 +70,45 @@ function index() {
       <List>
         {routes
           .filter((item) => !!item.showInNav)
-          .map((item) => (
-            <ListItem key={item?.key} disablePadding>
-              <Link to={item?.path} className="w-full">
-                <ListItemButton>
-                  <ListItemIcon>{item?.icon}</ListItemIcon>
-                  <ListItemText primary={item?.title} />
-                </ListItemButton>
-              </Link>
-            </ListItem>
-          ))}
+          .map((item, i) =>
+            !item?.isLink ? (
+              <ListItem key={i} disablePadding>
+                <Link to={item?.path} className="w-full">
+                  <ListItemButton>
+                    <ListItemIcon>{item?.icon}</ListItemIcon>
+                    <ListItemText primary={item?.title} />
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+            ) : (
+              <ListItem className="px-4" key={i}>
+                <Accordion disableGutters sx={{ boxShadow: "none" }}>
+                  <AccordionSummary
+                    expandIcon={<span className="fa-solid fa-chevron-down" />}
+                  >
+                    <div className="-ml-4 text-gray-500">{item?.icon}</div>
+                    <p className="mx-[38px]">{item?.title}</p>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <ol className="list-decimal ">
+                      {sectors?.map((item, ind) => (
+                        <li key={ind} className="my-2">
+                          <Link
+                            className="font-normal "
+                            to={`/${sessionStorage.getItem("status")}/sector/${
+                              item?.id
+                            }`}
+                          >
+                            {item?.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ol>
+                  </AccordionDetails>
+                </Accordion>
+              </ListItem>
+            )
+          )}
       </List>
       <div className="mt-auto p-3">
         <Button
@@ -87,6 +124,11 @@ function index() {
       </div>
     </div>
   );
+
+  async function getSectors() {
+    const response = await axios.get("bolim/");
+    setSectors(response?.data);
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -190,92 +232,3 @@ function index() {
 }
 
 export default index;
-
-/*
-import { useEffect, useState } from "react";
-import { Link, Route, Routes } from "react-router-dom";
-import { director_routes, manager_routes, employee_routes } from "./routes";
-
-const index = () => {
-  const [status, setStatus] = useState("");
-
-  useEffect(() => {
-    const status = sessionStorage.getItem("status");
-    setStatus(status);
-  }, []);
-
-  if (status === "director") {
-    return (
-      <>
-        <nav>
-          <ol>
-            {director_routes
-              .filter((item) => !!item.showInNav)
-              .map((item) => (
-                <li key={item?.key}>
-                  <Link to={item.path}>{item?.title}</Link>
-                </li>
-              ))}
-          </ol>
-        </nav>
-        <hr />
-        <Routes>
-          {director_routes.map((route) => (
-            <Route key={route.key} path={route.path} element={route.element} />
-          ))}
-        </Routes>
-      </>
-    );
-  }
-
-  if (status === "admin") {
-    return (
-      <>
-        <nav>
-          <ol>
-            {manager_routes
-              .filter((item) => !!item.showInNav)
-              .map((item) => (
-                <li>
-                  <Link to={item.path}>{item?.title}</Link>
-                </li>
-              ))}
-          </ol>
-        </nav>
-        <hr />
-        <Routes>
-          {manager_routes.map((route) => (
-            <Route key={route.key} path={route.path} element={route.element} />
-          ))}
-        </Routes>
-      </>
-    );
-  }
-
-  if (status === "employee") {
-    return (
-      <>
-        <nav>
-          <ol>
-            {employee_routes
-              .filter((item) => !!item.showInNav)
-              .map((item) => (
-                <li>
-                  <Link to={item.path}>{item?.title}</Link>
-                </li>
-              ))}
-          </ol>
-        </nav>
-        <hr />
-        <Routes>
-          {employee_routes.map((route) => (
-            <Route key={route.key} path={route.path} element={route.element} />
-          ))}
-        </Routes>
-      </>
-    );
-  }
-};
-
-export default index;
-*/

@@ -9,20 +9,27 @@ import {
   DialogContent,
 } from "@mui/material";
 import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setTriggerGetSectors } from "../../../../redux";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function EditModal({ open, data, handleClose }) {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+
   async function handleSubmit(e) {
     e.preventDefault();
     const { name } = e.target;
     await axios
-      .put(`/bolim/edit/${data?.id}/`, { name: name.value })
+      .put(`/bolim/edit/${id}/`, { name: name.value })
       .then((res) => {
         if (res.status === 200) {
-          handleClose();
+          dispatch(setTriggerGetSectors());
+          handleClose()
           toast.success("Bo'lim tahrirlandi");
         }
       })
