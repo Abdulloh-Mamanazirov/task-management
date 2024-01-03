@@ -2,12 +2,26 @@ import Aos from "aos";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Avatar, AvatarGroup, Checkbox, Dialog } from "@mui/material";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const HomeTable = () => {
   Aos.init();
   const [modal, setModal] = useState({ open: false, data: null });
   const [data, setData] = useState(null);
 
+  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [selectedStatusBolim, setSelectedStatusBolim] = useState("all");
+
+  const handleChange = (event) => {
+    setSelectedStatus(event.target.value);
+  };
+  const handleChangeBolim = (event) => {
+    setSelectedStatusBolim(event.target.value);
+  };
   async function getData() {
     let response = await axios.get("/all/tasks/");
     setData([
@@ -90,7 +104,28 @@ const HomeTable = () => {
             <thead className="bg-[#F3C206]">
               <tr className="border">
                 <th className="border p-3">No_</th>
-                <th className="border p-3">Bo'lim</th>
+                <th className="border p-3">
+                  <FormControl fullWidth size="small">
+                    <InputLabel id="demo-simple-select-label">Bolim</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      label="Bo'lim"
+                      id="demo-simple-select"
+                      value={selectedStatusBolim}
+                      onChange={handleChangeBolim}
+                    >
+                      <MenuItem value={"all"}>Barchasi</MenuItem>
+                      {Array.isArray(data) &&
+                        [...new Set(data.map((item) => item.bolim))].map(
+                          (uniqueValue, i) => (
+                            <MenuItem key={i} value={uniqueValue}>
+                              {uniqueValue}
+                            </MenuItem>
+                          )
+                        )}
+                    </Select>
+                  </FormControl>
+                </th>
                 <th className="border p-3">Topshiriq</th>
                 <th className="border p-3">Sabab</th>
                 <th className="border p-3">Tadbir</th>
@@ -98,7 +133,26 @@ const HomeTable = () => {
                 <th className="border p-3 w-32">Muddat</th>
                 <th className="border p-3">Jami muddat</th>
                 <th className="border p-3">Qolgan kun(lar)</th>
-                <th className="border p-3">Xolati</th>
+                <th className="border p-3">
+                  <FormControl fullWidth size="small">
+                    <InputLabel id="demo-simple-select-label">
+                      Xolati
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      label="Xolati"
+                      id="demo-simple-select"
+                      value={selectedStatus}
+                      onChange={handleChange}
+                    >
+                      <MenuItem value={"all"}>Barchasi</MenuItem>
+                      <MenuItem value={"finished"}>Bajarilgan</MenuItem>
+                      <MenuItem value={"missed"}>Bajarilmagan</MenuItem>
+                      <MenuItem value={"doing"}>Jarayonda</MenuItem>
+                      <MenuItem value={"canceled"}> Bekor qilingan</MenuItem>
+                    </Select>
+                  </FormControl>
+                </th>
                 <th className="border p-3">Moliyaviy ko'mak</th>
                 <th className="border p-3">Arxivlash</th>
               </tr>
@@ -109,8 +163,18 @@ const HomeTable = () => {
               </tr>
               {Array.isArray(data)
                 ? data
-                    ?.filter?.((item) => findDiffFromNow(item?.deadline) < 30)
-                    ?.map?.((item, index) => (
+                    .filter((item) =>
+                      selectedStatusBolim === "all"
+                        ? true
+                        : item.bolim === selectedStatusBolim
+                    )
+                    .filter((item) =>
+                      selectedStatus === "all"
+                        ? true
+                        : item.status === selectedStatus
+                    )
+                    .filter((item) => findDiffFromNow(item?.deadline) < 30)
+                    .map((item, index) => (
                       <tr
                         data-aos="fade-up"
                         data-aos-offset="100"
@@ -215,6 +279,16 @@ const HomeTable = () => {
               </tr>
               {Array.isArray(data)
                 ? data
+                    .filter((item) =>
+                      selectedStatusBolim === "all"
+                        ? true
+                        : item.bolim === selectedStatusBolim
+                    )
+                    .filter((item) =>
+                      selectedStatus === "all"
+                        ? true
+                        : item.status === selectedStatus
+                    )
                     ?.filter?.((item) => findDiffFromNow(item?.deadline) > 30)
                     ?.map?.((item, index) => (
                       <tr

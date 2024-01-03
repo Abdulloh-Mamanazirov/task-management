@@ -2,6 +2,7 @@ import axios from "axios";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { EditModal, ImageUpload } from "./components";
+import { Link } from "react-router-dom";
 
 const index = () => {
   const id = sessionStorage.getItem("user_id");
@@ -29,6 +30,11 @@ const index = () => {
   return (
     <>
       <div className="relative w-full min-h-[40vh] bg-gradient-to-br from-primary to-blue-400 rounded-tr-full md-lg:rounded-bl-full md-lg:rounded-tr-none">
+        <Link className="ml-1" to="/">
+          <Button color="primary" variant="contained" size="small">
+            <span className="fa-solid fa-arrow-left text-lg" />
+          </Button>
+        </Link>
         {/* image */}
         <div className="w-fit ml-auto md-lg:absolute z-10 bottom-0 left-10">
           <div
@@ -42,8 +48,9 @@ const index = () => {
               className="w-full rounded-full aspect-square object-cover"
             />
             <div
-              className={`${imageUpdate ? "grid" : "hidden"
-                } place-items-center absolute inset-0 rounded-full transition-all duration-300 bg-black/30`}
+              className={`${
+                imageUpdate ? "grid" : "hidden"
+              } place-items-center absolute inset-0 rounded-full transition-all duration-300 bg-black/30`}
             >
               <ImageUpload id={id} handleClose={getData} />
             </div>
