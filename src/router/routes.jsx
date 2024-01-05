@@ -149,6 +149,14 @@ const manager_routes = [
     showInNav: true,
   },
   {
+    key: 9,
+    path: "/manager/my-notes",
+    title: "Mening qaydlarim",
+    icon: <span className="fa-solid fa-calendar-check" />,
+    element: <Notes />,
+    showInNav: true,
+  },
+  {
     key: 6,
     path: "/my-profile",
     element: <MyProfile />,
@@ -183,6 +191,14 @@ const employee_routes = [
     title: "Mening vazifalarim",
     icon: <span className="fa-solid fa-list-check" />,
     element: <MyTasks />,
+    showInNav: true,
+  },
+  {
+    key: 5,
+    path: "/employee/my-notes",
+    title: "Mening qaydlarim",
+    icon: <span className="fa-solid fa-calendar-check" />,
+    element: <Notes />,
     showInNav: true,
   },
   {
