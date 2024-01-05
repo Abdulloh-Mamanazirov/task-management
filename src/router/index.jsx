@@ -19,10 +19,11 @@ import {
   AccordionDetails,
   AccordionSummary,
 } from "@mui/material";
-import { Link, Route, Routes } from "react-router-dom";
-import { manager_routes, director_routes, employee_routes } from "./routes";
 import { Login } from "../pages";
 import { useSelector } from "react-redux";
+import { Link, Route, Routes } from "react-router-dom";
+import { CreateModal } from "../pages/commonPages/Sectors/components";
+import { manager_routes, director_routes, employee_routes } from "./routes";
 
 const drawerWidth = 240;
 
@@ -90,7 +91,7 @@ function index() {
                     <p className="mx-[38px]">{item?.title}</p>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <ol className="list-decimal ">
+                    <ol className="list-decimal pl-4">
                       {sectors?.map((item, ind) => (
                         <li key={ind} className="my-2">
                           <Link
@@ -104,6 +105,7 @@ function index() {
                         </li>
                       ))}
                     </ol>
+                    <CreateModal getData={getSectors} />
                   </AccordionDetails>
                 </Accordion>
               </ListItem>
