@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useContext, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
 
@@ -29,8 +30,8 @@ export default function EventModal() {
     useContext(GlobalContext);
 
   const [title, setTitle] = useState(selectedEvent ? selectedEvent.title : "");
-  const [description, setDescription] = useState(
-    selectedEvent ? selectedEvent.description : ""
+  const [content, setDescription] = useState(
+    selectedEvent ? selectedEvent.content : ""
   );
   const [selectedLabel, setSelectedLabel] = useState(
     selectedEvent
@@ -38,19 +39,21 @@ export default function EventModal() {
       : labelsClasses[0]
   );
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    const calendarEvent = {
-      title,
-      description,
-      label: selectedLabel,
-      day: daySelected.valueOf(),
-      id: selectedEvent ? selectedEvent.id : Date.now(),
-    };
+
+    const event = new FormData();
+    event.append("title", title);
+    event.append("content", content);
+    event.append("deadline", new Date(daySelected).toISOString());
+    event.append("user", sessionStorage.getItem("user_id"));
+
     if (selectedEvent) {
-      dispatchCalEvent({ type: "update", payload: calendarEvent });
+      // const response = await axios.post("/qayd/", event);
+      // dispatchCalEvent({ type: "push", payload: response.data });
     } else {
-      dispatchCalEvent({ type: "push", payload: calendarEvent });
+      const response = await axios.post("/qayd/", event);
+      dispatchCalEvent({ type: "push", payload: response.data });
     }
 
     setShowEventModal(false);
@@ -99,7 +102,7 @@ export default function EventModal() {
             <textarea
               name="description"
               placeholder="Biror nima yozing..."
-              value={description}
+              value={content}
               required
               rows={4}
               className="pt-3 border-0 text-gray-600 pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"

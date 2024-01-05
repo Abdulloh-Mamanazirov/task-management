@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useReducer, useMemo } from "react";
-import GlobalContext from "./GlobalContext";
-import dayjs from "dayjs";
 import axios from "axios";
+import dayjs from "dayjs";
+import GlobalContext from "./GlobalContext";
+import React, { useState, useEffect, useReducer, useMemo } from "react";
+const user_id = sessionStorage.getItem("user_id");
 
 function savedEventsReducer(state, { type, payload }) {
   switch (type) {
@@ -47,22 +48,14 @@ export default function ContextWrapper(props) {
   }, [savedEvents, labels]);
 
   useEffect(() => {
-    localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
-  }, [savedEvents]);
-
-  useEffect(() => {
     setLabels((prevLabels) => {
-      return [...new Set(savedEvents.map((evt) => evt.label))].map(
-        (label) => {
-          const currentLabel = prevLabels.find(
-            (lbl) => lbl.label === label
-          );
-          return {
-            label,
-            checked: currentLabel ? currentLabel.checked : true,
-          };
-        }
-      );
+      return [...new Set(savedEvents.map((evt) => evt.label))].map((label) => {
+        const currentLabel = prevLabels.find((lbl) => lbl.label === label);
+        return {
+          label,
+          checked: currentLabel ? currentLabel.checked : true,
+        };
+      });
     });
   }, [savedEvents]);
 
@@ -108,7 +101,7 @@ export default function ContextWrapper(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/qayd/");
+        const response = await axios.get(`/qaydlar/${user_id}/`);
         dispatchCalEvent({ type: "set", payload: response.data });
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -118,18 +111,8 @@ export default function ContextWrapper(props) {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const updateBackend = async () => {
-      await axios.post("/qayd/", savedEvents);
-    };
-
-    updateBackend();
-  }, [savedEvents]);
-
   function updateLabel(label) {
-    setLabels(
-      labels.map((lbl) => (lbl.label === label.label ? label : lbl))
-    );
+    setLabels(labels.map((lbl) => (lbl.label === label.label ? label : lbl)));
   }
 
   return (
