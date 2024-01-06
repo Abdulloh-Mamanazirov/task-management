@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useContext, useState } from "react";
+import { toast } from "react-toastify";
 import GlobalContext from "../context/GlobalContext";
 
 const labelsClasses = [
@@ -49,15 +50,36 @@ export default function EventModal() {
     event.append("user", sessionStorage.getItem("user_id"));
 
     if (selectedEvent) {
-      // const response = await axios.post("/qayd/", event);
-      // dispatchCalEvent({ type: "push", payload: response.data });
+      const response = await axios.patch(
+        `/qayd/edit/${selectedEvent?.id}/`,
+        event
+      );
+      dispatchCalEvent({ type: "update", payload: response.data });
+      toast.success("Qayd tahrirlandi!");
     } else {
-      const response = await axios.post("/qayd/", event);
-      dispatchCalEvent({ type: "push", payload: response.data });
+      try {
+        const response = await axios.post("/qayd/", event);
+        dispatchCalEvent({ type: "push", payload: response.data });
+        toast.success("Qayd qo'shildi!");
+      } catch (error) {
+        toast.error("Qayd qo'shishda xatolik!");
+      }
     }
 
     setShowEventModal(false);
   }
+
+  async function handleDeleteEvent(event) {
+    try {
+      await axios.delete(`/qayd/edit/${event?.id}/`);
+      dispatchCalEvent({ type: "delete", payload: { id: event?.id } });
+      setShowEventModal(false);
+      toast.info("Qayd o'chirildi!");
+    } catch (error) {
+      toast.error("Qaydni o'chirishda xatolik!");
+    }
+  }
+
   return (
     <div className="z-50 h-screen w-full fixed left-0 top-0 flex justify-center items-center">
       <form
@@ -68,13 +90,7 @@ export default function EventModal() {
           <div>
             {selectedEvent && (
               <span
-                onClick={() => {
-                  dispatchCalEvent({
-                    type: "delete",
-                    payload: selectedEvent,
-                  });
-                  setShowEventModal(false);
-                }}
+                onClick={() => handleDeleteEvent(selectedEvent)}
                 className="fa-solid fa-trash text-red-600 text-lg cursor-pointer mr-3"
               />
             )}
