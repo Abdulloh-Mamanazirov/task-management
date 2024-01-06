@@ -1,7 +1,10 @@
 import axios from "axios";
-import { useContext, useState } from "react";
 import { toast } from "react-toastify";
+import { useContext, useState } from "react";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
 import GlobalContext from "../context/GlobalContext";
+import { FormControl } from "@mui/material";
 
 const labelsClasses = [
   {
@@ -35,6 +38,11 @@ export default function EventModal() {
   const [content, setDescription] = useState(
     selectedEvent ? selectedEvent.content : ""
   );
+  const [time, setTime] = useState(
+    selectedEvent
+      ? selectedEvent?.time
+      : `${new Date().getHours()}:${new Date().getMinutes()}`
+  );
   const [selectedLabel, setSelectedLabel] = useState(
     selectedEvent
       ? labelsClasses.find((lbl) => lbl === selectedEvent.label)
@@ -49,6 +57,7 @@ export default function EventModal() {
     event.append("title", title);
     event.append("content", content);
     event.append("deadline", new Date(daySelected).toISOString());
+    event.append("time", time);
     event.append("user", sessionStorage.getItem("user_id"));
 
     if (selectedEvent) {
@@ -97,6 +106,7 @@ export default function EventModal() {
                 className="fa-solid fa-trash text-red-600 text-lg cursor-pointer"
               />
             )}
+            <div />
             <button onClick={() => setShowEventModal(false)}>
               <span className="fa-solid fa-close text-lg" />
             </button>
@@ -114,9 +124,26 @@ export default function EventModal() {
               className="pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"
               onChange={(e) => setTitle(e.target.value)}
             />
-            <div className="flex items-center gap-3">
-              <span className="fa-solid fa-calendar text-gray-400" />
-              <p>{daySelected.format("dddd, MMMM DD")}</p>
+            <div className="grid grid-cols-2">
+              <div className="flex items-center gap-3">
+                <span className="fa-solid fa-calendar text-gray-400" />
+                <p>{daySelected.format("dddd, MMMM DD")}</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="fa-solid fa-clock text-gray-400" />
+                <input
+                  required
+                  type="time"
+                  name="time"
+                  value={time}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    setTime(
+                      `${new Date(e).getHours()}:${new Date(e).getMinutes()}`
+                    );
+                  }}
+                />
+              </div>
             </div>
             <textarea
               name="description"
