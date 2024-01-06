@@ -30,6 +30,7 @@ export default function EventModal() {
   const { setShowEventModal, daySelected, dispatchCalEvent, selectedEvent } =
     useContext(GlobalContext);
 
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState(selectedEvent ? selectedEvent.title : "");
   const [content, setDescription] = useState(
     selectedEvent ? selectedEvent.content : ""
@@ -42,6 +43,7 @@ export default function EventModal() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
 
     const event = new FormData();
     event.append("title", title);
@@ -66,6 +68,7 @@ export default function EventModal() {
       }
     }
 
+    setLoading(false);
     setShowEventModal(false);
   }
 
@@ -87,11 +90,11 @@ export default function EventModal() {
         className="bg-white rounded-lg shadow-2xl w-11/12 md:w-1/2 lg:w-1/3"
       >
         <header className="bg-gray-100 px-4 py-2 flex justify-end items-center">
-          <div>
+          <div className="w-full flex items-center justify-between">
             {selectedEvent && (
               <span
                 onClick={() => handleDeleteEvent(selectedEvent)}
-                className="fa-solid fa-trash text-red-600 text-lg cursor-pointer mr-3"
+                className="fa-solid fa-trash text-red-600 text-lg cursor-pointer"
               />
             )}
             <button onClick={() => setShowEventModal(false)}>
@@ -150,9 +153,14 @@ export default function EventModal() {
         <footer className="flex justify-end border-t p-3 mt-5">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded text-white"
+            disabled={loading}
+            className="w-28 bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded text-white"
           >
-            Saqlash
+            {loading ? (
+              <span className="fa-solid fa-spinner fa-spin-pulse" />
+            ) : (
+              "Saqlash"
+            )}
           </button>
         </footer>
       </form>
