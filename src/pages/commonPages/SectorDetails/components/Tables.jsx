@@ -77,49 +77,60 @@ const Table = ({ users, sectorDetails }) => {
               </tr>
             </thead>
             <tbody>
-              {users?.map?.((item, ind) => {
-                return (
-                  <tr
-                    key={ind}
-                    data-aos="fade-up"
-                    data-aos-offset="100"
-                    className="border"
-                  >
-                    <td className="border p-2">
-                      {item?.first_name + " " + item?.last_name}
-                    </td>
-                    <td className="border p-2">
-                      {item?.finished +
-                        item?.doing +
-                        item?.canceled +
-                        item?.missed}
-                    </td>
-                    <td className="border">
-                      {getStatsNumber(
-                        item?.finished_protsent < 60
-                          ? "bg-status-red"
-                          : item?.finished_protsent < 80
-                          ? "bg-status-orange"
-                          : "bg-status-green",
-                        `${item?.finished_protsent?.toFixed(2)} %`,
-                        "rectangle"
-                      )}
-                    </td>
-                    <td className="border p-2">
-                      {getStatsNumber("bg-status-green", item?.finished)}
-                    </td>
-                    <td className="border p-2">
-                      {getStatsNumber("bg-status-yellow", item?.doing)}
-                    </td>
-                    <td className="border p-2">
-                      {getStatsNumber("bg-status-red", item?.missed)}
-                    </td>
-                    <td className="border p-2">
-                      {getStatsNumber("bg-status-gray", item?.canceled)}
-                    </td>
-                  </tr>
-                );
-              })}
+              {users?.length > 0 ? (
+                users?.map?.((item, ind) => {
+                  return (
+                    <tr
+                      key={ind}
+                      data-aos="fade-up"
+                      data-aos-offset="100"
+                      className="border"
+                    >
+                      <td className="border p-2">
+                        {item?.first_name + " " + item?.last_name}
+                      </td>
+                      <td className="border p-2">
+                        {item?.finished +
+                          item?.doing +
+                          item?.canceled +
+                          item?.missed}
+                      </td>
+                      <td className="border">
+                        {getStatsNumber(
+                          item?.finished_protsent < 60
+                            ? "bg-status-red"
+                            : item?.finished_protsent < 80
+                            ? "bg-status-orange"
+                            : "bg-status-green",
+                          `${item?.finished_protsent?.toFixed(2)} %`,
+                          "rectangle"
+                        )}
+                      </td>
+                      <td className="border p-2">
+                        {getStatsNumber("bg-status-green", item?.finished)}
+                      </td>
+                      <td className="border p-2">
+                        {getStatsNumber("bg-status-yellow", item?.doing)}
+                      </td>
+                      <td className="border p-2">
+                        {getStatsNumber("bg-status-red", item?.missed)}
+                      </td>
+                      <td className="border p-2">
+                        {getStatsNumber("bg-status-gray", item?.canceled)}
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={7}>
+                    <div className="flex flex-col items-center gap-3">
+                      <img src="/empty.png" alt="no data" width={100} />
+                      <p className="text-gray-500">Ma'lumot mavjud emas.</p>
+                    </div>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
