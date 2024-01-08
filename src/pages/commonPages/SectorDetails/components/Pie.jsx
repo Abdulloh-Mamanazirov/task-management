@@ -58,7 +58,7 @@ const Pie = ({ data }) => {
           direction: window.innerWidth > 500 ? "row" : "column",
           justify: false,
           translateX: 0,
-          translateY: 56,
+          translateY: window.innerWidth > 500 ? 56 : 77,
           itemsSpacing: 0,
           itemWidth: 100,
           itemHeight: 18,
