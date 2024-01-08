@@ -177,7 +177,7 @@ const HomeTable = () => {
                     .map((item, index) => (
                       <tr
                         data-aos="fade-up"
-                        data-aos-offset="100"
+                        data-aos-offset="70"
                         key={item?.id}
                         className="border"
                       >
@@ -232,7 +232,7 @@ const HomeTable = () => {
                             </AvatarGroup>
                           </div>
                         </td>
-                        <td className="border p-2">{item?.reason}</td>{" "}
+                        <td className="border p-2">{item?.reason}</td>
                         <td className="border p-2">{item?.event}</td>
                         <td className="border p-2">
                           {item?.first_name + " " + item?.last_name}
@@ -246,7 +246,7 @@ const HomeTable = () => {
                             findDiffFromNow(item?.deadline)
                           ) : (
                             <span className="text-status-red">
-                              -{findDiffFromNow(item?.deadline)}
+                              {findDiffFromNow(item?.deadline)}
                             </span>
                           )}
                         </td>
@@ -293,7 +293,7 @@ const HomeTable = () => {
                     ?.map?.((item, index) => (
                       <tr
                         data-aos="fade-up"
-                        data-aos-offset="100"
+                        data-aos-offset="70"
                         key={item?.id}
                         className="border"
                       >
