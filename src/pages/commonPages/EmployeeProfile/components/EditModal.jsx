@@ -20,12 +20,12 @@ export default function EditModal({ data, getData }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setLoading(true);
     const { text } = e.target;
     const editedData = {
       text: text.value,
     };
     if (data?.text?.[0]?.id) {
+      setLoading(true);
       await axios
         .patch(`/text/edit/${data?.text?.[0]?.id}/`, editedData)
         .then((res) => {

@@ -188,7 +188,7 @@ const Tasks = ({ data, getData }) => {
             return (
               <div className="cursor-pointer" key={item.id}>
                 <img
-                  alt="salom"
+                  alt="task image"
                   key={item.id}
                   src={`https://xodim.pythonanywhere.com/` + item?.photo}
                 />

@@ -1,15 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
 import { Button } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 import LeftSideTask from "./LeftSideTask";
 import RightSideTask from "./RightSideTask";
-import { toast } from "react-toastify";
-import { removeTask } from "../../../../redux";
 
 const Create = () => {
   const { task } = useSelector((state) => state);
-  const dispatch = useDispatch();
   const status = sessionStorage.getItem("status");
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +25,6 @@ const Create = () => {
       .patch(status === "manager" ? "/task/" : "/task/to_manager/", formData)
       .then((res) => {
         if (res?.data?.id) {
-          dispatch(removeTask());
           toast.success("Vazifa yuklandi!");
         }
       })

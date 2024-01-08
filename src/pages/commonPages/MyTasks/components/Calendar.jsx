@@ -39,7 +39,10 @@ function ServerDay(props) {
         sx={isSelected ? { bgcolor: "#f051a115" } : {}}
         onDaySelect={(e) => {
           if (isSelected)
-            setModal({ open: true, data: `${e.$y}-${e.$M + 1}-${e.$D}` });
+            setModal({
+              open: true,
+              data: `${e.$y}-${e.$M < 10 ? `0${e.$M + 1}` : e.$M + 1}-${e.$D}`,
+            });
         }}
         outsideCurrentMonth={outsideCurrentMonth}
       />

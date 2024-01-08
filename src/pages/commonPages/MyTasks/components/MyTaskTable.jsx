@@ -80,7 +80,7 @@ const MyTaskTable = ({ data, getData }) => {
                     ?.map?.((item, index) => (
                       <tr
                         data-aos="fade-up"
-                        data-aos-offset="100"
+                        data-aos-offset="70"
                         data-aos-delay={100 + index * 10}
                         key={item?.id}
                         className="border"
@@ -187,7 +187,7 @@ const MyTaskTable = ({ data, getData }) => {
                     ?.map?.((item, index) => (
                       <tr
                         data-aos="fade-up"
-                        data-aos-offset="100"
+                        data-aos-offset="70"
                         data-aos-delay={100 + index * 10}
                         key={item?.id}
                         className="border"
