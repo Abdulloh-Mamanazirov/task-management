@@ -7,15 +7,13 @@ import { Box, Button, Popover } from "@mui/material";
 import { setTriggerGetSectors } from "../../../../redux";
 import EditModal from "./EditModal";
 
-const Table = ({ sectorDetails }) => {
+const Table = ({ users, sectorDetails }) => {
   Aos.init();
   const navigate = useNavigate();
   const { id } = useParams();
-  const [data, setData] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [editModal, setEditModal] = useState({ open: false, data: {} });
   const dispatch = useDispatch();
-  const status = sessionStorage.getItem("status");
 
   const open = Boolean(anchorEl);
 
@@ -34,21 +32,6 @@ const Table = ({ sectorDetails }) => {
         setAnchorEl(null);
       });
   }
-
-  async function getData() {
-    if (status === "director") {
-      const { data } = await axios.get(`/bolim/xodim/statistika/${id}/`);
-      setData(data);
-    } else if (status === "manager") {
-      const { data } = await axios.get(
-        `/bolim/xodim/statistika/${sessionStorage.getItem("sector_id")}/`
-      );
-      setData(data);
-    }
-  }
-  useEffect(() => {
-    getData();
-  }, [id]);
 
   function getStatsNumber(color, value, shape) {
     if (shape === "rectangle") {
@@ -94,7 +77,7 @@ const Table = ({ sectorDetails }) => {
               </tr>
             </thead>
             <tbody>
-              {data?.map?.((item, ind) => {
+              {users?.map?.((item, ind) => {
                 return (
                   <tr
                     key={ind}
