@@ -1,12 +1,17 @@
 import Aos from "aos";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Avatar, AvatarGroup, Checkbox, Dialog } from "@mui/material";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import {
+  Menu,
+  Avatar,
+  Dialog,
+  Select,
+  MenuItem,
+  InputLabel,
+  IconButton,
+  AvatarGroup,
+  FormControl,
+} from "@mui/material";
 
 const HomeTable = () => {
   Aos.init();
@@ -16,18 +21,31 @@ const HomeTable = () => {
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedStatusBolim, setSelectedStatusBolim] = useState("all");
 
+  const [deletingDetails, setDeletingDetails] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
   const handleChange = (event) => {
     setSelectedStatus(event.target.value);
   };
   const handleChangeBolim = (event) => {
     setSelectedStatusBolim(event.target.value);
   };
+
   async function getData() {
     let response = await axios.get("/all/tasks/");
     setData([
       ...response?.data?.manager_tasks,
       ...response?.data?.xodimlar_tasks,
     ]);
+  }
+
+  async function handleArchive() {
+    alert(
+      `Task from ${deletingDetails?._from} to ${deletingDetails?._to} with id ${deletingDetails?.id} is archived!`
+    );
+    setDeletingDetails(null);
+    setAnchorEl(null);
   }
 
   useEffect(() => {
@@ -263,7 +281,18 @@ const HomeTable = () => {
                           )}
                         </td>
                         <td className="border p-2">
-                          <Checkbox />
+                          <IconButton
+                            id="basic-button"
+                            aria-controls={open ? "basic-menu" : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? "true" : undefined}
+                            onClick={(e) => {
+                              setDeletingDetails(item);
+                              setAnchorEl(e.currentTarget);
+                            }}
+                          >
+                            <span className="fa-solid fa-ellipsis-vertical px-2" />
+                          </IconButton>
                         </td>
                       </tr>
                     ))
@@ -379,7 +408,18 @@ const HomeTable = () => {
                           )}
                         </td>
                         <td className="border p-2">
-                          <Checkbox />
+                          <IconButton
+                            id="basic-button"
+                            aria-controls={open ? "basic-menu" : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? "true" : undefined}
+                            onClick={(e) => {
+                              setDeletingDetails(item);
+                              setAnchorEl(e.currentTarget);
+                            }}
+                          >
+                            <span className="fa-solid fa-ellipsis-vertical px-2" />
+                          </IconButton>
                         </td>
                       </tr>
                     ))
@@ -394,6 +434,8 @@ const HomeTable = () => {
           </table>
         </div>
       </div>
+
+      {/* images modal */}
       <Dialog
         open={modal.open}
         onClose={() => setModal({ open: false, data: null })}
@@ -406,7 +448,7 @@ const HomeTable = () => {
             return (
               <div className="cursor-pointer" key={item.id}>
                 <img
-                  alt="salom"
+                  alt="task image"
                   key={item.id}
                   src={`https://xodim.pythonanywhere.com/` + item?.photo}
                 />
@@ -415,6 +457,19 @@ const HomeTable = () => {
           })}
         </div>
       </Dialog>
+
+      {/* archive dropdown */}
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={() => setAnchorEl(null)}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={() => handleArchive()}>Arxivlash</MenuItem>
+      </Menu>
     </div>
   );
 };
