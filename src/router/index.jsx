@@ -10,7 +10,6 @@ import {
   Toolbar,
   ListItem,
   Accordion,
-  Typography,
   IconButton,
   CssBaseline,
   ListItemIcon,
@@ -24,6 +23,7 @@ import { useSelector } from "react-redux";
 import { Link, Route, Routes } from "react-router-dom";
 import { CreateModal } from "../pages/commonPages/Sectors/components";
 import { manager_routes, director_routes, employee_routes } from "./routes";
+import { Currency } from "../components";
 
 const drawerWidth = 240;
 
@@ -154,9 +154,7 @@ function index() {
             >
               <span className="fa-solid fa-bars" />
             </IconButton>
-            <Typography variant="h6" noWrap component="div">
-              Company
-            </Typography>
+            <Currency />
           </div>
           <div className="ml-auto">
             <IconButton color="primary" size="large">
