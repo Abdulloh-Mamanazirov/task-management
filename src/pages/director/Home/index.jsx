@@ -39,7 +39,7 @@ const index = () => {
         </div>
       </div>
       <div data-aos="fade-up" data-aos-delay="600" data-aos-offset="0">
-        <HomeTable />
+        <HomeTable getStats={getData} />
       </div>
     </div>
   );

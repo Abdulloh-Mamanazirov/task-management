@@ -12,8 +12,9 @@ import {
   AvatarGroup,
   FormControl,
 } from "@mui/material";
+import { toast } from "react-toastify";
 
-const HomeTable = () => {
+const HomeTable = ({ getStats }) => {
   Aos.init();
   const [modal, setModal] = useState({ open: false, data: null });
   const [data, setData] = useState(null);
@@ -41,9 +42,14 @@ const HomeTable = () => {
   }
 
   async function handleArchive() {
-    alert(
-      `Task from ${deletingDetails?._from} to ${deletingDetails?._to} with id ${deletingDetails?.id} is archived!`
-    );
+    await axios
+      .patch(`/arxiv/task/${deletingDetails?.id}/`, deletingDetails)
+      .then(() => {
+        toast.success("Vazifa arxizlandi");
+        getData();
+        getStats();
+      })
+      .catch((err) => toast.error("Vazifani arxivlashda xatolik!"));
     setDeletingDetails(null);
     setAnchorEl(null);
   }
