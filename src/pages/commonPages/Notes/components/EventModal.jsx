@@ -40,7 +40,7 @@ export default function EventModal() {
   );
   const [time, setTime] = useState(
     selectedEvent
-      ? selectedEvent?.time
+      ? selectedEvent?.deadline?.slice(11, 16)
       : `${new Date().getHours()}:${new Date().getMinutes()}`
   );
   const [selectedLabel, setSelectedLabel] = useState(
@@ -58,6 +58,7 @@ export default function EventModal() {
     event.append("content", content);
     event.append("deadline", new Date(daySelected).toISOString());
     event.append("time", time);
+    event.append("label", selectedLabel);
     event.append("user", sessionStorage.getItem("user_id"));
 
     if (selectedEvent) {
@@ -136,9 +137,7 @@ export default function EventModal() {
                   type="time"
                   name="time"
                   onChange={(e) => {
-                    setTime(
-                      `${new Date(e).getHours()}:${new Date(e).getMinutes()}`
-                    );
+                    setTime(e.target.value);
                   }}
                 />
                 <span>{time}</span>

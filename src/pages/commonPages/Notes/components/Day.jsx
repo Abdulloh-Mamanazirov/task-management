@@ -13,7 +13,7 @@ const labelsClasses = [
   },
   {
     label: "Muhim",
-    color: "bg-orange-400",
+    color: "bg-orange-300",
   },
   {
     label: "O'rta",
