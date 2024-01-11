@@ -67,7 +67,6 @@ const MyTaskTable = ({ data, getData }) => {
                 <th className="border p-3">Qolgan kun(lar)</th>
                 <th className="border p-3">Xolati</th>
                 <th className="border p-3">Moliyaviy ko'mak</th>
-                <th className="border p-3">Arxivlash</th>
               </tr>
             </thead>
             <tbody>
@@ -165,9 +164,6 @@ const MyTaskTable = ({ data, getData }) => {
                           ) : (
                             <span className="fa-solid fa-x text-red-500" />
                           )}
-                        </td>
-                        <td className="border p-2">
-                          <Checkbox />
                         </td>
                       </tr>
                     ))

@@ -162,7 +162,7 @@ function index() {
                 <span className="fa-solid fa-circle-user" />
               </Link>
             </IconButton>
-            <Link to="/director/tasks">
+            <Link hidden={status === "xodim"} to="/director/tasks">
               <Button
                 variant="contained"
                 color="primary"
