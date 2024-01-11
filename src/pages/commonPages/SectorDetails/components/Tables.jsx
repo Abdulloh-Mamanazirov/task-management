@@ -83,7 +83,7 @@ const Table = ({ users, sectorDetails }) => {
                     <tr
                       key={ind}
                       data-aos="fade-up"
-                      data-aos-offset="100"
+                      data-aos-offset="70"
                       className="border"
                     >
                       <td className="border p-2">
