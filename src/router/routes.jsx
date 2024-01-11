@@ -11,6 +11,7 @@ import {
   EmployeeProfile,
   SectorDetails,
   Notes,
+  ArchivedTasks,
 } from "../pages";
 
 const director_routes = [
@@ -79,6 +80,14 @@ const director_routes = [
     title: "Mening qaydlarim",
     icon: <span className="fa-solid fa-calendar-check" />,
     element: <Notes />,
+    showInNav: true,
+  },
+  {
+    key: 11,
+    path: "/director/archived-tasks",
+    title: "Arxivlangan vazifalar",
+    icon: <span className="fa-solid fa-archive" />,
+    element: <ArchivedTasks />,
     showInNav: true,
   },
   {
