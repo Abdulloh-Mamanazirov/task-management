@@ -46,7 +46,7 @@ const HomeTable = ({ getStats }) => {
       _to: deletingDetails?.to_id,
       _from: deletingDetails?.from_id,
     };
-    return console.log(data);
+
     await axios
       .patch(`/arxiv/task/${deletingDetails?.id}/`, data)
       .then(() => {
