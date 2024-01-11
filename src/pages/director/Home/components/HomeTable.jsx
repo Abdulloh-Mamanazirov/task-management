@@ -42,8 +42,13 @@ const HomeTable = ({ getStats }) => {
   }
 
   async function handleArchive() {
+    const data = {
+      _to: deletingDetails?.to_id,
+      _from: deletingDetails?.from_id,
+    };
+    return console.log(data);
     await axios
-      .patch(`/arxiv/task/${deletingDetails?.id}/`, deletingDetails)
+      .patch(`/arxiv/task/${deletingDetails?.id}/`, data)
       .then(() => {
         toast.success("Vazifa arxizlandi");
         getData();
