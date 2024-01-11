@@ -12,15 +12,15 @@ const labelsClasses = [
   },
   {
     label: "Muhim",
-    color: "accent-purple-400",
+    color: "accent-orange-400",
   },
   {
     label: "O'rta",
-    color: "accent-sky-400",
+    color: "accent-green-400",
   },
   {
     label: "Muhim emas",
-    color: "accent-green-400",
+    color: "accent-sky-400",
   },
 ];
 
