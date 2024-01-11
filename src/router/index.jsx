@@ -95,7 +95,7 @@ function index() {
                       {sectors?.map((item, ind) => (
                         <li key={ind} className="my-2">
                           <Link
-                            className="font-normal "
+                            className="hover:underline decoration-gray-500"
                             to={`/${sessionStorage.getItem("status")}/sector/${
                               item?.id
                             }`}
