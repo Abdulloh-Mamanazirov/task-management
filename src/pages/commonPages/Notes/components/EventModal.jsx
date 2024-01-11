@@ -135,14 +135,13 @@ export default function EventModal() {
                   required
                   type="time"
                   name="time"
-                  value={time}
                   onChange={(e) => {
-                    console.log(e.target.value);
                     setTime(
                       `${new Date(e).getHours()}:${new Date(e).getMinutes()}`
                     );
                   }}
                 />
+                <span>{time}</span>
               </div>
             </div>
             <textarea
