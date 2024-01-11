@@ -59,48 +59,56 @@ const index = () => {
   }
 
   function scrollWrapper() {
-    setInterval(() => {
+    setTimeout(() => {
       currencyWrapper.current.childNodes[0].classList.remove("hidden");
       currencyWrapper.current.childNodes[1].classList.add("hidden");
       currencyWrapper.current.childNodes[2].classList.add("hidden");
-    }, 3000);
-    setInterval(() => {
+    }, 4000);
+    setTimeout(() => {
       currencyWrapper.current.childNodes[0].classList.add("hidden");
       currencyWrapper.current.childNodes[1].classList.remove("hidden");
       currencyWrapper.current.childNodes[2].classList.add("hidden");
-    }, 6000);
-    setInterval(() => {
+    }, 8000);
+    setTimeout(() => {
       currencyWrapper.current.childNodes[0].classList.add("hidden");
       currencyWrapper.current.childNodes[1].classList.add("hidden");
       currencyWrapper.current.childNodes[2].classList.remove("hidden");
-    }, 9000);
+    }, 12000);
   }
   useEffect(() => {
+    setInterval(() => {
+      scrollWrapper();
+    }, 12000);
     scrollWrapper();
   }, []);
 
-  return (
-    <div ref={currencyWrapper} className="max-h-[66px] py-1 overflow-y-hidden">
-      <CurrencyCard
-        img={USA_flag}
-        title={USD?.Ccy}
-        rate={USD?.Rate}
-        diff={USD?.Diff}
-      />
-      <CurrencyCard
-        img={RU_flag}
-        title={RUB?.Ccy}
-        rate={RUB?.Rate}
-        diff={RUB?.Diff}
-      />
-      <CurrencyCard
-        img={EURO_flag}
-        title={EUR?.Ccy}
-        rate={EUR?.Rate}
-        diff={EUR?.Diff}
-      />
-    </div>
-  );
+  if (USD?.Ccy) {
+    return (
+      <div
+        ref={currencyWrapper}
+        className="max-h-[66px] py-1 overflow-y-hidden"
+      >
+        <CurrencyCard
+          img={USA_flag}
+          title={USD?.Ccy}
+          rate={USD?.Rate}
+          diff={USD?.Diff}
+        />
+        <CurrencyCard
+          img={RU_flag}
+          title={RUB?.Ccy}
+          rate={RUB?.Rate}
+          diff={RUB?.Diff}
+        />
+        <CurrencyCard
+          img={EURO_flag}
+          title={EUR?.Ccy}
+          rate={EUR?.Rate}
+          diff={EUR?.Diff}
+        />
+      </div>
+    );
+  }
 };
 
 export default index;
