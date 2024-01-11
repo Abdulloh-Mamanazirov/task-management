@@ -269,9 +269,6 @@ const MyTaskTable = ({ data, getData }) => {
                             <span className="fa-solid fa-x text-red-500" />
                           )}
                         </td>
-                        <td className="border p-2">
-                          <Checkbox />
-                        </td>
                       </tr>
                     ))
                 : new Array(2).fill(null).map((_, ind) => (
