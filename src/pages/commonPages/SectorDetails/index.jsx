@@ -40,7 +40,7 @@ const index = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [id]);
 
   return (
     <div>
