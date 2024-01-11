@@ -163,9 +163,10 @@ function index() {
               </Link>
             </IconButton>
             <Link
-              hidden={status === "xodim"}
-              to="/director/tasks"
-              className="hidden sm:inline-block"
+              to={`/${status}/tasks`}
+              className={`hidden ${
+                status === "xodim" ? "hidden" : "sm:inline-block"
+              }`}
             >
               <Button
                 variant="contained"

@@ -44,6 +44,10 @@ export default function SignIn() {
         sessionStorage.setItem("status", jwtDecode(res?.data?.access).status);
         sessionStorage.setItem("user_id", jwtDecode(res?.data?.access).user_id);
         sessionStorage.setItem("sector_id", jwtDecode(res?.data?.access).bolim);
+        sessionStorage.setItem(
+          "is_assigned_as_director",
+          res?.data?.is_assigned_as_director
+        );
         window.location.replace("/");
       })
       .catch((err) => {

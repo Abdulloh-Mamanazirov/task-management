@@ -28,9 +28,12 @@ const index = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [promoteAnchorEl, setPromoteAnchorEl] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
+  const [promotionId, setPromotionId] = useState(null);
   const { sectors } = useSelector((state) => state.sector);
   const open = Boolean(anchorEl);
+  const promote_open = Boolean(promoteAnchorEl);
 
   async function getData() {
     if (status === "manager") {
@@ -68,6 +71,22 @@ const index = () => {
       .finally(() => {
         setDeleteId(null);
         setAnchorEl(null);
+      });
+  }
+
+  async function handlePromote() {
+    await axios
+      .patch(`/assigned/${promotionId}/`)
+      .then((res) => {
+        if (res.status === 200) {
+          getData();
+          toast.success("Xodim saylandi!");
+        }
+      })
+      .catch(() => toast.error("Nimadadir xatolik ketdi!"))
+      .finally(() => {
+        setPromotionId(null);
+        setPromoteAnchorEl(null);
       });
   }
 
@@ -156,6 +175,17 @@ const index = () => {
                           >
                             <span className="fa-solid fa-bars text-green-500 text-2xl" />
                           </Link>
+                          {status === "director" && (
+                            <IconButton
+                              color="success"
+                              onClick={(event) => {
+                                setPromoteAnchorEl(event.currentTarget);
+                                setPromotionId(item?.user?.id);
+                              }}
+                            >
+                              <span className="fa-solid fa-arrow-up" />
+                            </IconButton>
+                          )}
                         </div>
                       </TableCell>
                     </TableRow>
@@ -228,6 +258,44 @@ const index = () => {
               onClick={() => handleDelete()}
               variant="contained"
               color="error"
+              size="small"
+            >
+              Ha
+            </Button>
+          </div>
+        </Box>
+      </Popover>
+
+      {/* promotion confirm */}
+      <Popover
+        open={promote_open}
+        anchorEl={promoteAnchorEl}
+        onClose={() => setPromoteAnchorEl(null)}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+      >
+        <Box sx={{ padding: "5px 10px" }}>
+          <div className="flex items-start gap-2">
+            <span className="fa-solid fa-arrow-up text-green-500" />
+            <p className="text-lg font-medium">
+              Xodimga direktor <br /> maqomini bermoqchimisiz?
+            </p>
+          </div>
+          <div className="flex items-center justify-end gap-3">
+            <Button
+              onClick={() => setPromoteAnchorEl(null)}
+              variant="outlined"
+              color="primary"
+              size="small"
+            >
+              Yo'q
+            </Button>
+            <Button
+              onClick={() => handlePromote()}
+              variant="contained"
+              color="success"
               size="small"
             >
               Ha

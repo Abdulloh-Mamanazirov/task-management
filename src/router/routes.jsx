@@ -106,6 +106,14 @@ const director_routes = [
 
 const manager_routes = [
   {
+    key: 10,
+    path: "/stats",
+    title: "Korxona statistikasi",
+    icon: <span className="fa-solid fa-pie-chart" />,
+    element: <DirectorHome />,
+    showInNav: sessionStorage.getItem("is_assigned_as_director") === "true",
+  },
+  {
     key: 0,
     path: "/",
     title: "Bosh sahifa",
@@ -180,6 +188,14 @@ const manager_routes = [
 ];
 
 const employee_routes = [
+  {
+    key: 6,
+    path: "/stats",
+    title: "Korxona statistikasi",
+    icon: <span className="fa-solid fa-pie-chart" />,
+    element: <DirectorHome />,
+    showInNav: sessionStorage.getItem("is_assigned_as_director") === "true",
+  },
   {
     key: 0,
     path: "/",
