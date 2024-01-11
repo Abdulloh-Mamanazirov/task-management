@@ -1,5 +1,6 @@
 import Sectors from "./Sectors";
 import SectorDetails from "./SectorDetails";
+import ArchivedTasks from "./ArchivedTasks";
 import Employees from "./Employees";
 import EmployeeProfile from "./EmployeeProfile";
 import CreateTask from "./CreateTask";
@@ -14,6 +15,7 @@ export {
   Employees,
   MyProfile,
   CreateTask,
+  ArchivedTasks,
   SectorDetails,
   EmployeeProfile,
 };
