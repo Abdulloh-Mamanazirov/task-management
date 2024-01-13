@@ -24,8 +24,66 @@ import { Link, Route, Routes } from "react-router-dom";
 import { CreateModal } from "../pages/commonPages/Sectors/components";
 import { manager_routes, director_routes, employee_routes } from "./routes";
 import { Currency } from "../components";
+import { toast } from "react-toastify";
 
 const drawerWidth = 240;
+
+function SidebarTop() {
+  const [logo, setLogo] = useState(null);
+
+  async function getLogo() {
+    await axios.get(`/company/logo/`).then((res) => {
+      setLogo(res?.data?.[res?.data?.length - 1]);
+    });
+  }
+
+  useEffect(() => {
+    getLogo();
+  }, []);
+
+  async function handleLogoUpload(image) {
+    if (!image) return;
+    const formData = new FormData();
+    formData.append("image", image);
+    await axios
+      .post(`/company/logo/`, formData)
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success("Rasm yuklandi");
+          getLogo();
+        }
+      })
+      .catch((err) => toast.error("Nimadadir xatolik ketdi!"));
+  }
+
+  return (
+    <Toolbar className="relative group">
+      <label
+        role={"button"}
+        htmlFor="image-upload"
+        className="group-hover:translate-x-0 absolute left-0 h-full border border-primary rounded-md bg-primary/10 backdrop-blur px-2 -translate-x-7 transition-all inline-flex items-center justify-center"
+      >
+        <span className="fa-solid fa-upload" />
+        <input
+          type="file"
+          id="image-upload"
+          onChange={(e) => handleLogoUpload(e.target.files[0])}
+          className="absolute overflow-hidden bottom-0 left-0 h-1 w-1 whitespace-nowrap"
+          style={{ clip: "rect(0 0 0 0)", clipPath: "inset(50%)" }}
+        />
+      </label>
+      <img
+        src={
+          logo
+            ? "https://xodim.pythonanywhere.com" + logo?.image
+            : "https://www.logodesign.net/logo/line-art-house-roof-and-buildings-4485ld.png"
+        }
+        alt="company logo"
+        className="h-[66px] w-full object-contain mx-auto"
+      />
+    </Toolbar>
+  );
+}
 
 function index() {
   const [sectors, setSectors] = useState([]);
@@ -60,13 +118,7 @@ function index() {
 
   const drawer = (
     <div className="h-screen flex flex-col">
-      <Toolbar>
-        <img
-          src="https://www.logodesign.net/logo/line-art-house-roof-and-buildings-4485ld.png"
-          alt="company logo"
-          className="w-24 mx-auto"
-        />
-      </Toolbar>
+      <SidebarTop />
       <Divider />
       <List>
         {routes
