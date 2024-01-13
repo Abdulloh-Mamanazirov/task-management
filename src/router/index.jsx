@@ -30,6 +30,7 @@ const drawerWidth = 240;
 
 function SidebarTop() {
   const [logo, setLogo] = useState(null);
+  const status = sessionStorage.getItem("status");
 
   async function getLogo() {
     await axios.get(`/company/logo/`).then((res) => {
@@ -58,20 +59,22 @@ function SidebarTop() {
 
   return (
     <Toolbar className="relative group">
-      <label
-        role={"button"}
-        htmlFor="image-upload"
-        className="group-hover:translate-x-0 absolute left-0 h-full border border-primary rounded-md bg-primary/10 backdrop-blur px-2 -translate-x-7 transition-all inline-flex items-center justify-center"
-      >
-        <span className="fa-solid fa-upload" />
-        <input
-          type="file"
-          id="image-upload"
-          onChange={(e) => handleLogoUpload(e.target.files[0])}
-          className="absolute overflow-hidden bottom-0 left-0 h-1 w-1 whitespace-nowrap"
-          style={{ clip: "rect(0 0 0 0)", clipPath: "inset(50%)" }}
-        />
-      </label>
+      {status !== "xodim" && (
+        <label
+          role={"button"}
+          htmlFor="image-upload"
+          className="group-hover:translate-x-0 absolute left-0 h-full border border-primary rounded-md bg-primary/10 backdrop-blur px-2 -translate-x-7 transition-all inline-flex items-center justify-center"
+        >
+          <span className="fa-solid fa-upload" />
+          <input
+            type="file"
+            id="image-upload"
+            onChange={(e) => handleLogoUpload(e.target.files[0])}
+            className="absolute overflow-hidden bottom-0 left-0 h-1 w-1 whitespace-nowrap"
+            style={{ clip: "rect(0 0 0 0)", clipPath: "inset(50%)" }}
+          />
+        </label>
+      )}
       <img
         src={
           logo
