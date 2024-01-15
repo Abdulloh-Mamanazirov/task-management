@@ -51,7 +51,7 @@ export default function SignIn() {
         window.location.replace("/");
       })
       .catch((err) => {
-        if (err.response.status === 401)
+        if (err.response?.status === 401)
           toast.error("Username yoki parol xato!");
         else toast.error("Nimadadir xatolik ketdi!");
       })
@@ -102,7 +102,7 @@ export default function SignIn() {
               startIcon={
                 <span
                   hidden={!loading}
-                  className="fa-solid fa-spinner fa-spin"
+                  className="fa-solid fa-spinner fa-spin-pulse"
                 />
               }
               type="submit"
