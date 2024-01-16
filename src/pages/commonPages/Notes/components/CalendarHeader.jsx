@@ -19,7 +19,7 @@ export default function CalendarHeader() {
   return (
     <header className="px-4 py-2 flex items-center justify-center">
       <button onClick={handleReset} className="border rounded py-2 px-4 mr-5">
-        Bugunga qaytish
+        Bugun<span className="hidden md:inline-block">ga qaytish</span>
       </button>
       <button
         onClick={handlePrevMonth}
