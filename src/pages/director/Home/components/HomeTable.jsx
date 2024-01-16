@@ -20,8 +20,11 @@ const HomeTable = ({ getStats }) => {
   const [data, setData] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedStatusBolim, setSelectedStatusBolim] = useState("all");
+  const [selectedStatusFrom, setSelectedStatusFrom] = useState("all");
   const [deletingDetails, setDeletingDetails] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [sortField, setSortField] = useState(null);
+  const [sortFieldCreate, setSortFieldCreate] = useState(null);
   const open = Boolean(anchorEl);
   const status = sessionStorage.getItem("status");
 
@@ -30,6 +33,9 @@ const HomeTable = ({ getStats }) => {
   };
   const handleChangeBolim = (event) => {
     setSelectedStatusBolim(event.target.value);
+  };
+  const handleChangeFrom = (event) => {
+    setSelectedStatusFrom(event.target.value);
   };
 
   async function getData() {
@@ -75,29 +81,49 @@ const HomeTable = ({ getStats }) => {
     return diffDays < 0 ? diffDays : diffDays + 1;
   }
 
+  function compareDeadlines(a, b) {
+    const dateA = new Date(a.deadline);
+    const dateB = new Date(b.deadline);
+
+    if (sortField === "deadline") {
+      return dateA - dateB;
+    }
+
+    return 0;
+  }
+  function compareCreated(a, b) {
+    const dateA = new Date(a.created_day);
+    const dateB = new Date(b.created_day);
+    if (sortFieldCreate === "created_day") {
+      return dateA - dateB;
+    }
+    return 0;
+    // return dateA - dateB;
+    // return 0;
+  }
   const getStatus = (status) => {
     if (status === "finished") {
       return (
         <div className="border-4 border-custom-green bg-custom-light-green rounded-full px-3 py-[1px]">
-          Bajarildi
+          <span className="hidden md:inline-block ">Bajarildi</span>
         </div>
       );
     } else if (status === "doing") {
       return (
         <div className="border-4 border-custom-yellow bg-custom-light-yellow rounded-full px-3 py-[1px]">
-          Jarayonda
+          <span className="hidden md:inline-block ">Jarayonda</span>
         </div>
       );
     } else if (status === "missed") {
       return (
         <div className="border-4 border-custom-red bg-custom-light-red rounded-full px-3 py-[1px]">
-          Bajarilmadi
+          <span className="hidden md:inline-block ">Bajarilmadi</span>
         </div>
       );
     } else if (status === "canceled") {
       return (
         <div className="border-4 border-gray-500 bg-gray-200 rounded-full px-3 py-[1px] whitespace-nowrap">
-          Bekor qilindi
+          <span className="hidden md:inline-block"> Bekor qilindi</span>
         </div>
       );
     } else {
@@ -154,12 +180,49 @@ const HomeTable = ({ getStats }) => {
                     </Select>
                   </FormControl>
                 </th>
-                <th className="border p-3">Topshiriq</th>
-                <th className="border p-3">Sabab</th>
-                <th className="border p-3">Tadbir</th>
-                <th className="border p-3">Mas'ul</th>
-                <th className="border p-3 w-32">Muddat</th>
-                <th className="border p-3">Jami muddat</th>
+                <th className="border p-3">Muammo</th>
+                <th className="border p-3">Yechim</th>
+                <th className="border p-3">
+                  <FormControl fullWidth size="small">
+                    <InputLabel id="demo-simple-select-label">
+                      Ma'sul
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      label="Ma'sul"
+                      id="demo-simple-select"
+                      value={selectedStatusFrom}
+                      onChange={handleChangeFrom}
+                    >
+                      <MenuItem value={"all"}>Barchasi</MenuItem>
+                      {Array.isArray(data) &&
+                        [
+                          ...new Set(
+                            data.map(
+                              (item) => item?.first_name + " " + item?.last_name
+                            )
+                          ),
+                        ].map((s, i) => (
+                          <MenuItem key={i} value={s}>
+                            {s}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+                </th>
+                <th className="border p-3 w-32">
+                  Muddat
+                  <span
+                    className="fa-solid fa-sort pl-3"
+                    role="button"
+                    onClick={() => {
+                      setSortField(
+                        sortField !== "deadline" ? "deadline" : null
+                      );
+                    }}
+                  />
+                </th>
+                <th className="border p-3 w-32">Jami Muddat</th>
                 <th className="border p-3">Qolgan kun(lar)</th>
                 <th className="border p-3">
                   <FormControl fullWidth size="small">
@@ -203,6 +266,14 @@ const HomeTable = ({ getStats }) => {
                         ? true
                         : item.status === selectedStatus
                     )
+                    .filter((item) =>
+                      selectedStatusFrom === "all"
+                        ? true
+                        : item?.first_name + " " + item?.last_name ===
+                          selectedStatusFrom
+                    )
+                    .sort(compareDeadlines)
+                    .sort(compareCreated)
                     .filter((item) => findDiffFromNow(item?.deadline) < 30)
                     .map((item, index) => (
                       <tr
@@ -215,6 +286,7 @@ const HomeTable = ({ getStats }) => {
                         <td className="border p-2 min-w-[100px]">
                           {item?.bolim}
                         </td>
+                        <td className="border p-2">{item?.reason}</td>
                         <td className="border px-2 max-w-md">
                           {item?.text?.[0]?.text
                             .replaceAll("[", "")
@@ -262,8 +334,6 @@ const HomeTable = ({ getStats }) => {
                             </AvatarGroup>
                           </div>
                         </td>
-                        <td className="border p-2">{item?.reason}</td>
-                        <td className="border p-2">{item?.event}</td>
                         <td className="border p-2">
                           {item?.first_name + " " + item?.last_name}
                         </td>
@@ -330,11 +400,18 @@ const HomeTable = ({ getStats }) => {
                         ? true
                         : item.status === selectedStatus
                     )
+                    .filter((item) =>
+                      selectedStatusFrom === "all"
+                        ? true
+                        : item?.first_name + " " + item?.last_name ===
+                          selectedStatusFrom
+                    )
+                    .sort(compareDeadlines)
                     ?.filter?.((item) => findDiffFromNow(item?.deadline) > 30)
                     ?.map?.((item, index) => (
                       <tr
                         data-aos="fade-up"
-                        data-aos-offset="70"
+                        data-aos-offset="30"
                         key={item?.id}
                         className="border"
                       >
@@ -342,6 +419,7 @@ const HomeTable = ({ getStats }) => {
                         <td className="border p-2 min-w-[100px]">
                           {item?.bolim}
                         </td>
+                        <td className="border p-2">{item?.reason}</td>{" "}
                         <td className="border px-2 max-w-md">
                           {item?.text?.[0]?.text
                             .replaceAll("[", "")
@@ -389,8 +467,6 @@ const HomeTable = ({ getStats }) => {
                             </AvatarGroup>
                           </div>
                         </td>
-                        <td className="border p-2">{item?.reason}</td>{" "}
-                        <td className="border p-2">{item?.event}</td>
                         <td className="border p-2">
                           {item?.first_name + " " + item?.last_name}
                         </td>
