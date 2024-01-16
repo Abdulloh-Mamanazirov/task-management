@@ -20,7 +20,7 @@ function App() {
 
       <div className="h-[calc(100vh-80px)] flex flex-col">
         <CalendarHeader />
-        <div className="flex flex-1">
+        <div className="flex flex-1 flex-col pb-10 md:mb-0 md:items-stretch md:flex-row">
           <Sidebar />
           <Month month={currenMonth} />
         </div>
