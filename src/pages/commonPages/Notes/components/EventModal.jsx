@@ -133,7 +133,7 @@ export default function EventModal() {
               <div className="flex items-center gap-3">
                 <span className="fa-solid fa-clock text-gray-400" />
                 <input
-                  required
+                  required={!selectedEvent?.deadline}
                   type="time"
                   name="time"
                   onChange={(e) => {
@@ -156,6 +156,7 @@ export default function EventModal() {
               {labelsClasses.map((lblClass, i) => (
                 <div className="flex flex-col items-center">
                   <input
+                    defaultChecked={lblClass.label === selectedEvent?.label}
                     type={"radio"}
                     key={i}
                     required
