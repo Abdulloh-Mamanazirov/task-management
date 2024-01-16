@@ -18,13 +18,12 @@ const HomeTable = ({ getStats }) => {
   Aos.init();
   const [modal, setModal] = useState({ open: false, data: null });
   const [data, setData] = useState(null);
-
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedStatusBolim, setSelectedStatusBolim] = useState("all");
-
   const [deletingDetails, setDeletingDetails] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const status = sessionStorage.getItem("status");
 
   const handleChange = (event) => {
     setSelectedStatus(event.target.value);
@@ -183,7 +182,9 @@ const HomeTable = ({ getStats }) => {
                   </FormControl>
                 </th>
                 <th className="border p-3">Moliyaviy ko'mak</th>
-                <th className="border p-3">Arxivlash</th>
+                <th hidden={status !== "admin"} className="border p-3">
+                  Arxivlash
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -291,7 +292,7 @@ const HomeTable = ({ getStats }) => {
                             <span className="fa-solid fa-x text-red-500" />
                           )}
                         </td>
-                        <td className="border p-2">
+                        <td hidden={status !== "admin"} className="border p-2">
                           <IconButton
                             id="basic-button"
                             aria-controls={open ? "basic-menu" : undefined}
@@ -309,13 +310,13 @@ const HomeTable = ({ getStats }) => {
                     ))
                 : new Array(2).fill(null).map((_, ind) => (
                     <tr key={ind} className="border">
-                      <td className="border p-2 text-center" colSpan={11}>
+                      <td className="border p-2 text-center" colSpan={10}>
                         Bo'sh
                       </td>
                     </tr>
                   ))}
               <tr className="bg-dark-blue text-white">
-                <td colSpan={12}>Uzoq muddatli</td>
+                <td colSpan={11}>Uzoq muddatli</td>
               </tr>
               {Array.isArray(data)
                 ? data
@@ -418,7 +419,7 @@ const HomeTable = ({ getStats }) => {
                             <span className="fa-solid fa-x text-red-500" />
                           )}
                         </td>
-                        <td className="border p-2">
+                        <td hidden={status !== "admin"} className="border p-2">
                           <IconButton
                             id="basic-button"
                             aria-controls={open ? "basic-menu" : undefined}
