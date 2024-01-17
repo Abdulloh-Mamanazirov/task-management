@@ -19,16 +19,17 @@ import {
   AccordionSummary,
 } from "@mui/material";
 import { Login } from "../pages";
-import { useSelector } from "react-redux";
-import { Link, Route, Routes } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { CreateModal } from "../pages/commonPages/Sectors/components";
 import { manager_routes, director_routes, employee_routes } from "./routes";
 import { Currency } from "../components";
 import { toast } from "react-toastify";
+import { setSectors as setSectorsRedux } from "../redux";
 
 const drawerWidth = 240;
 
-function SidebarTop() {
+function SidebarTop({ handleCloseDrawer }) {
   const [logo, setLogo] = useState(null);
   const status = sessionStorage.getItem("status");
 
@@ -84,16 +85,24 @@ function SidebarTop() {
         alt="company logo"
         className="h-[66px] w-full object-contain mx-auto"
       />
+      <button
+        onClick={handleCloseDrawer}
+        className="absolute right-1 block sm:hidden"
+      >
+        <span className="fa-solid fa-chevron-left" />
+      </button>
     </Toolbar>
   );
 }
 
 function index() {
+  const { pathname } = useLocation();
   const [sectors, setSectors] = useState([]);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [status, setStatus] = useState("");
   const [routes, setRoutes] = useState([]);
   const state = useSelector((state) => state.sector);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const status = sessionStorage.getItem("status");
@@ -106,6 +115,10 @@ function index() {
     if (status === "manager") setRoutes(manager_routes);
     if (status === "xodim") setRoutes(employee_routes);
   }, [status]);
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   if (!status) return <Login />;
 
@@ -121,7 +134,7 @@ function index() {
 
   const drawer = (
     <div className="h-screen flex flex-col">
-      <SidebarTop />
+      <SidebarTop handleCloseDrawer={handleDrawerToggle} />
       <Divider />
       <List>
         {routes
@@ -185,6 +198,7 @@ function index() {
   async function getSectors() {
     const response = await axios.get("bolim/");
     setSectors(response?.data);
+    dispatch(setSectorsRedux(response?.data));
   }
 
   return (

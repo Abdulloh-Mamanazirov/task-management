@@ -22,7 +22,10 @@ const Create = () => {
     formData.append("deadline", task.deadline);
     formData.append("_to", task._to);
     await axios
-      .patch(status === "manager" ? "/task/" : "/task/to_manager/", formData)
+      .patch(
+        task._to_status === "xodim" ? "/task/" : "/task/to_manager/",
+        formData
+      )
       .then((res) => {
         if (res?.data?.id) {
           toast.success("Vazifa yuklandi!");

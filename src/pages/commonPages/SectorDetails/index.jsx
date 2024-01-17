@@ -1,6 +1,7 @@
 import Aos from "aos";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Pie, Rating, Stats, Tables } from "./components";
 
@@ -11,6 +12,7 @@ const index = () => {
   const [usersData, setUsersData] = useState(null);
   const status = sessionStorage.getItem("status");
   const sector_id = sessionStorage.getItem("sector_id");
+  const sectors = useSelector((state) => state.sector.sectors);
 
   async function getData() {
     if (id) {
@@ -41,22 +43,41 @@ const index = () => {
   useEffect(() => {
     getData();
   }, [id]);
-console.log(data);
+
   return (
     <div>
       <div data-aos="fade-up" data-aos-delay="600">
         <Stats data={data} />
       </div>
+      {sectors?.length > 0 && (
+        <h2 className="text-center text-2xl mt-2">
+          <span className="uppercase">
+            {
+              sectors?.find?.((sector) =>
+                id ? sector?.id == id : sector?.id == sector_id
+              )?.name
+            }
+          </span>{" "}
+          <span>bo'limi</span>
+        </h2>
+      )}
       <div
         data-aos="fade-up"
         data-aos-delay="600"
-        className="mx-auto h-96 my-5 grid md:grid-cols-2 items-start"
+        className="mx-auto my-5 grid md:grid-cols-2 items-start"
       >
-        <Pie data={data} />
+        <div className="h-96">
+          <Pie data={data} />
+        </div>
         <Rating users={usersData} />
       </div>
       <div>
-        <Tables users={usersData} />
+        <Tables
+          users={usersData}
+          sectorDetails={sectors?.find?.((sector) =>
+            id ? sector?.id == id : sector?.id == sector_id
+          )}
+        />
       </div>
     </div>
   );

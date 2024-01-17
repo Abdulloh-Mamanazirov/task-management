@@ -1,7 +1,7 @@
 import Aos from "aos";
 import axios from "axios";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, Popover } from "@mui/material";
 import { setTriggerGetSectors } from "../../../../redux";
