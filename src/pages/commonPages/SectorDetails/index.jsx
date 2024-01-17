@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Pie, Rating, Tables } from "./components";
+import { Pie, Rating, Stats, Tables } from "./components";
 
 const index = () => {
   Aos.init();
@@ -15,7 +15,7 @@ const index = () => {
   const sectors = useSelector((state) => state.sector.sectors);
 
   async function getData() {
-    if (status === "director") {
+    if (id) {
       let response = await axios.get(`/bolim/statistika/${id}/`);
       setData(response?.data);
     } else {
@@ -25,7 +25,7 @@ const index = () => {
   }
 
   async function getUsersData() {
-    if (status === "director") {
+    if (id) {
       const { data } = await axios.get(`/bolim/xodim/statistika/${id}/`);
       setUsersData(data);
     } else if (status === "manager") {
@@ -46,6 +46,9 @@ const index = () => {
 
   return (
     <div>
+      <div data-aos="fade-up" data-aos-delay="600">
+        <Stats data={data} />
+      </div>
       {sectors?.length > 0 && (
         <h2 className="text-center text-2xl mt-2">
           <span className="uppercase">

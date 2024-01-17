@@ -58,9 +58,8 @@ const MyTaskTable = ({ data, getData }) => {
             <thead className="bg-[#F3C206]">
               <tr className="border">
                 <th className="border p-3">No_</th>
-                <th className="border p-3">Topshiriq</th>
                 <th className="border p-3">Sabab</th>
-                <th className="border p-3">Tadbir</th>
+                <th className="border p-3">Yechim</th>
                 <th className="border p-3">Mas'ul</th>
                 <th className="border p-3 w-32">Muddat</th>
                 <th className="border p-3">Jami muddat</th>
@@ -85,6 +84,7 @@ const MyTaskTable = ({ data, getData }) => {
                         className="border"
                       >
                         <td className="border p-2">{index + 1}</td>
+                        <td className="border p-2">{item?.reason}</td>{" "}
                         <td className="border px-2 max-w-md">
                           {item?.text?.[0]?.text
                             .replaceAll("[", "")
@@ -132,8 +132,6 @@ const MyTaskTable = ({ data, getData }) => {
                             </AvatarGroup>
                           </div>
                         </td>
-                        <td className="border p-2">{item?.reason}</td>{" "}
-                        <td className="border p-2">{item?.event}</td>
                         <td className="border p-2">{item?._from}</td>
                         <td className="border p-2">{item?.deadline}</td>
                         <td className="border p-2">
@@ -189,6 +187,7 @@ const MyTaskTable = ({ data, getData }) => {
                         className="border"
                       >
                         <td className="border p-2">{index + 1}</td>
+                        <td className="border p-2">{item?.reason}</td>{" "}
                         <td className="border px-2 max-w-md">
                           {item?.text?.[0]?.text
                             .replaceAll("[", "")
@@ -236,8 +235,6 @@ const MyTaskTable = ({ data, getData }) => {
                             </AvatarGroup>
                           </div>
                         </td>
-                        <td className="border p-2">{item?.reason}</td>{" "}
-                        <td className="border p-2">{item?.event}</td>
                         <td className="border p-2">{item?._from}</td>
                         <td className="border p-2">{item?.deadline}</td>
                         <td className="border p-2">
