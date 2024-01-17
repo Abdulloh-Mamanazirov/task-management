@@ -34,7 +34,7 @@ const HomeTable = () => {
       ...response?.data?.xodim_arxiv,
     ]);
   }
-  console.log(data);
+
   useEffect(() => {
     getData();
   }, []);

@@ -76,7 +76,7 @@ export default function ContextWrapper(props) {
       const response = await axios.post("/qayd/", event);
       dispatchCalEvent({ type: "push", payload: response.data });
     } catch (error) {
-      console.error("Error creating event:", error);
+      return false;
     }
   }
 
@@ -85,7 +85,7 @@ export default function ContextWrapper(props) {
       const response = await axios.patch(`/qayd/edit/${event.id}`, event);
       dispatchCalEvent({ type: "update", payload: response.data });
     } catch (error) {
-      console.error("Error updating event:", error);
+      return false;
     }
   }
 
@@ -94,7 +94,7 @@ export default function ContextWrapper(props) {
       await axios.delete(`/qayd/edit/${id}`);
       dispatchCalEvent({ type: "delete", payload: { id } });
     } catch (error) {
-      console.error("Error deleting event:", error);
+      return false;
     }
   }
 
@@ -104,7 +104,7 @@ export default function ContextWrapper(props) {
         const response = await axios.get(`/qaydlar/${user_id}/`);
         dispatchCalEvent({ type: "set", payload: response.data });
       } catch (error) {
-        console.error("Error fetching data:", error);
+        return false;
       }
     };
 
