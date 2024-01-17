@@ -240,4 +240,79 @@ const employee_routes = [
   },
 ];
 
-export { director_routes, manager_routes, employee_routes };
+const admin_routes = [
+  {
+    key: 0,
+    path: "/",
+    title: "Bosh sahifa",
+    icon: <span className="fa-solid fa-home" />,
+    element: <DirectorHome />,
+    showInNav: true,
+  },
+  {
+    key: 1,
+    path: "/admin",
+    element: <DirectorHome />,
+    showInNav: false,
+  },
+  {
+    key: 3,
+    path: "/admin/managers",
+    title: "Menejerlar",
+    icon: <span className="fa-solid fa-user-tie" />,
+    element: <DirectorManagers />,
+    showInNav: true,
+  },
+  {
+    key: 4,
+    path: "/admin/employees",
+    title: "Xodimlar",
+    icon: <span className="fa-solid fa-user-group" />,
+    element: <Employees />,
+    showInNav: true,
+  },
+  {
+    key: 8,
+    path: "/admin/employees/:id",
+    element: <EmployeeProfile />,
+    showInNav: false,
+  },
+  {
+    key: 5,
+    path: "/admin/tasks",
+    title: "Vazifa yuklash",
+    icon: <span className="fa-solid fa-list-check" />,
+    element: <CreateTask />,
+    showInNav: true,
+  },
+  {
+    key: 10,
+    path: "/admin/my-notes",
+    title: "Mening qaydlarim",
+    icon: <span className="fa-solid fa-calendar-check" />,
+    element: <Notes />,
+    showInNav: true,
+  },
+  {
+    key: 11,
+    path: "/admin/archived-tasks",
+    title: "Arxivlangan vazifalar",
+    icon: <span className="fa-solid fa-archive" />,
+    element: <ArchivedTasks />,
+    showInNav: true,
+  },
+  {
+    key: 6,
+    path: "/my-profile",
+    element: <MyProfile />,
+    showInNav: false,
+  },
+  {
+    key: 7,
+    path: "/*",
+    element: <DirectorHome />,
+    showInNav: false,
+  },
+];
+
+export { director_routes, manager_routes, employee_routes, admin_routes };
