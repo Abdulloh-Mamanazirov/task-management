@@ -2,7 +2,7 @@ import Aos from "aos";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Pie, Rating, Tables } from "./components";
+import { Pie, Rating, Stats, Tables } from "./components";
 
 const index = () => {
   Aos.init();
@@ -13,7 +13,7 @@ const index = () => {
   const sector_id = sessionStorage.getItem("sector_id");
 
   async function getData() {
-    if (status === "director") {
+    if (id) {
       let response = await axios.get(`/bolim/statistika/${id}/`);
       setData(response?.data);
     } else {
@@ -23,7 +23,7 @@ const index = () => {
   }
 
   async function getUsersData() {
-    if (status === "director") {
+    if (id) {
       const { data } = await axios.get(`/bolim/xodim/statistika/${id}/`);
       setUsersData(data);
     } else if (status === "manager") {
@@ -41,9 +41,12 @@ const index = () => {
   useEffect(() => {
     getData();
   }, [id]);
-
+console.log(data);
   return (
     <div>
+      <div data-aos="fade-up" data-aos-delay="600">
+        <Stats data={data} />
+      </div>
       <div
         data-aos="fade-up"
         data-aos-delay="600"

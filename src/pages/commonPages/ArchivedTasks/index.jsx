@@ -1,29 +1,39 @@
+import {
+  Avatar,
+  AvatarGroup,
+  Dialog,
+  FormControl,
+  IconButton,
+  InputLabel,
+  Menu,
+  MenuItem,
+  Select
+} from "@mui/material";
 import Aos from "aos";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import {
-  Avatar,
-  Dialog,
-  Select,
-  MenuItem,
-  InputLabel,
-  AvatarGroup,
-  FormControl,
-} from "@mui/material";
 
 const HomeTable = () => {
   Aos.init();
   const [modal, setModal] = useState({ open: false, data: null });
   const [data, setData] = useState(null);
-
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedStatusBolim, setSelectedStatusBolim] = useState("all");
+  const [selectedStatusFrom, setSelectedStatusFrom] = useState("all");
+  const [sortField, setSortField] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [sortFieldCreate, setSortFieldCreate] = useState(null);
+  const open = Boolean(anchorEl);
+  const status = sessionStorage.getItem("status");
 
   const handleChange = (event) => {
     setSelectedStatus(event.target.value);
   };
   const handleChangeBolim = (event) => {
     setSelectedStatusBolim(event.target.value);
+  };
+  const handleChangeFrom = (event) => {
+    setSelectedStatusFrom(event.target.value);
   };
 
   async function getData() {
@@ -34,7 +44,7 @@ const HomeTable = () => {
       ...response?.data?.xodim_arxiv,
     ]);
   }
-  console.log(data);
+
   useEffect(() => {
     getData();
   }, []);
@@ -50,6 +60,27 @@ const HomeTable = () => {
     let date2 = new Date(deadline);
     let diffDays = parseInt((date2 - currentDate) / (1000 * 60 * 60 * 24), 10);
     return diffDays < 0 ? diffDays : diffDays + 1;
+  }
+
+  function compareDeadlines(a, b) {
+    const dateA = new Date(a.deadline);
+    const dateB = new Date(b.deadline);
+
+    if (sortField === "deadline") {
+      return dateA - dateB;
+    }
+
+    return 0;
+  }
+  function compareCreated(a, b) {
+    const dateA = new Date(a.created_day);
+    const dateB = new Date(b.created_day);
+    if (sortFieldCreate === "created_day") {
+      return dateA - dateB;
+    }
+    return 0;
+    // return dateA - dateB;
+    // return 0;
   }
 
   const getStatus = (status) => {
@@ -83,81 +114,130 @@ const HomeTable = () => {
   };
 
   return (
-    <>
-      <h2 className="text-2xl font-medium mt-6">
-        Arxivlangan topshiriqlar{" "}
-        <span className="block sm:hidden">({data?.length})</span>
-      </h2>
-      <div className="mt-6 overflow-x-auto max-w-[100vw] scrollbar-gutter">
-        <div className="hidden sm:block whitespace-nowrap my-1">
-          <h3>Arxivlangan topshiriqlar soni - {data?.length} ta</h3>
+    <div className="mt-16 overflow-x-auto max-w-[100vw] scrollbar-gutter">
+      <div className="hidden sm:flex justify-around gap-2 whitespace-nowrap">
+        <div className="ml-3">
+          <h3>Jami Tadbirlar soni - {data?.length} ta</h3>
         </div>
-        <div className="mb-2">
-          <div className="w-full">
-            <table className="w-full text-center border">
-              <thead className="bg-[#F3C206]">
-                <tr className="border">
-                  <th className="border p-3">No_</th>
-                  <th className="border p-3">
-                    <FormControl fullWidth size="small">
-                      <InputLabel id="demo-simple-select-label">
-                        Bolim
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        label="Bo'lim"
-                        id="demo-simple-select"
-                        value={selectedStatusBolim}
-                        onChange={handleChangeBolim}
-                      >
-                        <MenuItem value={"all"}>Barchasi</MenuItem>
-                        {Array.isArray(data) &&
-                          [...new Set(data.map((item) => item.bolim))].map(
-                            (uniqueValue, i) => (
-                              <MenuItem key={i} value={uniqueValue}>
-                                {uniqueValue}
-                              </MenuItem>
+        <div className="flex items-center">
+          <div className="bg-status-green text-white w-28 md:w-40 text-center ">
+            Bajarilgan
+          </div>
+          <div className="bg-status-red text-white w-28 md:w-40 text-center">
+            Bajarilmagan
+          </div>
+          <div className="bg-status-yellow w-28 md:w-40 text-center">
+            Jarayonda
+          </div>
+          <div className="bg-status-gray text-white w-28 md:w-40 text-center">
+            Bekor qilingan
+          </div>
+        </div>
+      </div>
+      <div className="mb-2 mt-5">
+        <div className="w-full">
+          <table className="w-full text-center border">
+            <thead className="bg-[#F3C206]">
+              <tr className="border">
+                <th className="border p-3">No_</th>
+                <th className="border p-3">
+                  <FormControl fullWidth size="small">
+                    <InputLabel id="demo-simple-select-label">Bolim</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      label="Bo'lim"
+                      id="demo-simple-select"
+                      value={selectedStatusBolim}
+                      onChange={handleChangeBolim}
+                    >
+                      <MenuItem value={"all"}>Barchasi</MenuItem>
+                      {Array.isArray(data) &&
+                        [...new Set(data.map((item) => item.bolim))].map(
+                          (uniqueValue, i) => (
+                            <MenuItem key={i} value={uniqueValue}>
+                              {uniqueValue}
+                            </MenuItem>
+                          )
+                        )}
+                    </Select>
+                  </FormControl>
+                </th>
+                <th className="border p-3">Muammo</th>
+                <th className="border p-3">Yechim</th>
+                <th className="border p-3">
+                  <FormControl fullWidth size="small">
+                    <InputLabel id="demo-simple-select-label">
+                      Ma'sul
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      label="Ma'sul"
+                      id="demo-simple-select"
+                      value={selectedStatusFrom}
+                      onChange={handleChangeFrom}
+                    >
+                      <MenuItem value={"all"}>Barchasi</MenuItem>
+                      {Array.isArray(data) &&
+                        [
+                          ...new Set(
+                            data.map(
+                              (item) => item?.first_name + " " + item?.last_name
                             )
-                          )}
-                      </Select>
-                    </FormControl>
-                  </th>
-                  <th className="border p-3">Topshiriq</th>
-                  <th className="border p-3">Sabab</th>
-                  <th className="border p-3">Tadbir</th>
-                  <th className="border p-3">Mas'ul</th>
-                  <th className="border p-3 w-32">Muddat</th>
-                  <th className="border p-3">Jami muddat</th>
-                  <th className="border p-3">Qolgan kun(lar)</th>
-                  <th className="border p-3">
-                    <FormControl fullWidth size="small">
-                      <InputLabel id="demo-simple-select-label">
-                        Xolati
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        label="Xolati"
-                        id="demo-simple-select"
-                        value={selectedStatus}
-                        onChange={handleChange}
-                      >
-                        <MenuItem value={"all"}>Barchasi</MenuItem>
-                        <MenuItem value={"finished"}>Bajarilgan</MenuItem>
-                        <MenuItem value={"missed"}>Bajarilmagan</MenuItem>
-                        <MenuItem value={"doing"}>Jarayonda</MenuItem>
-                        <MenuItem value={"canceled"}> Bekor qilingan</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </th>
-                  <th className="border p-3">Moliyaviy ko'mak</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="bg-dark-blue text-white">
-                  <td colSpan={12}>Qisqa muddatli</td>
-                </tr>
-                {Array.isArray(data) ? (
-                  data
+                          ),
+                        ].map((s, i) => (
+                          <MenuItem key={i} value={s}>
+                            {s}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+                </th>
+                <th className="border p-3 w-32">
+                  Muddat
+                  <span
+                    className="fa-solid fa-sort pl-3"
+                    role="button"
+                    onClick={() => {
+                      setSortField(
+                        sortField !== "deadline" ? "deadline" : null
+                      );
+                    }}
+                  />
+                </th>
+                <th className="border p-3 w-32">Jami Muddat</th>
+                <th className="border p-3">Qolgan kun(lar)</th>
+                <th className="border p-3">
+                  <FormControl fullWidth size="small">
+                    <InputLabel id="demo-simple-select-label">
+                      Xolati
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      label="Xolati"
+                      id="demo-simple-select"
+                      value={selectedStatus}
+                      onChange={handleChange}
+                    >
+                      <MenuItem value={"all"}>Barchasi</MenuItem>
+                      <MenuItem value={"finished"}>Bajarilgan</MenuItem>
+                      <MenuItem value={"missed"}>Bajarilmagan</MenuItem>
+                      <MenuItem value={"doing"}>Jarayonda</MenuItem>
+                      <MenuItem value={"canceled"}> Bekor qilingan</MenuItem>
+                    </Select>
+                  </FormControl>
+                </th>
+                <th className="border p-3">Moliyaviy ko'mak</th>
+                <th hidden={status !== "admin"} className="border p-3">
+                  Arxivlash
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="bg-dark-blue text-white">
+                <td colSpan={12}>Qisqa muddatli</td>
+              </tr>
+              {Array.isArray(data)
+                ? data
                     .filter((item) =>
                       selectedStatusBolim === "all"
                         ? true
@@ -168,6 +248,15 @@ const HomeTable = () => {
                         ? true
                         : item.status === selectedStatus
                     )
+                    .filter((item) =>
+                      selectedStatusFrom === "all"
+                        ? true
+                        : item?.first_name + " " + item?.last_name ===
+                          selectedStatusFrom
+                    )
+                    .sort(compareDeadlines)
+                    .sort(compareCreated)
+                    .filter((item) => findDiffFromNow(item?.deadline) < 30)
                     .map((item, index) => (
                       <tr
                         data-aos="fade-up"
@@ -179,6 +268,7 @@ const HomeTable = () => {
                         <td className="border p-2 min-w-[100px]">
                           {item?.bolim}
                         </td>
+                        <td className="border p-2">{item?.reason}</td>
                         <td className="border px-2 max-w-md">
                           {item?.text?.[0]?.text
                             .replaceAll("[", "")
@@ -226,8 +316,6 @@ const HomeTable = () => {
                             </AvatarGroup>
                           </div>
                         </td>
-                        <td className="border p-2">{item?.reason}</td>
-                        <td className="border p-2">{item?.event}</td>
                         <td className="border p-2">
                           {item?.first_name + " " + item?.last_name}
                         </td>
@@ -256,44 +344,203 @@ const HomeTable = () => {
                             <span className="fa-solid fa-x text-red-500" />
                           )}
                         </td>
+                        <td hidden={status !== "admin"} className="border p-2">
+                          <IconButton
+                            id="basic-button"
+                            aria-controls={open ? "basic-menu" : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? "true" : undefined}
+                            onClick={(e) => {
+                              setDeletingDetails(item);
+                              setAnchorEl(e.currentTarget);
+                            }}
+                          >
+                            <span className="fa-solid fa-ellipsis-vertical px-2" />
+                          </IconButton>
+                        </td>
                       </tr>
                     ))
-                ) : (
-                  <tr className="border">
-                    <td className="border p-2 text-center" colSpan={11}>
-                      Bo'sh
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
+                : new Array(2).fill(null).map((_, ind) => (
+                    <tr key={ind} className="border">
+                      <td className="border p-2 text-center" colSpan={10}>
+                        Bo'sh
+                      </td>
+                    </tr>
+                  ))}
+              <tr className="bg-dark-blue text-white">
+                <td colSpan={11}>Uzoq muddatli</td>
+              </tr>
+              {Array.isArray(data)
+                ? data
+                    .filter((item) =>
+                      selectedStatusBolim === "all"
+                        ? true
+                        : item.bolim === selectedStatusBolim
+                    )
+                    .filter((item) =>
+                      selectedStatus === "all"
+                        ? true
+                        : item.status === selectedStatus
+                    )
+                    .filter((item) =>
+                      selectedStatusFrom === "all"
+                        ? true
+                        : item?.first_name + " " + item?.last_name ===
+                          selectedStatusFrom
+                    )
+                    .sort(compareDeadlines)
+                    ?.filter?.((item) => findDiffFromNow(item?.deadline) > 30)
+                    ?.map?.((item, index) => (
+                      <tr
+                        data-aos="fade-up"
+                        data-aos-offset="30"
+                        key={item?.id}
+                        className="border"
+                      >
+                        <td className="border p-2">{index + 1}</td>
+                        <td className="border p-2 min-w-[100px]">
+                          {item?.bolim}
+                        </td>
+                        <td className="border p-2">{item?.reason}</td>{" "}
+                        <td className="border px-2 max-w-md">
+                          {item?.text?.[0]?.text
+                            .replaceAll("[", "")
+                            .replaceAll("]", "")
+                            .replaceAll('"', "").length > 0
+                            ? item?.text?.[0]?.text
+                                .replaceAll("[", "")
+                                .replaceAll("]", "")
+                                .replaceAll('"', "")
+                            : null}
 
-        {/* images modal */}
-        <Dialog
-          open={modal.open}
-          onClose={() => setModal({ open: false, data: null })}
-          fullWidth
-          keepMounted
-          aria-describedby="edit-modal"
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 px-5 mt-5 mb-5 rounded-md">
-            {modal.data?.map((item) => {
-              return (
-                <div className="cursor-pointer" key={item.id}>
-                  <img
-                    alt="task image"
-                    key={item.id}
-                    src={`https://xodim.pythonanywhere.com/` + item?.photo}
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </Dialog>
+                          <div>
+                            {!item?.audio?.[0]?.audio.includes("null") &&
+                              item?.audio?.length > 0 && (
+                                <audio controls className="w-[250px] my-2">
+                                  <source
+                                    src={
+                                      `https://xodim.pythonanywhere.com/` +
+                                      item?.audio?.[0]?.audio
+                                    }
+                                  />
+                                </audio>
+                              )}
+                          </div>
+                          <div>
+                            <AvatarGroup
+                              onClick={() =>
+                                setModal({ open: true, data: item.photo })
+                              }
+                              className="w-fit mx-auto"
+                              max={4}
+                              style={{ cursor: "pointer" }}
+                            >
+                              {item?.photo?.length > 0 &&
+                                item?.photo?.map((photoItem, photoIndex) => (
+                                  <Avatar
+                                    alt={`Image ${photoIndex + 1}`}
+                                    key={photoItem.id}
+                                    src={
+                                      `https://xodim.pythonanywhere.com/` +
+                                      photoItem?.photo
+                                    }
+                                  />
+                                ))}
+                            </AvatarGroup>
+                          </div>
+                        </td>
+                        <td className="border p-2">
+                          {item?.first_name + " " + item?.last_name}
+                        </td>
+                        <td className="border p-2">{item?.deadline}</td>
+                        <td className="border p-2">
+                          {findDiff(item?.created_at, item?.deadline)}
+                        </td>
+                        <td className="border p-2">
+                          {findDiffFromNow(item?.deadline) > 0 ? (
+                            findDiffFromNow(item?.deadline)
+                          ) : (
+                            <span className="text-status-red">
+                              -{Math.abs(findDiffFromNow(item?.deadline))}
+                            </span>
+                          )}
+                        </td>
+                        <td className="border p-2">
+                          <div className="font-normal flex gap-2 items-center justify-center">
+                            {getStatus(item?.status)}
+                          </div>
+                        </td>
+                        <td className="border p-2">
+                          {item?.financial_help ? (
+                            <span className="fa-solid fa-check text-status-green" />
+                          ) : (
+                            <span className="fa-solid fa-x text-red-500" />
+                          )}
+                        </td>
+                        <td hidden={status !== "admin"} className="border p-2">
+                          <IconButton
+                            id="basic-button"
+                            aria-controls={open ? "basic-menu" : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? "true" : undefined}
+                            onClick={(e) => {
+                              setDeletingDetails(item);
+                              setAnchorEl(e.currentTarget);
+                            }}
+                          >
+                            <span className="fa-solid fa-ellipsis-vertical px-2" />
+                          </IconButton>
+                        </td>
+                      </tr>
+                    ))
+                : new Array(2).fill(null).map((_, ind) => (
+                    <tr key={ind} className="border">
+                      <td className="border p-2 text-center" colSpan={11}>
+                        Bo'sh
+                      </td>
+                    </tr>
+                  ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </>
+
+      {/* images modal */}
+      <Dialog
+        open={modal.open}
+        onClose={() => setModal({ open: false, data: null })}
+        fullWidth
+        keepMounted
+        aria-describedby="edit-modal"
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 px-5 mt-5 mb-5 rounded-md">
+          {modal.data?.map((item) => {
+            return (
+              <div className="cursor-pointer" key={item.id}>
+                <img
+                  alt="task image"
+                  key={item.id}
+                  src={`https://xodim.pythonanywhere.com/` + item?.photo}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </Dialog>
+
+      {/* archive dropdown */}
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={() => setAnchorEl(null)}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={() => handleArchive()}>Arxivlash</MenuItem>
+      </Menu>
+    </div>
   );
 };
 

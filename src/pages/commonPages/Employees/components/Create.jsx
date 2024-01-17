@@ -23,6 +23,7 @@ const Create = ({ getData }) => {
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const status = sessionStorage.getItem("status");
 
   useEffect(() => {
     axios.get("/bolim/").then((res) => {
@@ -69,7 +70,7 @@ const Create = ({ getData }) => {
 
   return (
     <>
-      <details>
+      <details hidden={status == "manager"}>
         <summary className="text-2xl font-medium ml-2 py-3">
           Yangi xodim:
         </summary>
