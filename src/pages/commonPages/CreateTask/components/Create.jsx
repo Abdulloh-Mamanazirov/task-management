@@ -22,9 +22,10 @@ const Create = () => {
     formData.append("_to", task._to);
 
     if (!task._to) {
+      setLoading(false);
       return toast.warning("Vazifani qabul qiluvchini tanlang!");
     }
-    
+
     await axios
       .patch(
         task._to_status === "xodim" ? "/task/" : "/task/to_manager/",
