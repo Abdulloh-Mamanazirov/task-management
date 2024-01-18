@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const index = () => {
   const [data, setData] = useState([]);
@@ -31,6 +32,7 @@ const index = () => {
   const { sectors } = useSelector((state) => state.sector);
   const open = Boolean(anchorEl);
   const promote_open = Boolean(promoteAnchorEl);
+  const status = sessionStorage.getItem("status");
 
   async function getData() {
     const response = await axios.get("/manager/");
@@ -154,6 +156,14 @@ const index = () => {
                           }}
                         >
                           <span className="fa-solid fa-trash" />
+                        </IconButton>
+                        <IconButton>
+                          <Link
+                            title="Menejer profili"
+                            to={`/director/employees/${item?.user?.id}`}
+                          >
+                            <span className="fa-solid fa-bars text-green-500 text-2xl" />
+                          </Link>
                         </IconButton>
                         <IconButton
                           color="success"

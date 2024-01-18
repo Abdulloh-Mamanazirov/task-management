@@ -20,6 +20,10 @@ const index = () => {
   async function getData() {
     const response = await axios.get(`/task/${id}/`);
     setData(response?.data);
+    if (response?.data?.length === 0) {
+      const response = await axios.get(`/task/one/manager/${id}/`);
+      setData(response?.data);
+    }
   }
 
   useEffect(() => {
