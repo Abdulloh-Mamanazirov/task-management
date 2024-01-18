@@ -1,17 +1,17 @@
+import {
+  Avatar,
+  AvatarGroup,
+  Dialog,
+  FormControl,
+  IconButton,
+  InputLabel,
+  Menu,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import Aos from "aos";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import {
-  Menu,
-  Avatar,
-  Dialog,
-  Select,
-  MenuItem,
-  InputLabel,
-  IconButton,
-  AvatarGroup,
-  FormControl,
-} from "@mui/material";
 import { toast } from "react-toastify";
 
 const HomeTable = ({ getStats }) => {

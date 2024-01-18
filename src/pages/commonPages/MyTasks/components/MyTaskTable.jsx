@@ -6,6 +6,7 @@ import { Avatar, AvatarGroup, Checkbox, Dialog } from "@mui/material";
 const MyTaskTable = ({ data, getData }) => {
   Aos.init();
   const [modal, setModal] = useState({ open: false, data: null });
+  const [sortField, setSortField] = useState(null);
 
   function findDiff(created_day, deadline) {
     let date1 = new Date(created_day);
@@ -49,7 +50,17 @@ const MyTaskTable = ({ data, getData }) => {
       return null;
     }
   };
+  
+  function compareDeadlines(a, b) {
+    const dateA = new Date(a.deadline);
+    const dateB = new Date(b.deadline);
 
+    if (sortField === "deadline") {
+      return dateA - dateB;
+    }
+
+    return 0;
+  }
   return (
     <div>
       <div className="mb-2 mt-5">
@@ -59,9 +70,19 @@ const MyTaskTable = ({ data, getData }) => {
               <tr className="border">
                 <th className="border p-3">No_</th>
                 <th className="border p-3">Sabab</th>
-                <th className="border p-3">Yechim</th>
-                <th className="border p-3">Mas'ul</th>
-                <th className="border p-3 w-32">Muddat</th>
+                <th className="border p-3">Muammo</th>
+                <th className="border p-3 w-32">
+                  Muddat
+                  <span
+                    className="fa-solid fa-sort pl-3"
+                    role="button"
+                    onClick={() => {
+                      setSortField(
+                        sortField !== "deadline" ? "deadline" : null
+                      );
+                    }}
+                  />
+                </th>
                 <th className="border p-3">Jami muddat</th>
                 <th className="border p-3">Qolgan kun(lar)</th>
                 <th className="border p-3">Xolati</th>
@@ -75,6 +96,7 @@ const MyTaskTable = ({ data, getData }) => {
               {Array.isArray(data)
                 ? data
                     ?.filter?.((item) => findDiffFromNow(item?.deadline) < 30)
+                    .sort(compareDeadlines)
                     ?.map?.((item, index) => (
                       <tr
                         data-aos="fade-up"
@@ -132,7 +154,6 @@ const MyTaskTable = ({ data, getData }) => {
                             </AvatarGroup>
                           </div>
                         </td>
-                        <td className="border p-2">{item?._from}</td>
                         <td className="border p-2">{item?.deadline}</td>
                         <td className="border p-2">
                           {findDiff(item?.created_at, item?.deadline)}
@@ -235,7 +256,6 @@ const MyTaskTable = ({ data, getData }) => {
                             </AvatarGroup>
                           </div>
                         </td>
-                        <td className="border p-2">{item?._from}</td>
                         <td className="border p-2">{item?.deadline}</td>
                         <td className="border p-2">
                           {findDiff(item?.created_at, item?.deadline)}
