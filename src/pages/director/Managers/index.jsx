@@ -29,6 +29,7 @@ const index = () => {
   const [promoteAnchorEl, setPromoteAnchorEl] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
   const [promotionId, setPromotionId] = useState(null);
+  const [isDemoting, setIsDemoting] = useState(false);
   const { sectors } = useSelector((state) => state.sector);
   const open = Boolean(anchorEl);
   const promote_open = Boolean(promoteAnchorEl);
@@ -74,13 +75,18 @@ const index = () => {
       .then((res) => {
         if (res.status === 200) {
           getData();
-          toast.success("Menejer saylandi!");
+          if (isDemoting) {
+            toast.info("Direktor maqomi olindi!");
+          } else {
+            toast.success("Menejer saylandi!");
+          }
         }
       })
       .catch(() => toast.error("Nimadadir xatolik ketdi!"))
       .finally(() => {
         setPromotionId(null);
         setPromoteAnchorEl(null);
+        setIsDemoting(null);
       });
   }
 
@@ -165,15 +171,29 @@ const index = () => {
                             <span className="fa-solid fa-bars text-green-500 text-2xl" />
                           </Link>
                         </IconButton>
-                        <IconButton
-                          color="success"
-                          onClick={(event) => {
-                            setPromoteAnchorEl(event.currentTarget);
-                            setPromotionId(item?.user?.id);
-                          }}
-                        >
-                          <span className="fa-solid fa-arrow-up" />
-                        </IconButton>
+                        {item?.user?.is_director ? (
+                          <IconButton
+                            color="error"
+                            onClick={(event) => {
+                              setPromoteAnchorEl(event.currentTarget);
+                              setPromotionId(item?.user?.id);
+                              setIsDemoting(true);
+                            }}
+                          >
+                            <span className="fa-solid fa-arrow-down" />
+                          </IconButton>
+                        ) : (
+                          <IconButton
+                            color="success"
+                            onClick={(event) => {
+                              setPromoteAnchorEl(event.currentTarget);
+                              setPromotionId(item?.user?.id);
+                              setIsDemoting(false);
+                            }}
+                          >
+                            <span className="fa-solid fa-arrow-up" />
+                          </IconButton>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))
@@ -265,10 +285,20 @@ const index = () => {
       >
         <Box sx={{ padding: "5px 10px" }}>
           <div className="flex items-start gap-2">
-            <span className="fa-solid fa-arrow-up text-green-500" />
-            <p className="text-lg font-medium">
-              Menejerga direktor <br /> maqomini bermoqchimisiz?
-            </p>
+            {isDemoting ? (
+              <span className="fa-solid fa-arrow-down text-red-500" />
+            ) : (
+              <span className="fa-solid fa-arrow-up text-green-500" />
+            )}
+            {isDemoting ? (
+              <p className="text-lg font-medium">
+                Menejerdan direktor <br /> maqomini olmoqchimisiz?
+              </p>
+            ) : (
+              <p className="text-lg font-medium">
+                Menejerga direktor <br /> maqomini bermoqchimisiz?
+              </p>
+            )}
           </div>
           <div className="flex items-center justify-end gap-3">
             <Button
@@ -282,7 +312,7 @@ const index = () => {
             <Button
               onClick={() => handlePromote()}
               variant="contained"
-              color="success"
+              color={isDemoting ? "error" : "success"}
               size="small"
             >
               Ha
