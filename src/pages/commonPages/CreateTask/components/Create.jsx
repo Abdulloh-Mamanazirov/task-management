@@ -21,21 +21,22 @@ const Create = () => {
     formData.append("deadline", task.deadline);
     formData.append("_to", task._to);
 
-    if (!task._to){
-      return toast.warning('Vazifani qabul qiluvchini tanlang!')
+    if (!task._to) {
+      return toast.warning("Vazifani qabul qiluvchini tanlang!");
     }
-      await axios
-        .patch(
-          task._to_status === "xodim" ? "/task/" : "/task/to_manager/",
-          formData
-        )
-        .then((res) => {
-          if (res?.data?.id) {
-            toast.success("Vazifa yuklandi!");
-          }
-        })
-        .catch((err) => toast.error("Vazifa yuklashda xato!"))
-        .finally(() => setLoading(false));
+    
+    await axios
+      .patch(
+        task._to_status === "xodim" ? "/task/" : "/task/to_manager/",
+        formData
+      )
+      .then((res) => {
+        if (res?.data?.id) {
+          toast.success("Vazifa yuklandi!");
+        }
+      })
+      .catch((err) => toast.error("Vazifa yuklashda xato!"))
+      .finally(() => setLoading(false));
   }
   return (
     <div className="grid gap-5 md-lg:grid-cols-2 justify-around items-start">
