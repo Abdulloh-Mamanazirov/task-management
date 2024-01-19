@@ -174,6 +174,14 @@ const manager_routes = [
     showInNav: true,
   },
   {
+    key: 11,
+    path: "/manager/archived-tasks",
+    title: "Arxivlangan vazifalarim",
+    icon: <span className="fa-solid fa-archive" />,
+    element: <ArchivedTasks />,
+    showInNav: true,
+  },
+  {
     key: 6,
     path: "/my-profile",
     element: <MyProfile />,
@@ -224,6 +232,14 @@ const employee_routes = [
     title: "Mening qaydlarim",
     icon: <span className="fa-solid fa-calendar-check" />,
     element: <Notes />,
+    showInNav: true,
+  },
+  {
+    key: 11,
+    path: "/employee/archived-tasks",
+    title: "Arxivlangan vazifalarim",
+    icon: <span className="fa-solid fa-archive" />,
+    element: <ArchivedTasks />,
     showInNav: true,
   },
   {

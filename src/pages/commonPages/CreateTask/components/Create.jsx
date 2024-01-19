@@ -9,6 +9,20 @@ import RightSideTask from "./RightSideTask";
 const Create = () => {
   const { task } = useSelector((state) => state);
   const [loading, setLoading] = useState(false);
+  const status = sessionStorage.getItem("status");
+  const sector_id = sessionStorage.getItem("sector_id");
+
+  function returnUrl() {
+    if (status === "director" || status === "admin") {
+      if (task._to_status === "xodim") {
+        return "/task/";
+      } else if (task._to_status === "manager") {
+        return "/task/to_manager/";
+      }
+    } else if (status === "manager") {
+      return `/task/bolim/${sector_id}/`;
+    }
+  }
 
   async function handleCreateTask() {
     setLoading(true);
@@ -27,10 +41,7 @@ const Create = () => {
     }
 
     await axios
-      .patch(
-        task._to_status === "xodim" ? "/task/" : "/task/to_manager/",
-        formData
-      )
+      .patch(returnUrl(), formData)
       .then((res) => {
         if (res?.data?.id) {
           toast.success("Vazifa yuklandi!");

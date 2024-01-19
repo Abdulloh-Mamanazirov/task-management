@@ -21,7 +21,7 @@ const index = () => {
     const response = await axios.get(`/task/${id}/`);
     setData(response?.data);
     if (response?.data?.length === 0) {
-      const response = await axios.get(`/task/one/manager/${id}/`);
+      const response = await axios.get(`/task/to_manager/${id}/`);
       setData(response?.data);
     }
   }

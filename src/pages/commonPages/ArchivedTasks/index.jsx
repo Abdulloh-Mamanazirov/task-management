@@ -7,7 +7,7 @@ import {
   InputLabel,
   Menu,
   MenuItem,
-  Select
+  Select,
 } from "@mui/material";
 import Aos from "aos";
 import axios from "axios";
@@ -25,6 +25,7 @@ const HomeTable = () => {
   const [sortFieldCreate, setSortFieldCreate] = useState(null);
   const open = Boolean(anchorEl);
   const status = sessionStorage.getItem("status");
+  const user_id = sessionStorage.getItem("user_id");
 
   const handleChange = (event) => {
     setSelectedStatus(event.target.value);
@@ -37,12 +38,21 @@ const HomeTable = () => {
   };
 
   async function getData() {
-    let response = await axios.get("/arxiv/list/");
-    setData([
-      ...response?.data?.manager_bergan_arxiv,
-      ...response?.data?.managerga_berilgan_arxiv,
-      ...response?.data?.xodim_arxiv,
-    ]);
+    if (status === "director" || status === "admin") {
+      let response = await axios.get("/arxiv/list/");
+      setData([
+        ...response?.data?.manager_bergan_arxiv,
+        ...response?.data?.managerga_berilgan_arxiv,
+        ...response?.data?.xodim_arxiv,
+      ]);
+    } else {
+      let response = await axios.get(`/arxiv/user/${user_id}/`);
+      setData([
+        ...response?.data?.manager_bergan_arxiv,
+        ...response?.data?.managerga_berilgan_arxiv,
+        ...response?.data?.xodim_arxiv,
+      ]);
+    }
   }
 
   useEffect(() => {
