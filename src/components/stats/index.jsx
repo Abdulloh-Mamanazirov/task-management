@@ -22,7 +22,7 @@ const Card = ({ title, value, img, delay }) => {
   );
 };
 
-const index = ({ all, finished, doing, missed, cancelled }) => {
+const index = ({ all, finished, doing, missed, canceled }) => {
   return (
     <div className="grid grid-cols-2 md-lg:grid-cols-3 lg:grid-cols-5 gap-2 mt-3">
       <Card delay={100} title={"Jami"} value={all ?? 0} img={Tasks} />
@@ -42,7 +42,7 @@ const index = ({ all, finished, doing, missed, cancelled }) => {
       <Card
         delay={500}
         title={"Bekor qilingan"}
-        value={cancelled ?? 0}
+        value={canceled ?? 0}
         img={Cancelled}
       />
     </div>

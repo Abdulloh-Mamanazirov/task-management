@@ -39,14 +39,14 @@ const Stats = ({ data }) => {
       />
       <Card
         delay={200}
-        value={data?.doing ?? 0}
+        value={data?.finished ?? 0}
         title={"Bajarilgan"}
         img={Finished}
       />
       <Card
         delay={300}
         title={"Jarayonda"}
-        value={data?.finished ?? 0}
+        value={data?.doing ?? 0}
         img={Doing}
       />
       <Card
@@ -58,7 +58,7 @@ const Stats = ({ data }) => {
       <Card
         delay={500}
         title={"Bekor qilingan"}
-        value={data?.cancelled ?? 0}
+        value={data?.canceled ?? 0}
         img={Cancelled}
       />
     </div>

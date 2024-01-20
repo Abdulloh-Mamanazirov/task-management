@@ -19,7 +19,7 @@ const index = () => {
       let response = await axios.get(`/bolim/statistika/${id}/`);
       setData(response?.data);
     } else {
-      let response = await axios.get(`/bolim/statistika/${sector_id}/`);
+      let response = await axios.get(`/bolim/stat/${sector_id}/`);
       setData(response?.data);
     }
   }
@@ -30,7 +30,7 @@ const index = () => {
       setUsersData(data);
     } else if (status === "manager") {
       const { data } = await axios.get(
-        `/bolim/xodim/statistika/${sessionStorage.getItem("sector_id")}/`
+        `/one/bolim/xodim/statistika/${sector_id}/`
       );
       setUsersData(data);
     }
