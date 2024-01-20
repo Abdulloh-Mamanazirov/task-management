@@ -11,7 +11,7 @@ const index = () => {
   const user_id = sessionStorage.getItem("user_id");
 
   async function getData() {
-    const response = await axios.get(`/task/one/manager/${user_id}/`);
+    const response = await axios.get(`/tasks/to_assigned/manager//${user_id}/`);
     setData(response?.data?.filter((item) => item.status === "doing"));
     const res = await axios.get(
       `/manager/statistika/${sessionStorage.getItem("user_id")}/`
