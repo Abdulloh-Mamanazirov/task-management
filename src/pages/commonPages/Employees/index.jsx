@@ -40,7 +40,7 @@ const index = () => {
     if (status === "manager") {
       const response = await axios.get(`/bolim/${sector}/`);
       setData(response?.data?.xodim);
-    } else if (status === "director") {
+    } else if (status === "director" || status === "admin") {
       const response = await axios.get(`/xodim/`);
       setData(response?.data);
     }

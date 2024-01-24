@@ -272,6 +272,21 @@ const admin_routes = [
     showInNav: false,
   },
   {
+    key: 2,
+    path: "/admin/sectors",
+    title: "Bo'limlar",
+    icon: <span className="fa-solid fa-layer-group" />,
+    element: <Sectors />,
+    showInNav: true,
+    isLink: true,
+  },
+  {
+    key: 12,
+    path: "/admin/sector/:id",
+    element: <SectorDetails />,
+    showInNav: false,
+  },
+  {
     key: 3,
     path: "/admin/managers",
     title: "Menejerlar",

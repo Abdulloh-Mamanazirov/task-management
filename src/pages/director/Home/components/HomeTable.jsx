@@ -55,7 +55,7 @@ const HomeTable = ({ getStats }) => {
     await axios
       .patch(`/arxiv/task/${deletingDetails?.id}/`, data)
       .then(() => {
-        toast.success("Vazifa arxizlandi");
+        toast.success("Vazifa arxivlandi");
         getData();
         getStats();
       })

@@ -12,6 +12,7 @@ import {
 import Aos from "aos";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const HomeTable = () => {
   Aos.init();
@@ -22,6 +23,7 @@ const HomeTable = () => {
   const [selectedStatusFrom, setSelectedStatusFrom] = useState("all");
   const [sortField, setSortField] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [deletingDetails, setDeletingDetails] = useState(null);
   const [sortFieldCreate, setSortFieldCreate] = useState(null);
   const open = Boolean(anchorEl);
   const status = sessionStorage.getItem("status");
@@ -58,6 +60,23 @@ const HomeTable = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  async function handleArchive() {
+    const data = {
+      _to: deletingDetails?.to_id,
+      _from: deletingDetails?.from_id,
+    };
+
+    await axios
+      .patch(`/arxiv/task/${deletingDetails?.id}/`, data)
+      .then(() => {
+        toast.success("Vazifa arxivdan olindi");
+        getData();
+      })
+      .catch((err) => toast.error("Vazifani arxivlashda xatolik!"));
+    setDeletingDetails(null);
+    setAnchorEl(null);
+  }
 
   function findDiff(created_day, deadline) {
     let date1 = new Date(created_day);

@@ -22,7 +22,12 @@ import { Login } from "../pages";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { CreateModal } from "../pages/commonPages/Sectors/components";
-import { manager_routes, director_routes, employee_routes } from "./routes";
+import {
+  manager_routes,
+  director_routes,
+  employee_routes,
+  admin_routes,
+} from "./routes";
 import { Currency } from "../components";
 import { toast } from "react-toastify";
 import { setSectors as setSectorsRedux } from "../redux";
@@ -114,6 +119,7 @@ function index() {
     if (status === "director") setRoutes(director_routes);
     if (status === "manager") setRoutes(manager_routes);
     if (status === "xodim") setRoutes(employee_routes);
+    if (status === "admin") setRoutes(admin_routes);
   }, [status]);
 
   useEffect(() => {
