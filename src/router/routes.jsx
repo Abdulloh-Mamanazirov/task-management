@@ -12,6 +12,7 @@ import {
   SectorDetails,
   Notes,
   ArchivedTasks,
+  AllTasks,
 } from "../pages";
 
 const director_routes = [
@@ -270,6 +271,14 @@ const admin_routes = [
     path: "/admin",
     element: <DirectorHome />,
     showInNav: false,
+  },
+  {
+    key: 13,
+    path: "/admin/all-tasks",
+    title: "Barcha vazifalar",
+    icon: <span className="fa-solid fa-circle-check" />,
+    element: <AllTasks />,
+    showInNav: true,
   },
   {
     key: 2,

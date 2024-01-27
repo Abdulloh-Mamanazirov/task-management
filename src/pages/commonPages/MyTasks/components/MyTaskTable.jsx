@@ -110,7 +110,7 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                         className="border"
                       >
                         <td className="border p-2">{index + 1}</td>
-                        <td className="border p-2">{item?.reason}</td>{" "}
+                        <td className="border p-2">{item?.problem}</td>{" "}
                         <td className="border px-2 max-w-md">
                           {item?.text?.[0]?.text
                             .replaceAll("[", "")
@@ -212,7 +212,7 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                         className="border"
                       >
                         <td className="border p-2">{index + 1}</td>
-                        <td className="border p-2">{item?.reason}</td>{" "}
+                        <td className="border p-2">{item?.problem}</td>{" "}
                         <td className="border px-2 max-w-md">
                           {item?.text?.[0]?.text
                             .replaceAll("[", "")
@@ -347,7 +347,7 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                         className="border"
                       >
                         <td className="border p-2">{index + 1}</td>
-                        <td className="border p-2">{item?.reason}</td>{" "}
+                        <td className="border p-2">{item?.problem}</td>{" "}
                         <td className="border px-2 max-w-md">
                           {item?.text?.[0]?.text
                             .replaceAll("[", "")
@@ -448,7 +448,7 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                         className="border"
                       >
                         <td className="border p-2">{index + 1}</td>
-                        <td className="border p-2">{item?.reason}</td>{" "}
+                        <td className="border p-2">{item?.problem}</td>{" "}
                         <td className="border px-2 max-w-md">
                           {item?.text?.[0]?.text
                             .replaceAll("[", "")

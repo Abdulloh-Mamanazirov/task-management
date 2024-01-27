@@ -1,20 +1,34 @@
 import {
   Avatar,
   AvatarGroup,
+  Button,
+  Checkbox,
   Dialog,
   FormControl,
+  FormControlLabel,
   IconButton,
   InputLabel,
   Menu,
   MenuItem,
   Select,
 } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import Aos from "aos";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import {
+  setDeadline,
+  setHelp,
+  setProblem,
+  setText,
+  setTo,
+  setToStatus,
+} from "../../../redux";
 
-const HomeTable = ({ getStats }) => {
+const index = ({ getStats }) => {
   Aos.init();
   const [modal, setModal] = useState({ open: false, data: null });
   const [data, setData] = useState(null);
@@ -27,6 +41,24 @@ const HomeTable = ({ getStats }) => {
   const [sortFieldCreate, setSortFieldCreate] = useState(null);
   const open = Boolean(anchorEl);
   const status = sessionStorage.getItem("status");
+  const dispatch = useDispatch();
+  const { task } = useSelector((state) => state);
+  const [managers, setManagers] = useState([]);
+  const [employees, setEmployees] = useState([]);
+  const [addTask, setAddTask] = useState(false);
+
+  async function getPeople() {
+    await axios.get("/manager/").then((res) => {
+      setManagers(res?.data);
+    });
+    await axios.get("/xodim/").then((res) => {
+      setEmployees(res?.data);
+    });
+  }
+
+  useEffect(() => {
+    getPeople();
+  }, []);
 
   const handleChange = (event) => {
     setSelectedStatus(event.target.value);
@@ -59,7 +91,9 @@ const HomeTable = ({ getStats }) => {
         getData();
         getStats();
       })
-      .catch((err) => toast.error("Vazifani arxivlashda xatolik!"));
+      .catch((err) => {
+        return false;
+      });
     setDeletingDetails(null);
     setAnchorEl(null);
   }
@@ -130,6 +164,44 @@ const HomeTable = ({ getStats }) => {
       return null;
     }
   };
+
+  function returnUrl() {
+    const status = sessionStorage.getItem("status");
+    if (status === "director" || status === "admin") {
+      if (task._to_status === "xodim") {
+        return "/task/";
+      } else if (task._to_status === "manager") {
+        return "/task/to_manager/";
+      }
+    } else if (status === "manager") {
+      return `/task/bolim/${sector_id}/`;
+    }
+  }
+
+  async function handleCreateTask() {
+    const formData = new FormData();
+    formData.append("muammo", task.problem);
+    formData.append("text", JSON.stringify(task.text));
+    formData.append("deadline", task.deadline);
+    formData.append("help", task.help ? "True" : "False");
+    formData.append("_to", task._to);
+
+    if (!task._to) {
+      setLoading(false);
+      return toast.warning("Vazifani qabul qiluvchini tanlang!");
+    }
+
+    await axios
+      .patch(returnUrl(), formData)
+      .then((res) => {
+        if (res?.data?.id) {
+          getData();
+          setAddTask(false);
+          toast.success("Vazifa yuklandi!");
+        }
+      })
+      .catch((err) => toast.error("Vazifa yuklashda xato!"));
+  }
 
   return (
     <div className="mt-16 overflow-x-auto max-w-[100vw] scrollbar-gutter">
@@ -251,9 +323,6 @@ const HomeTable = ({ getStats }) => {
               </tr>
             </thead>
             <tbody>
-              <tr className="bg-dark-blue text-white">
-                <td colSpan={12}>Qisqa muddatli</td>
-              </tr>
               {Array.isArray(data)
                 ? data
                     .filter((item) =>
@@ -274,7 +343,6 @@ const HomeTable = ({ getStats }) => {
                     )
                     .sort(compareDeadlines)
                     .sort(compareCreated)
-                    .filter((item) => findDiffFromNow(item?.deadline) < 30)
                     .map((item, index) => (
                       <tr
                         data-aos="fade-up"
@@ -385,139 +453,177 @@ const HomeTable = ({ getStats }) => {
                       </td>
                     </tr>
                   ))}
-              <tr className="bg-dark-blue text-white">
-                <td colSpan={11}>Uzoq muddatli</td>
-              </tr>
-              {Array.isArray(data)
-                ? data
-                    .filter((item) =>
-                      selectedStatusBolim === "all"
-                        ? true
-                        : item.bolim === selectedStatusBolim
-                    )
-                    .filter((item) =>
-                      selectedStatus === "all"
-                        ? true
-                        : item.status === selectedStatus
-                    )
-                    .filter((item) =>
-                      selectedStatusFrom === "all"
-                        ? true
-                        : item?.first_name + " " + item?.last_name ===
-                          selectedStatusFrom
-                    )
-                    .sort(compareDeadlines)
-                    ?.filter?.((item) => findDiffFromNow(item?.deadline) > 30)
-                    ?.map?.((item, index) => (
-                      <tr
-                        data-aos="fade-up"
-                        data-aos-offset="30"
-                        key={item?.id}
-                        className="border"
-                      >
-                        <td className="border p-2">{index + 1}</td>
-                        <td className="border p-2 min-w-[100px]">
-                          {item?.bolim}
-                        </td>
-                        <td className="border p-2">{item?.problem}</td>{" "}
-                        <td className="border px-2 max-w-md">
-                          {item?.text?.[0]?.text
-                            .replaceAll("[", "")
-                            .replaceAll("]", "")
-                            .replaceAll('"', "").length > 0
-                            ? item?.text?.[0]?.text
-                                .replaceAll("[", "")
-                                .replaceAll("]", "")
-                                .replaceAll('"', "")
-                            : null}
-
-                          <div>
-                            {!item?.audio?.[0]?.audio.includes("null") &&
-                              item?.audio?.length > 0 && (
-                                <audio controls className="w-[250px] my-2">
-                                  <source
-                                    src={
-                                      `https://xodim.pythonanywhere.com/` +
-                                      item?.audio?.[0]?.audio
-                                    }
-                                  />
-                                </audio>
-                              )}
-                          </div>
-                          <div>
-                            <AvatarGroup
-                              onClick={() =>
-                                setModal({ open: true, data: item.photo })
-                              }
-                              className="w-fit mx-auto"
-                              max={4}
-                              style={{ cursor: "pointer" }}
-                            >
-                              {item?.photo?.length > 0 &&
-                                item?.photo?.map((photoItem, photoIndex) => (
-                                  <Avatar
-                                    alt={`Image ${photoIndex + 1}`}
-                                    key={photoItem.id}
-                                    src={
-                                      `https://xodim.pythonanywhere.com/` +
-                                      photoItem?.photo
-                                    }
-                                  />
-                                ))}
-                            </AvatarGroup>
-                          </div>
-                        </td>
-                        <td className="border p-2">
-                          {item?.first_name + " " + item?.last_name}
-                        </td>
-                        <td className="border p-2">{item?.deadline}</td>
-                        <td className="border p-2">
-                          {findDiff(item?.created_at, item?.deadline)}
-                        </td>
-                        <td className="border p-2">
-                          {findDiffFromNow(item?.deadline) > 0 ? (
-                            findDiffFromNow(item?.deadline)
-                          ) : (
-                            <span className="text-status-red">
-                              -{Math.abs(findDiffFromNow(item?.deadline))}
-                            </span>
-                          )}
-                        </td>
-                        <td className="border p-2">
-                          <div className="font-normal flex gap-2 items-center justify-center">
-                            {getStatus(item?.status)}
-                          </div>
-                        </td>
-                        <td className="border p-2">
-                          {item?.financial_help ? (
-                            <span className="fa-solid fa-check text-status-green" />
-                          ) : (
-                            <span className="fa-solid fa-x text-red-500" />
-                          )}
-                        </td>
-                        <td hidden={status !== "admin"} className="border p-2">
-                          <IconButton
-                            id="basic-button"
-                            aria-controls={open ? "basic-menu" : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={open ? "true" : undefined}
-                            onClick={(e) => {
-                              setDeletingDetails(item);
-                              setAnchorEl(e.currentTarget);
+              {addTask && (
+                <>
+                  <tr>
+                    <td colSpan={3} className="p-2">
+                      <div>
+                        <textarea
+                          className="block w-full p-3 mb-2 placeholder-gray-500 bg-white border rounded hover:border-black focus:outline-primary"
+                          name="problem"
+                          rows="5"
+                          placeholder="Muammoni yozing..."
+                          value={task.problem}
+                          onChange={(e) => dispatch(setProblem(e.target.value))}
+                        />
+                      </div>
+                    </td>
+                    <td colSpan={2} className="p-2">
+                      <div>
+                        <textarea
+                          className="block w-full p-3 mb-2 placeholder-gray-500 bg-white border rounded hover:border-black focus:outline-primary"
+                          name="message"
+                          rows="5"
+                          placeholder="Yechim yozing..."
+                          value={task.text}
+                          onChange={(e) => dispatch(setText([e.target.value]))}
+                        />
+                      </div>
+                    </td>
+                    <td colSpan={2} className="m-3 mt-4">
+                      <div className="flex flex-col gap-5">
+                        <FormControl size="medium">
+                          <InputLabel htmlFor="manager-label">
+                            Menejer tanlang
+                          </InputLabel>
+                          <Select
+                            labelId="manager-label"
+                            size="medium"
+                            id="manager"
+                            label="Menejer tanlang"
+                            name="manager"
+                            value={task._to}
+                            onChange={(e) => {
+                              dispatch(setTo(e.target.value));
+                              dispatch(setToStatus("manager"));
                             }}
                           >
-                            <span className="fa-solid fa-ellipsis-vertical px-2" />
-                          </IconButton>
-                        </td>
-                      </tr>
-                    ))
-                : new Array(1).fill(null).map((_, ind) => (
-                    <tr key={ind} className="border">
-                      <td className="border p-2 text-center" colSpan={11}>
-                        Bo'sh
-                      </td>
-                    </tr>
-                  ))}
+                            {Array.isArray(managers) &&
+                              managers?.map?.((option, ind) => (
+                                <MenuItem key={ind} value={option?.user?.id}>
+                                  {option?.user?.first_name?.length > 0 ? (
+                                    option?.user?.first_name
+                                  ) : (
+                                    <em className="text-sm">
+                                      Ism kiritilmagan
+                                    </em>
+                                  )}
+                                  &nbsp;
+                                  {option?.user?.last_name?.length > 0 ? (
+                                    option?.user?.last_name
+                                  ) : (
+                                    <em className="text-sm">
+                                      Familiya kiritilmagan
+                                    </em>
+                                  )}
+                                </MenuItem>
+                              ))}
+                          </Select>
+                        </FormControl>
+                        <FormControl size="medium">
+                          <InputLabel htmlFor="employee-label">
+                            Xodim tanlang
+                          </InputLabel>
+                          <Select
+                            labelId="employee-label"
+                            size="medium"
+                            id="employee"
+                            label="Xodim tanlang"
+                            name="employee"
+                            value={task._to}
+                            onChange={(e) => {
+                              dispatch(setTo(e.target.value));
+                              dispatch(setToStatus("xodim"));
+                            }}
+                          >
+                            {Array.isArray(employees) &&
+                              employees?.map?.((option, ind) => (
+                                <MenuItem key={ind} value={option?.user?.id}>
+                                  {option?.user?.first_name?.length > 0 ? (
+                                    option?.user?.first_name
+                                  ) : (
+                                    <em className="text-sm">
+                                      Ism kiritilmagan
+                                    </em>
+                                  )}
+                                  &nbsp;
+                                  {option?.user?.last_name?.length > 0 ? (
+                                    option?.user?.last_name
+                                  ) : (
+                                    <em className="text-sm">
+                                      Familiya kiritilmagan
+                                    </em>
+                                  )}
+                                </MenuItem>
+                              ))}
+                          </Select>
+                        </FormControl>
+                      </div>
+                    </td>
+                    <td colSpan={2}>
+                      <div>
+                        <FormControlLabel
+                          required
+                          control={
+                            <Checkbox
+                              checked={task.help}
+                              onChange={(e) =>
+                                dispatch(setHelp(e.target.checked))
+                              }
+                            />
+                          }
+                          label="Moliyaviy ko'mak"
+                        />
+                      </div>
+                    </td>
+                    <td colSpan={2}>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                          format="DD/MM/YYYY"
+                          label="Tugash sanasi *"
+                          disablePast
+                          onChange={(e) =>
+                            dispatch(setDeadline(`${e.$D}-${e.$M + 1}-${e.$y}`))
+                          }
+                        />
+                      </LocalizationProvider>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan={11} className="p-2">
+                      <div className="grid grid-cols-3 gap-3 mt-3">
+                        <Button
+                          onClick={() => setAddTask(false)}
+                          variant="contained"
+                          color="error"
+                          fullWidth
+                        >
+                          <span className="fa-solid fa-close" />
+                        </Button>
+                        <Button
+                          onClick={handleCreateTask}
+                          variant="contained"
+                          fullWidth
+                          className="col-span-2"
+                        >
+                          Yuborish
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                </>
+              )}
+              <tr hidden={addTask} className="border">
+                <td className="border p-2 text-center" colSpan={11}>
+                  <Button
+                    onClick={() => setAddTask(true)}
+                    variant="contained"
+                    fullWidth
+                  >
+                    Vazifa qo'shish
+                  </Button>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -562,4 +668,4 @@ const HomeTable = ({ getStats }) => {
   );
 };
 
-export default HomeTable;
+export default index;

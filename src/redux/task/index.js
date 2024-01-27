@@ -6,6 +6,8 @@ export const createTaskSlice = createSlice({
     text: [],
     photo: [],
     audio: null,
+    problem: null,
+    help: false,
     deadline: null,
     _to: null,
     _to_status: null,
@@ -19,6 +21,12 @@ export const createTaskSlice = createSlice({
     },
     setAudio: (state, action) => {
       state.audio = action.payload;
+    },
+    setHelp: (state, action) => {
+      state.help = action.payload;
+    },
+    setProblem: (state, action) => {
+      state.problem = action.payload;
     },
     setDeadline: (state, action) => {
       state.deadline = action.payload;
@@ -43,7 +51,9 @@ export const {
   setText,
   setPhoto,
   setAudio,
+  setHelp,
   setDeadline,
+  setProblem,
   setTo,
   setToStatus,
   removeTask,

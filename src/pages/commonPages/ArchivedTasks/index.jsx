@@ -297,7 +297,7 @@ const HomeTable = () => {
                         <td className="border p-2 min-w-[100px]">
                           {item?.bolim}
                         </td>
-                        <td className="border p-2">{item?.reason}</td>
+                        <td className="border p-2">{item?.problem}</td>
                         <td className="border px-2 max-w-md">
                           {item?.text?.[0]?.text
                             .replaceAll("[", "")
@@ -430,7 +430,7 @@ const HomeTable = () => {
                         <td className="border p-2 min-w-[100px]">
                           {item?.bolim}
                         </td>
-                        <td className="border p-2">{item?.reason}</td>{" "}
+                        <td className="border p-2">{item?.problem}</td>{" "}
                         <td className="border px-2 max-w-md">
                           {item?.text?.[0]?.text
                             .replaceAll("[", "")

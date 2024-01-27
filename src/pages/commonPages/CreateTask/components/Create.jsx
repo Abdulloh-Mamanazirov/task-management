@@ -33,6 +33,8 @@ const Create = () => {
     }
     formData.append("audio", task.audio);
     formData.append("deadline", task.deadline);
+    formData.append("muammo", task.problem);
+    formData.append("help", task.help ? "True" : "False");
     formData.append("_to", task._to);
 
     if (!task._to) {

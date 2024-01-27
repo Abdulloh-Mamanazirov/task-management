@@ -1,8 +1,20 @@
 import { useRef, useState } from "react";
-import { Box, Button, Popover } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Popover,
+} from "@mui/material";
 import { AudioRecorder } from "react-audio-voice-recorder";
 import { useDispatch, useSelector } from "react-redux";
-import { setAudio, setPhoto, setText } from "../../../../redux";
+import {
+  setAudio,
+  setHelp,
+  setPhoto,
+  setProblem,
+  setText,
+} from "../../../../redux";
 
 const LeftSideTask = () => {
   const audioList = useRef([]);
@@ -12,6 +24,7 @@ const LeftSideTask = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const [imagePreviews, setImagePreviews] = useState([]);
+  const status = sessionStorage.getItem("status");
 
   const addAudioElement = (blob) => {
     dispatch(setAudio(blob));
@@ -54,10 +67,26 @@ const LeftSideTask = () => {
       <div>
         <div className="mb-6">
           <label
+            htmlFor="problem"
+            className="block mb-2 text-sm font-medium text-gray-400"
+          >
+            Muammo:
+          </label>
+          <textarea
+            className="block w-full p-3 mb-2 placeholder-gray-500 bg-white border rounded hover:border-black focus:outline-primary"
+            name="problem"
+            rows="5"
+            placeholder="Muammoni yozing..."
+            value={task.problem}
+            onChange={(e) => dispatch(setProblem(e.target.value))}
+          />
+        </div>
+        <div className="mb-6">
+          <label
             htmlFor="message"
             className="block mb-2 text-sm font-medium text-gray-400"
           >
-            Xabar:
+            Yechim (Xabar):
           </label>
           <textarea
             className="block w-full p-3 mb-2 placeholder-gray-500 bg-white border rounded hover:border-black focus:outline-primary"
@@ -68,6 +97,20 @@ const LeftSideTask = () => {
             onChange={(e) => dispatch(setText([e.target.value]))}
           />
         </div>
+        {status === "admin" && (
+          <div className="mb-6">
+            <FormControlLabel
+              required
+              control={
+                <Checkbox
+                  checked={task.help}
+                  onChange={(e) => dispatch(setHelp(e.target.checked))}
+                />
+              }
+              label="Moliyaviy ko'mak"
+            />
+          </div>
+        )}
         <div className="pb-5">
           {audioList.current?.length > 0 ? null : (
             <AudioRecorder
