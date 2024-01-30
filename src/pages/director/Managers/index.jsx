@@ -166,7 +166,7 @@ const index = () => {
                         <IconButton>
                           <Link
                             title="Menejer profili"
-                            to={`/director/employees/${item?.user?.id}`}
+                            to={`/${status}/employees/${item?.user?.id}`}
                           >
                             <span className="fa-solid fa-bars text-green-500 text-2xl" />
                           </Link>

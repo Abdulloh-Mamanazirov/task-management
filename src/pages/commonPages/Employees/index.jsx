@@ -173,38 +173,35 @@ const index = () => {
                           </IconButton>
                           <Link
                             title="Xodim profili"
-                            to={
-                              status === "director"
-                                ? `/director/employees/${item?.user?.id}`
-                                : `/manager/employees/${item?.user?.id}`
-                            }
+                            to={`/${status}/employees/${item?.user?.id}`}
                           >
                             <span className="fa-solid fa-bars text-green-500 text-2xl" />
                           </Link>
-                          {status === "director" &&
-                            (item?.user?.is_director ? (
-                              <IconButton
-                                color="error"
-                                onClick={(event) => {
-                                  setPromoteAnchorEl(event.currentTarget);
-                                  setPromotionId(item?.user?.id);
-                                  setIsDemoting(true);
-                                }}
-                              >
-                                <span className="fa-solid fa-arrow-down" />
-                              </IconButton>
-                            ) : (
-                              <IconButton
-                                color="success"
-                                onClick={(event) => {
-                                  setPromoteAnchorEl(event.currentTarget);
-                                  setPromotionId(item?.user?.id);
-                                  setIsDemoting(false);
-                                }}
-                              >
-                                <span className="fa-solid fa-arrow-up" />
-                              </IconButton>
-                            ))}
+                          {status === "director" ||
+                            (status === "admin" &&
+                              (item?.user?.is_director ? (
+                                <IconButton
+                                  color="error"
+                                  onClick={(event) => {
+                                    setPromoteAnchorEl(event.currentTarget);
+                                    setPromotionId(item?.user?.id);
+                                    setIsDemoting(true);
+                                  }}
+                                >
+                                  <span className="fa-solid fa-arrow-down" />
+                                </IconButton>
+                              ) : (
+                                <IconButton
+                                  color="success"
+                                  onClick={(event) => {
+                                    setPromoteAnchorEl(event.currentTarget);
+                                    setPromotionId(item?.user?.id);
+                                    setIsDemoting(false);
+                                  }}
+                                >
+                                  <span className="fa-solid fa-arrow-up" />
+                                </IconButton>
+                              )))}
                         </div>
                       </TableCell>
                     </TableRow>

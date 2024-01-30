@@ -27,7 +27,7 @@ const index = () => {
         finished={data?.finished}
         doing={data?.doing}
         missed={data?.missed}
-        cancelled={data?.canceled}
+        canceled={data?.canceled}
       />
       {/* <Bar /> */}
       <div className="grid md:grid-cols-2">
