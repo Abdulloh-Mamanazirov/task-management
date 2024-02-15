@@ -106,6 +106,7 @@ export default function EditModal({ open, data, handleClose }) {
                 defaultValue={data?.phone_number}
                 name="phone_number"
                 id="phone_number"
+                placeholder="90 123 45 67"
                 className="border border-blue-500 w-full rounded-md p-2 focus:outline-2 focus:outline-blue-700"
               />
             </div>

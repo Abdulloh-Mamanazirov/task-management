@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Create } from "./components";
+import { Create, EditStatus } from "./components";
 import {
   Box,
   Chip,
@@ -154,46 +154,51 @@ const index = () => {
                         />
                       </TableCell>
                       <TableCell>
-                        <IconButton
-                          color="error"
-                          onClick={(event) => {
-                            setAnchorEl(event.currentTarget);
-                            setDeleteId(item?.user?.id);
-                          }}
-                        >
-                          <span className="fa-solid fa-trash" />
-                        </IconButton>
-                        <IconButton>
-                          <Link
-                            title="Menejer profili"
-                            to={`/${status}/employees/${item?.user?.id}`}
-                          >
-                            <span className="fa-solid fa-bars text-green-500 text-2xl" />
-                          </Link>
-                        </IconButton>
-                        {item?.user?.is_director ? (
+                        <div className="flex items-center gap-2">
                           <IconButton
                             color="error"
                             onClick={(event) => {
-                              setPromoteAnchorEl(event.currentTarget);
-                              setPromotionId(item?.user?.id);
-                              setIsDemoting(true);
+                              setAnchorEl(event.currentTarget);
+                              setDeleteId(item?.user?.id);
                             }}
                           >
-                            <span className="fa-solid fa-arrow-down" />
+                            <span className="fa-solid fa-trash" />
                           </IconButton>
-                        ) : (
-                          <IconButton
-                            color="success"
-                            onClick={(event) => {
-                              setPromoteAnchorEl(event.currentTarget);
-                              setPromotionId(item?.user?.id);
-                              setIsDemoting(false);
-                            }}
-                          >
-                            <span className="fa-solid fa-arrow-up" />
+                          <IconButton>
+                            <Link
+                              title="Menejer profili"
+                              to={`/${status}/employees/${item?.user?.id}`}
+                            >
+                              <span className="fa-solid fa-bars text-green-500 text-2xl" />
+                            </Link>
                           </IconButton>
-                        )}
+                          {item?.user?.is_director ? (
+                            <IconButton
+                              color="error"
+                              onClick={(event) => {
+                                setPromoteAnchorEl(event.currentTarget);
+                                setPromotionId(item?.user?.id);
+                                setIsDemoting(true);
+                              }}
+                            >
+                              <span className="fa-solid fa-arrow-down" />
+                            </IconButton>
+                          ) : (
+                            <IconButton
+                              color="success"
+                              onClick={(event) => {
+                                setPromoteAnchorEl(event.currentTarget);
+                                setPromotionId(item?.user?.id);
+                                setIsDemoting(false);
+                              }}
+                            >
+                              <span className="fa-solid fa-arrow-up" />
+                            </IconButton>
+                          )}
+                          {status === "admin" && (
+                            <EditStatus data={item} getData={getData} />
+                          )}
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))

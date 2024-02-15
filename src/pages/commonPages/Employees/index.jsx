@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Create } from "./components";
+import { Create, EditStatus } from "./components";
 import {
   Box,
   Chip,
@@ -202,6 +202,9 @@ const index = () => {
                                   <span className="fa-solid fa-arrow-up" />
                                 </IconButton>
                               )))}
+                          {status === "admin" && (
+                            <EditStatus data={item} getData={getData} />
+                          )}
                         </div>
                       </TableCell>
                     </TableRow>
