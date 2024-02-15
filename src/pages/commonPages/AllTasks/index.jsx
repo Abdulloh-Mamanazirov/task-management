@@ -422,12 +422,6 @@ const index = ({ getStats }) => {
                         <td className="border p-2">
                           <div className="font-normal flex gap-2 items-center justify-center">
                             {getStatus(item?.status)}
-                            <Link
-                              state={item}
-                              to={`/${status}/finish-task/${item?.id}`}
-                            >
-                              <span className="fa-solid fa-edit text-blue-500 text-lg" />
-                            </Link>
                           </div>
                         </td>
                         <td className="border p-2">

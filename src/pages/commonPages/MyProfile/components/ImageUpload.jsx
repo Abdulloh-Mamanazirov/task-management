@@ -18,7 +18,7 @@ export default function InputFileUpload({ id, handleClose }) {
   async function handleImageUpload(image) {
     if (!image) return;
     const formData = new FormData();
-    formData.append("photo", image);
+    formData.append("image", image);
     await axios
       .put(`/user/edit/${id}/`, formData)
       .then((res) => {

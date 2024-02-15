@@ -3,11 +3,12 @@ import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import { EditTaskStatus } from "./components";
 
 const ChatBubble = ({ msg, my }) => {
   return (
     <div
-      className={`max-w-[45%] mb-3 shadow-lg rounded-lg ${
+      className={`sm:max-w-[45%] mb-3 shadow-lg rounded-lg ${
         my
           ? "ml-auto bg-blue-200 rounded-br-sm"
           : "mr-auto bg-white rounded-bl-sm"
@@ -30,6 +31,83 @@ const ChatBubble = ({ msg, my }) => {
   );
 };
 
+const TaskCard = ({ state }) => {
+  const user_status = sessionStorage.getItem("status");
+
+  const getStatus = (status) => {
+    if (status === "finished") {
+      return (
+        <div className="border-4 border-custom-green bg-custom-light-green rounded-full px-3 py-[1px]">
+          <span className="hidden md:inline-block ">Bajarildi</span>
+        </div>
+      );
+    } else if (status === "doing") {
+      return (
+        <div className="border-4 border-custom-yellow bg-custom-light-yellow rounded-full px-3 py-[1px]">
+          <span className="hidden md:inline-block ">Jarayonda</span>
+        </div>
+      );
+    } else if (status === "missed") {
+      return (
+        <div className="border-4 border-custom-red bg-custom-light-red rounded-full px-3 py-[1px]">
+          <span className="hidden md:inline-block ">Bajarilmadi</span>
+        </div>
+      );
+    } else if (status === "canceled") {
+      return (
+        <div className="border-4 border-gray-500 bg-gray-200 rounded-full px-3 py-[1px] whitespace-nowrap">
+          <span className="hidden md:inline-block"> Bekor qilindi</span>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  };
+
+  return (
+    <div className="p-2 bg-white shadow-xl mb-3 rounded-lg">
+      <div className="w-full grid sm:grid-cols-2 gap-2">
+        {state?.photo?.length > 0 &&
+          state?.photo?.map?.((item) => (
+            <img
+              key={item?.id}
+              src={`https://xodim.pythonanywhere.com/` + item?.photo}
+            />
+          ))}
+      </div>
+      <div className="flex items-center justify-between">
+        <div>
+          {!state?.audio?.[0]?.audio.includes("null") &&
+            state?.audio?.length > 0 && (
+              <audio controls className="my-2 h-10">
+                <source
+                  src={
+                    `https://xodim.pythonanywhere.com/` +
+                    state?.audio?.[0]?.audio
+                  }
+                />
+              </audio>
+            )}
+        </div>
+        <div className="flex items-center gap-3">
+          {getStatus(state?.status)}
+          <EditTaskStatus data={state} hidden={user_status !== "admin"} />
+        </div>
+      </div>
+      {state?.text?.[0] && (
+        <div className="p-3">
+          <p>
+            {state?.text?.[0]?.text
+              .replaceAll("[", "")
+              .replaceAll("]", "")
+              .replaceAll('"', "")}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const index = () => {
   const { state } = useLocation();
   const [data, setData] = useState(null);
@@ -47,7 +125,7 @@ const index = () => {
   useEffect(() => {
     getComments();
   }, [state]);
-
+  console.log(state);
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -75,8 +153,9 @@ const index = () => {
   }
 
   return (
-    <div className="w-full h-[calc(100vh-80px)] flex flex-col">
+    <div className="w-full h-[calc(100vh-100px)] sm:h-[calc(100vh-80px)] flex flex-col">
       <div className="flex-1 w-full p-1 overflow-y-auto bg-blue-50">
+        <TaskCard state={state} />
         {data?.map?.((item) => {
           return (
             <ChatBubble
