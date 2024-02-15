@@ -1,31 +1,53 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { Button } from "@mui/material";
+import { useRef, useEffect, useState } from "react";
+import { Avatar, Button } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { EditTaskStatus } from "./components";
 
 const ChatBubble = ({ msg, my }) => {
+  const text = useRef();
+
+  useEffect(() => {
+    text.current.innerText = msg?.text;
+  }, [msg]);
+
   return (
     <div
-      className={`sm:max-w-[45%] mb-3 shadow-lg rounded-lg ${
-        my
-          ? "ml-auto bg-blue-200 rounded-br-sm"
-          : "mr-auto bg-white rounded-bl-sm"
+      className={`flex items-end gap-2 mb-7 ${
+        my ? "flex-row-reverse" : "flex-row"
       }`}
     >
-      <div className="flex flex-col">
-        {msg?.photo?.map?.((item) => (
-          <img
-            key={item?.id}
-            src={`https://xodim.pythonanywhere.com/` + item?.photo}
-            alt="image"
-            className="border rounded-lg"
-          />
-        ))}
-      </div>
-      <div className="p-2">
-        <p>{msg?.text}</p>
+      <Avatar
+        src={`https://xodim.pythonanywhere.com/media/` + msg?.rasm}
+        alt="profile image"
+        className="mb-2 shadow-lg"
+      />
+      <div
+        className={`relative sm:max-w-[45%] shadow-lg rounded-lg ${
+          my
+            ? "ml-auto bg-blue-200 rounded-br-sm"
+            : "mr-auto bg-white rounded-bl-sm"
+        }`}
+      >
+        <div className="flex flex-col">
+          {msg?.photo?.map?.((item) => (
+            <img
+              key={item?.id}
+              src={`https://xodim.pythonanywhere.com/` + item?.photo}
+              alt="image"
+              className="border rounded-lg"
+            />
+          ))}
+        </div>
+        <div className="p-2">
+          <p ref={text} />
+        </div>
+        <div className="absolute -bottom-4 w-full">
+          <p className="whitespace-nowrap text-xs w-fit ml-auto">
+            {msg?.ism + " " + msg?.familiya}
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -75,7 +97,7 @@ const TaskCard = ({ state }) => {
             />
           ))}
       </div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between my-2">
         <div>
           {!state?.audio?.[0]?.audio.includes("null") &&
             state?.audio?.length > 0 && (
@@ -125,7 +147,7 @@ const index = () => {
   useEffect(() => {
     getComments();
   }, [state]);
-  console.log(state);
+
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
