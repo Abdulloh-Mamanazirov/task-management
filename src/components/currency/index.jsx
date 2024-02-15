@@ -44,18 +44,15 @@ const index = () => {
   }, []);
 
   async function getCurrency() {
-    const usd = await axios.get(
-      "https://cbu.uz/uz/arkhiv-kursov-valyut/json/USD/"
-    );
-    setUSD(usd?.data?.[0]);
-    const eur = await axios.get(
-      "https://cbu.uz/uz/arkhiv-kursov-valyut/json/EUR/"
-    );
-    setEUR(eur?.data?.[0]);
-    const rub = await axios.get(
-      "https://cbu.uz/uz/arkhiv-kursov-valyut/json/RUB/"
-    );
-    setRUB(rub?.data?.[0]);
+    await fetch("https://cbu.uz/uz/arkhiv-kursov-valyut/json/USD/")
+      .then((res) => res.json())
+      .then((res) => setUSD(res?.[0]));
+    await fetch("https://cbu.uz/uz/arkhiv-kursov-valyut/json/EUR/")
+      .then((res) => res.json())
+      .then((res) => setEUR(res?.[0]));
+    await fetch("https://cbu.uz/uz/arkhiv-kursov-valyut/json/RUB/")
+      .then((res) => res.json())
+      .then((res) => setRUB(res?.[0]));
   }
 
   function scrollWrapper() {

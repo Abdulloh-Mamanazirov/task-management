@@ -13,6 +13,7 @@ import {
   Notes,
   ArchivedTasks,
   AllTasks,
+  FinishTask,
 } from "../pages";
 
 const director_routes = [
@@ -74,6 +75,12 @@ const director_routes = [
     icon: <span className="fa-solid fa-list-check" />,
     element: <CreateTask />,
     showInNav: true,
+  },
+  {
+    key: 15,
+    path: "/director/finish-task/:id",
+    element: <FinishTask />,
+    showInNav: false,
   },
   {
     key: 10,
@@ -148,6 +155,12 @@ const manager_routes = [
     key: 8,
     path: "/manager/employees/:id",
     element: <EmployeeProfile />,
+    showInNav: false,
+  },
+  {
+    key: 15,
+    path: "/manager/finish-task/:id",
+    element: <FinishTask />,
     showInNav: false,
   },
   {
@@ -226,6 +239,12 @@ const employee_routes = [
     icon: <span className="fa-solid fa-list-check" />,
     element: <MyTasks />,
     showInNav: true,
+  },
+  {
+    key: 15,
+    path: "/employee/finish-task/:id",
+    element: <FinishTask />,
+    showInNav: false,
   },
   {
     key: 5,
@@ -324,6 +343,12 @@ const admin_routes = [
     icon: <span className="fa-solid fa-list-check" />,
     element: <CreateTask />,
     showInNav: true,
+  },
+  {
+    key: 15,
+    path: "/admin/finish-task/:id",
+    element: <FinishTask />,
+    showInNav: false,
   },
   {
     key: 10,

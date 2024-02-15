@@ -2,6 +2,7 @@ import Aos from "aos";
 import React, { useState } from "react";
 import EditTaskStatus from "./EditTaskStatus";
 import { Avatar, AvatarGroup, Checkbox, Dialog } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const MyTaskTable = ({ data, getData, fromManagerData }) => {
   Aos.init();
@@ -174,11 +175,17 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                         <td className="border p-2">
                           <div className="font-normal flex gap-2 items-center justify-end">
                             {getStatus(item?.status)}
-                            <EditTaskStatus
+                            <Link
+                              state={item}
+                              to={`/${status}/finish-task/${item?.id}`}
+                            >
+                              <span className="fa-solid fa-edit text-blue-500 text-lg" />
+                            </Link>
+                            {/* <EditTaskStatus
                               data={item}
                               hidden={item?.status === "missed"}
                               getData={getData}
-                            />
+                            /> */}
                           </div>
                         </td>
                         <td className="border p-2">
@@ -276,11 +283,17 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                         <td className="border p-2">
                           <div className="font-normal flex gap-2 items-center justify-end">
                             {getStatus(item?.status)}
-                            <EditTaskStatus
+                            <Link
+                              state={item}
+                              to={`/${status}/finish-task/${item?.id}`}
+                            >
+                              <span className="fa-solid fa-edit text-blue-500 text-lg" />
+                            </Link>
+                            {/* <EditTaskStatus
                               data={item}
                               hidden={item?.status === "missed"}
                               getData={getData}
-                            />
+                            /> */}
                           </div>
                         </td>
                         <td className="border p-2">
@@ -411,11 +424,17 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                         <td className="border p-2">
                           <div className="font-normal flex gap-2 items-center justify-end">
                             {getStatus(item?.status)}
-                            <EditTaskStatus
+                            <Link
+                              state={item}
+                              to={`/${status}/finish-task/${item?.id}`}
+                            >
+                              <span className="fa-solid fa-edit text-blue-500 text-lg" />
+                            </Link>
+                            {/* <EditTaskStatus
                               data={item}
                               hidden={item?.status === "missed"}
                               getData={getData}
-                            />
+                            /> */}
                           </div>
                         </td>
                         <td className="border p-2">
@@ -512,11 +531,17 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                         <td className="border p-2">
                           <div className="font-normal flex gap-2 items-center justify-end">
                             {getStatus(item?.status)}
-                            <EditTaskStatus
+                            <Link
+                              state={item}
+                              to={`/${status}/finish-task/${item?.id}`}
+                            >
+                              <span className="fa-solid fa-edit text-blue-500 text-lg" />
+                            </Link>
+                            {/* <EditTaskStatus
                               data={item}
                               hidden={item?.status === "missed"}
                               getData={getData}
-                            />
+                            /> */}
                           </div>
                         </td>
                         <td className="border p-2">

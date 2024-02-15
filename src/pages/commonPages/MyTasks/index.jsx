@@ -40,7 +40,7 @@ const index = () => {
           data={status === "xodim" ? [...data, ...fromManagerData] : data}
         />
       </div>
-      {windowWidth > 1000 ? (
+      {windowWidth > 1 ? (
         <div className="overflow-x-auto scrollbar-gutter">
           <MyTaskTable
             data={data}

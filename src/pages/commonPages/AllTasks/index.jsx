@@ -27,6 +27,7 @@ import {
   setTo,
   setToStatus,
 } from "../../../redux";
+import { Link } from "react-router-dom";
 
 const index = ({ getStats }) => {
   Aos.init();
@@ -318,7 +319,7 @@ const index = ({ getStats }) => {
                 </th>
                 <th className="border p-3">Moliyaviy ko'mak</th>
                 <th hidden={status !== "admin"} className="border p-3">
-                  Arxivlash
+                  <span className="fa-solid fa-info-circle" />
                 </th>
               </tr>
             </thead>
@@ -663,6 +664,14 @@ const index = ({ getStats }) => {
         }}
       >
         <MenuItem onClick={() => handleArchive()}>Arxivlash</MenuItem>
+        <MenuItem>
+          <Link
+            state={deletingDetails}
+            to={`/${status}/finish-task/${deletingDetails?.id}`}
+          >
+            Comment
+          </Link>
+        </MenuItem>
       </Menu>
     </div>
   );

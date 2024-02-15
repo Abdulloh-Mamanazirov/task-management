@@ -8,6 +8,7 @@ import MyProfile from "./MyProfile";
 import MyTasks from "./MyTasks";
 import Notes from "./Notes";
 import AllTasks from "./AllTasks";
+import FinishTask from "./FinishTask";
 
 export {
   Notes,
@@ -17,6 +18,7 @@ export {
   Employees,
   MyProfile,
   CreateTask,
+  FinishTask,
   ArchivedTasks,
   SectorDetails,
   EmployeeProfile,
