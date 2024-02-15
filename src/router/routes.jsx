@@ -242,7 +242,7 @@ const employee_routes = [
   },
   {
     key: 15,
-    path: "/employee/finish-task/:id",
+    path: "/xodim/finish-task/:id",
     element: <FinishTask />,
     showInNav: false,
   },
