@@ -204,6 +204,18 @@ const index = ({ getStats }) => {
       .catch((err) => toast.error("Vazifa yuklashda xato!"));
   }
 
+  async function handleDeleteTask() {
+    await axios
+      .delete(
+        `delete/${deletingDetails?.id}/${deletingDetails?.to_id}/${deletingDetails?.from_id}/`
+      )
+      .then((res) => {
+        getData();
+        toast.info("Vazifa o'chirildi");
+      })
+      .catch((err) => toast.error("Vazifa yuklashda xato!"));
+  }
+
   return (
     <div className="mt-16 overflow-x-auto max-w-[100vw] scrollbar-gutter">
       <div className="hidden sm:flex justify-around gap-2 whitespace-nowrap">
@@ -671,6 +683,11 @@ const index = ({ getStats }) => {
           >
             Comment
           </Link>
+        </MenuItem>
+        <MenuItem onClick={() => handleDeleteTask()}>
+          <Button variant="text" color="error" size="small" fullWidth>
+            O'chirish
+          </Button>
         </MenuItem>
       </Menu>
     </div>
