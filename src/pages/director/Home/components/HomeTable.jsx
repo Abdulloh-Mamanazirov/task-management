@@ -1,6 +1,7 @@
 import {
   Avatar,
   AvatarGroup,
+  Button,
   Dialog,
   FormControl,
   IconButton,
@@ -25,6 +26,8 @@ const HomeTable = ({ getStats }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [sortField, setSortField] = useState(null);
   const [sortFieldCreate, setSortFieldCreate] = useState(null);
+  const [showAllColumns, setShowAllColumns] = useState(false);
+  const [buttonText, setButtonText] = useState("See Ixcham");
   const open = Boolean(anchorEl);
   const status = sessionStorage.getItem("status");
 
@@ -154,6 +157,15 @@ const HomeTable = ({ getStats }) => {
       </div>
       <div className="mb-2 mt-5">
         <div className="w-full">
+          <Button
+            variant="contained"
+            onClick={() => {
+              setShowAllColumns(!showAllColumns);
+              setButtonText(showAllColumns ? "Toggle Columns" : "Salom");
+            }}
+          >
+            {buttonText}
+          </Button>
           <table className="w-full text-center border">
             <thead className="bg-[#F3C206]">
               <tr className="border">
@@ -180,6 +192,7 @@ const HomeTable = ({ getStats }) => {
                     </Select>
                   </FormControl>
                 </th>
+
                 <th className="border p-3">Muammo</th>
                 <th className="border p-3">Yechim</th>
                 <th className="border p-3">
@@ -210,20 +223,24 @@ const HomeTable = ({ getStats }) => {
                     </Select>
                   </FormControl>
                 </th>
-                <th className="border p-3 w-32">
-                  Muddat
-                  <span
-                    className="fa-solid fa-sort pl-3"
-                    role="button"
-                    onClick={() => {
-                      setSortField(
-                        sortField !== "deadline" ? "deadline" : null
-                      );
-                    }}
-                  />
-                </th>
-                <th className="border p-3 w-32">Jami Muddat</th>
-                <th className="border p-3">Qolgan kun(lar)</th>
+                {!showAllColumns && (
+                  <>
+                    <th className="border p-3 w-32">
+                      Muddat
+                      <span
+                        className="fa-solid fa-sort pl-3"
+                        role="button"
+                        onClick={() => {
+                          setSortField(
+                            sortField !== "deadline" ? "deadline" : null
+                          );
+                        }}
+                      />
+                      <th className="border p-3 w-32">Jami Muddat</th>
+                      <th className="border p-3">Qolgan kun(lar)</th>
+                    </th>
+                  </>
+                )}
                 <th className="border p-3">
                   <FormControl fullWidth size="small">
                     <InputLabel id="demo-simple-select-label">
@@ -337,31 +354,39 @@ const HomeTable = ({ getStats }) => {
                         <td className="border p-2">
                           {item?.first_name + " " + item?.last_name}
                         </td>
-                        <td className="border p-2">{item?.deadline}</td>
-                        <td className="border p-2">
-                          {findDiff(item?.created_at, item?.deadline)}
-                        </td>
-                        <td className="border p-2">
-                          {findDiffFromNow(item?.deadline) > 0 ? (
-                            findDiffFromNow(item?.deadline)
-                          ) : (
-                            <span className="text-status-red">
-                              {findDiffFromNow(item?.deadline)}
-                            </span>
-                          )}
-                        </td>
+                        {!showAllColumns && (
+                          <>
+                            <td className="border p-2">{item?.deadline}</td>
+                            <td className="border p-2">
+                              {findDiff(item?.created_at, item?.deadline)}
+                            </td>
+                            <td className="border p-2">
+                              {findDiffFromNow(item?.deadline) > 0 ? (
+                                findDiffFromNow(item?.deadline)
+                              ) : (
+                                <span className="text-status-red">
+                                  {findDiffFromNow(item?.deadline)}
+                                </span>
+                              )}
+                            </td>
+                          </>
+                        )}
                         <td className="border p-2">
                           <div className="font-normal flex gap-2 items-center justify-center">
                             {getStatus(item?.status)}
                           </div>
                         </td>
-                        <td className="border p-2">
-                          {item?.financial_help ? (
-                            <span className="fa-solid fa-check text-status-green" />
-                          ) : (
-                            <span className="fa-solid fa-x text-red-500" />
-                          )}
-                        </td>
+                        {showAllColumns && (
+                          <>
+                            <td className="border p-2">
+                              {item?.financial_help ? (
+                                <span className="fa-solid fa-check text-status-green" />
+                              ) : (
+                                <span className="fa-solid fa-x text-red-500" />
+                              )}
+                            </td>
+                          </>
+                        )}
                         <td hidden={status !== "admin"} className="border p-2">
                           <IconButton
                             id="basic-button"
