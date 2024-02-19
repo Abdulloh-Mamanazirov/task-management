@@ -56,7 +56,7 @@ const Bar = ({ data }) => {
       keys={["Bajarilgan", "Jarayonda", "Bajarilmagan", "Bekor qilingan"]}
       indexBy="sector"
       colors={({ id, data }) => data[`${id}Color`]}
-      margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+      margin={{ top: 50, right: 130, bottom: 70, left: 60 }}
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
@@ -65,9 +65,10 @@ const Bar = ({ data }) => {
         modifiers: [["darker", 1.6]],
       }}
       axisBottom={{
-        legend: "Bo'limlarning topshiriqlarni bajarish ko'rsatkichi",
-        legendPosition: "middle",
+        // legend: "Bo'limlarning topshiriqlarni bajarish ko'rsatkichi",
+        // legendPosition: "middle",
         legendOffset: 40,
+        tickRotation: -45,
       }}
       labelSkipWidth={12}
       labelSkipHeight={12}

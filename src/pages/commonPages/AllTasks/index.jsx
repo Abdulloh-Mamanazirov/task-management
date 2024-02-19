@@ -40,6 +40,7 @@ const index = ({ getStats }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [sortField, setSortField] = useState(null);
   const [sortFieldCreate, setSortFieldCreate] = useState(null);
+  const [compactView, setCompactView] = useState(false);
   const open = Boolean(anchorEl);
   const status = sessionStorage.getItem("status");
   const dispatch = useDispatch();
@@ -218,22 +219,27 @@ const index = ({ getStats }) => {
 
   return (
     <div className="mt-16 overflow-x-auto max-w-[100vw] scrollbar-gutter">
-      <div className="hidden sm:flex justify-around gap-2 whitespace-nowrap">
-        <div className="ml-3">
-          <h3>Jami Tadbirlar soni - {data?.length} ta</h3>
-        </div>
-        <div className="flex items-center">
-          <div className="bg-status-green text-white w-28 md:w-40 text-center ">
-            Bajarilgan
+      <div className="flex items-center w-full">
+        <Button variant="outlined" onClick={() => setCompactView(!compactView)}>
+          {compactView ? "To'liq" : "Ixcham"}
+        </Button>
+        <div className="w-full hidden md:flex justify-around gap-2 whitespace-nowrap">
+          <div className="ml-3">
+            <h3>Jami Tadbirlar soni - {data?.length} ta</h3>
           </div>
-          <div className="bg-status-red text-white w-28 md:w-40 text-center">
-            Bajarilmagan
-          </div>
-          <div className="bg-status-yellow w-28 md:w-40 text-center">
-            Jarayonda
-          </div>
-          <div className="bg-status-gray text-white w-28 md:w-40 text-center">
-            Bekor qilingan
+          <div className="flex items-center">
+            <div className="bg-status-green text-white w-28 md:w-40 text-center ">
+              Bajarilgan
+            </div>
+            <div className="bg-status-red text-white w-28 md:w-40 text-center">
+              Bajarilmagan
+            </div>
+            <div className="bg-status-yellow w-28 md:w-40 text-center">
+              Jarayonda
+            </div>
+            <div className="bg-status-gray text-white w-28 md:w-40 text-center">
+              Bekor qilingan
+            </div>
           </div>
         </div>
       </div>
@@ -295,7 +301,7 @@ const index = ({ getStats }) => {
                     </Select>
                   </FormControl>
                 </th>
-                <th className="border p-3 w-32">
+                <th hidden={compactView} className="border p-3 w-32">
                   Muddat
                   <span
                     className="fa-solid fa-sort pl-3"
@@ -307,7 +313,9 @@ const index = ({ getStats }) => {
                     }}
                   />
                 </th>
-                <th className="border p-3 w-32">Jami Muddat</th>
+                <th hidden={compactView} className="border p-3 w-32">
+                  Jami Muddat
+                </th>
                 <th className="border p-3">Qolgan kun(lar)</th>
                 <th className="border p-3">
                   <FormControl fullWidth size="small">
@@ -329,7 +337,9 @@ const index = ({ getStats }) => {
                     </Select>
                   </FormControl>
                 </th>
-                <th className="border p-3">Moliyaviy ko'mak</th>
+                <th hidden={compactView} className="border p-3">
+                  Moliyaviy ko'mak
+                </th>
                 <th hidden={status !== "admin"} className="border p-3">
                   <span className="fa-solid fa-info-circle" />
                 </th>
@@ -419,10 +429,10 @@ const index = ({ getStats }) => {
                           {item?.first_name + " " + item?.last_name}
                         </td>
                         <td className="border p-2">{item?.deadline}</td>
-                        <td className="border p-2">
+                        <td hidden={compactView} className="border p-2">
                           {findDiff(item?.created_at, item?.deadline)}
                         </td>
-                        <td className="border p-2">
+                        <td hidden={compactView} className="border p-2">
                           {findDiffFromNow(item?.deadline) > 0 ? (
                             findDiffFromNow(item?.deadline)
                           ) : (
@@ -436,7 +446,7 @@ const index = ({ getStats }) => {
                             {getStatus(item?.status)}
                           </div>
                         </td>
-                        <td className="border p-2">
+                        <td hidden={compactView} className="border p-2">
                           {item?.financial_help ? (
                             <span className="fa-solid fa-check text-status-green" />
                           ) : (
