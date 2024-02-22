@@ -103,7 +103,11 @@ export default function EditModal({ open, data, handleClose }) {
             <div className="mt-5">
               <label htmlFor="phone_number">Telefon raqam:</label>
               <input
-                defaultValue={data?.phone_number}
+                defaultValue={
+                  data?.phone_number?.startsWith("+998")
+                    ? data?.phone_number?.replace("+998", "")
+                    : data?.phone_number
+                }
                 name="phone_number"
                 id="phone_number"
                 placeholder="90 123 45 67"

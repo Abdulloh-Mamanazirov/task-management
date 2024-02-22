@@ -40,7 +40,7 @@ const index = ({ getStats }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [sortField, setSortField] = useState(null);
   const [sortFieldCreate, setSortFieldCreate] = useState(null);
-  const [compactView, setCompactView] = useState(false);
+  const [compactView, setCompactView] = useState(true);
   const open = Boolean(anchorEl);
   const status = sessionStorage.getItem("status");
   const dispatch = useDispatch();
@@ -197,9 +197,11 @@ const index = ({ getStats }) => {
       .patch(returnUrl(), formData)
       .then((res) => {
         if (res?.data?.id) {
-          getData();
           setAddTask(false);
           toast.success("Vazifa yuklandi!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2500);
         }
       })
       .catch((err) => toast.error("Vazifa yuklashda xato!"));
@@ -212,6 +214,7 @@ const index = ({ getStats }) => {
       )
       .then((res) => {
         getData();
+        setAnchorEl(null);
         toast.info("Vazifa o'chirildi");
       })
       .catch((err) => toast.error("Vazifa yuklashda xato!"));
@@ -245,7 +248,7 @@ const index = ({ getStats }) => {
       </div>
       <div className="mb-2 mt-5">
         <div className="w-full">
-          <table className="w-full text-center border">
+          <table className="w-full text-center border text-[15px]">
             <thead className="bg-[#F3C206]">
               <tr className="border">
                 <th className="border p-3">No_</th>
@@ -271,8 +274,8 @@ const index = ({ getStats }) => {
                     </Select>
                   </FormControl>
                 </th>
-                <th className="border p-3">Muammo</th>
-                <th className="border p-3">Yechim</th>
+                <th className="border p-3 w-5/12">Muammo</th>
+                <th className="border p-3 w-5/12">Yechim</th>
                 <th className="border p-3">
                   <FormControl fullWidth size="small">
                     <InputLabel id="demo-simple-select-label">
@@ -301,10 +304,13 @@ const index = ({ getStats }) => {
                     </Select>
                   </FormControl>
                 </th>
-                <th hidden={compactView} className="border p-3 w-32">
+                <th
+                  hidden={compactView}
+                  className="border p-3 w-32 whitespace-nowrap"
+                >
                   Muddat
                   <span
-                    className="fa-solid fa-sort pl-3"
+                    className="fa-solid fa-sort pl-1"
                     role="button"
                     onClick={() => {
                       setSortField(
@@ -603,7 +609,7 @@ const index = ({ getStats }) => {
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                           format="DD/MM/YYYY"
-                          label="Tugash sanasi *"
+                          label="Tugash *"
                           disablePast
                           onChange={(e) =>
                             dispatch(setDeadline(`${e.$D}-${e.$M + 1}-${e.$y}`))
@@ -639,7 +645,10 @@ const index = ({ getStats }) => {
               <tr hidden={addTask} className="border">
                 <td className="border p-2 text-center" colSpan={11}>
                   <Button
-                    onClick={() => setAddTask(true)}
+                    onClick={() => {
+                      setAddTask(true);
+                      setCompactView(false);
+                    }}
                     variant="contained"
                     fullWidth
                   >

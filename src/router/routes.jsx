@@ -74,7 +74,7 @@ const director_routes = [
     title: "Vazifa yuklash",
     icon: <span className="fa-solid fa-list-check" />,
     element: <CreateTask />,
-    showInNav: true,
+    showInNav: false,
   },
   {
     key: 15,
@@ -177,7 +177,7 @@ const manager_routes = [
     title: "Vazifa yuklash",
     icon: <span className="fa-solid fa-list-check" />,
     element: <CreateTask />,
-    showInNav: true,
+    showInNav: false,
   },
   {
     key: 9,
@@ -342,7 +342,7 @@ const admin_routes = [
     title: "Vazifa yuklash",
     icon: <span className="fa-solid fa-list-check" />,
     element: <CreateTask />,
-    showInNav: true,
+    showInNav: false,
   },
   {
     key: 15,

@@ -26,7 +26,7 @@ const HomeTable = ({ getStats }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [sortField, setSortField] = useState(null);
   const [sortFieldCreate, setSortFieldCreate] = useState(null);
-  const [compactView, setCompactView] = useState(false);
+  const [compactView, setCompactView] = useState(true);
   const open = Boolean(anchorEl);
   const status = sessionStorage.getItem("status");
 
@@ -161,9 +161,9 @@ const HomeTable = ({ getStats }) => {
       </div>
       <div className="mb-2 mt-5">
         <div className="w-full">
-          <table className="w-full text-center border">
-            <thead className="bg-[#F3C206]">
-              <tr className="border">
+          <table className="w-full text-center border text-[15px]">
+            <thead className="bg-[#F3C206] w-full">
+              <tr className="border w-full">
                 <th className="border p-3">No_</th>
                 <th className="border p-3">
                   <FormControl fullWidth size="small">
@@ -187,8 +187,8 @@ const HomeTable = ({ getStats }) => {
                     </Select>
                   </FormControl>
                 </th>
-                <th className="border p-3">Muammo</th>
-                <th className="border p-3">Yechim</th>
+                <th className="border p-3 w-5/12">Muammo</th>
+                <th className="border p-3 w-5/12">Yechim</th>
                 <th className="border p-3">
                   <FormControl fullWidth size="small">
                     <InputLabel id="demo-simple-select-label">
@@ -217,10 +217,13 @@ const HomeTable = ({ getStats }) => {
                     </Select>
                   </FormControl>
                 </th>
-                <th hidden={compactView} className="border p-3 w-32">
+                <th
+                  hidden={compactView}
+                  className="border p-3 w-32 whitespace-nowrap"
+                >
                   Muddat
                   <span
-                    className="fa-solid fa-sort pl-3"
+                    className="fa-solid fa-sort pl-1"
                     role="button"
                     onClick={() => {
                       setSortField(

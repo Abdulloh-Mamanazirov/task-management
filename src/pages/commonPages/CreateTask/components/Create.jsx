@@ -47,6 +47,9 @@ const Create = () => {
       .then((res) => {
         if (res?.data?.id) {
           toast.success("Vazifa yuklandi!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2500);
         }
       })
       .catch((err) => toast.error("Vazifa yuklashda xato!"))
