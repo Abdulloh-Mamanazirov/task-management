@@ -90,10 +90,17 @@ const Table = ({ users, sectorDetails }) => {
                         {item?.first_name + " " + item?.last_name}
                       </td>
                       <td className="border p-2">
-                        {item?.finished +
-                          item?.doing +
-                          item?.canceled +
-                          item?.missed}
+                        {isNaN(
+                          item?.finished +
+                            item?.doing +
+                            item?.canceled +
+                            item?.missed
+                        )
+                          ? 0
+                          : item?.finished +
+                            item?.doing +
+                            item?.canceled +
+                            item?.missed}
                       </td>
                       <td className="border">
                         {getStatsNumber(
@@ -102,21 +109,25 @@ const Table = ({ users, sectorDetails }) => {
                             : item?.finished_protsent < 80
                             ? "bg-status-orange"
                             : "bg-status-green",
-                          `${item?.finished_protsent?.toFixed(2)} %`,
+                          `${
+                            item?.finished_protsent
+                              ? item?.finished_protsent?.toFixed(2)
+                              : "0"
+                          } %`,
                           "rectangle"
                         )}
                       </td>
                       <td className="border p-2">
-                        {getStatsNumber("bg-status-green", item?.finished)}
+                        {getStatsNumber("bg-status-green", item?.finished ?? 0)}
                       </td>
                       <td className="border p-2">
-                        {getStatsNumber("bg-status-yellow", item?.doing)}
+                        {getStatsNumber("bg-status-yellow", item?.doing ?? 0)}
                       </td>
                       <td className="border p-2">
-                        {getStatsNumber("bg-status-red", item?.missed)}
+                        {getStatsNumber("bg-status-red", item?.missed ?? 0)}
                       </td>
                       <td className="border p-2">
-                        {getStatsNumber("bg-status-gray", item?.canceled)}
+                        {getStatsNumber("bg-status-gray", item?.canceled ?? 0)}
                       </td>
                     </tr>
                   );
