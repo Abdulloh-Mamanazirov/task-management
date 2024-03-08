@@ -32,6 +32,14 @@ const director_routes = [
     showInNav: false,
   },
   {
+    key: 13,
+    path: "/direktor/all-tasks",
+    title: "Barcha vazifalar",
+    icon: <span className="fa-solid fa-circle-check" />,
+    element: <AllTasks />,
+    showInNav: true,
+  },
+  {
     key: 2,
     path: "/director/sectors",
     title: "Bo'limlar",

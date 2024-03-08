@@ -1,6 +1,7 @@
 import {
   Avatar,
   AvatarGroup,
+  Badge,
   Button,
   Checkbox,
   Dialog,
@@ -14,6 +15,7 @@ import {
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { styled } from "@mui/material/styles";
 import Aos from "aos";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -28,6 +30,15 @@ import {
   setToStatus,
 } from "../../../redux";
 import { Link } from "react-router-dom";
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+  },
+}));
 
 const index = ({ getStats }) => {
   Aos.init();
@@ -165,6 +176,11 @@ const index = ({ getStats }) => {
     } else {
       return null;
     }
+  };
+  const checkAdminOrDirectorStatus = (status) => {
+    if (status === "admin") return false;
+    else if (status === "director") return false;
+    else return true;
   };
 
   function returnUrl() {
@@ -346,7 +362,10 @@ const index = ({ getStats }) => {
                 <th hidden={compactView} className="border p-3">
                   Moliyaviy ko'mak
                 </th>
-                <th hidden={status !== "admin"} className="border p-3">
+                <th
+                  hidden={checkAdminOrDirectorStatus(status)}
+                  className="border p-3"
+                >
                   <span className="fa-solid fa-info-circle" />
                 </th>
               </tr>
@@ -459,7 +478,10 @@ const index = ({ getStats }) => {
                             <span className="fa-solid fa-x text-red-500" />
                           )}
                         </td>
-                        <td hidden={status !== "admin"} className="border p-2">
+                        <td
+                          hidden={checkAdminOrDirectorStatus(status)}
+                          className="border p-2"
+                        >
                           <IconButton
                             id="basic-button"
                             aria-controls={open ? "basic-menu" : undefined}
@@ -470,7 +492,12 @@ const index = ({ getStats }) => {
                               setAnchorEl(e.currentTarget);
                             }}
                           >
-                            <span className="fa-solid fa-ellipsis-vertical px-2" />
+                            <StyledBadge
+                              badgeContent={item?.xabar}
+                              color="secondary"
+                            >
+                              <span className="fa-solid fa-ellipsis-vertical px-2" />
+                            </StyledBadge>
                           </IconButton>
                         </td>
                       </tr>
