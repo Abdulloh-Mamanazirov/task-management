@@ -358,7 +358,8 @@ const HomeTable = ({ getStats }) => {
                           {findDiff(item?.created_at, item?.deadline)}
                         </td>
                         <td className="border p-2">
-                          {findDiffFromNow(item?.deadline) > 0 ? (
+                          {findDiffFromNow(item?.deadline) > 0 ||
+                          item?.status === "finished" ? (
                             findDiffFromNow(item?.deadline)
                           ) : (
                             <span className="text-status-red">
