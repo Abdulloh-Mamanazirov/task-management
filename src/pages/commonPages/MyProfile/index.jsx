@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
-import { EditModal, ImageUpload } from "./components";
+import { EditModal, ImageUpload, ResetPassword } from "./components";
 import { Link } from "react-router-dom";
 
 const index = () => {
@@ -129,7 +129,8 @@ const index = () => {
               </tbody>
             </table>
             {/* edit button */}
-            <div className="w-fit ml-auto mt-3 text-white">
+            <div className="w-fit ml-auto mt-3 text-white flex items-center gap-3">
+              <ResetPassword />
               <Button
                 color="inherit"
                 variant="outlined"
