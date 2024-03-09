@@ -1,8 +1,18 @@
 import Aos from "aos";
 import React, { useState } from "react";
 import EditTaskStatus from "./EditTaskStatus";
-import { Avatar, AvatarGroup, Checkbox, Dialog } from "@mui/material";
+import { Avatar, AvatarGroup, Badge, Checkbox, Dialog } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: -3,
+    top: 0,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+  },
+}));
 
 const MyTaskTable = ({ data, getData, fromManagerData }) => {
   Aos.init();
@@ -180,8 +190,16 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                               state={item}
                               to={`/${status}/finish-task/${item?.id}`}
                             >
-                              <span className="fa-solid fa-edit text-blue-500 text-lg" />
+                              <StyledBadge badgeContent={item?.xabar} color="secondary">
+                                <span className="fa-solid fa-edit text-blue-500 text-lg" />
+                              </StyledBadge>
                             </Link>
+                            {/* <Link
+                              state={item}
+                              to={`/${status}/finish-task/${item?.id}`}
+                            >
+                              <span className="fa-solid fa-edit text-blue-500 text-lg" />
+                            </Link> */}
                             {/* <EditTaskStatus
                               data={item}
                               hidden={item?.status === "missed"}
