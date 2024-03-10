@@ -595,7 +595,7 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
             return (
               <div className="cursor-pointer" key={item.id}>
                 <img
-                  alt="salom"
+                  alt="Vazifa rasmi"
                   key={item.id}
                   src={`https://xodim.pythonanywhere.com/` + item?.photo}
                 />
