@@ -239,6 +239,16 @@ function index() {
             </IconButton>
             <Link
               to={`/${status}/tasks`}
+              className={`inline-block sm:hidden ${
+                status === "xodim" ? "hidden" : ""
+              }`}
+            >
+              <IconButton color="primary" size="medium">
+                <span className="fa-solid fa-list-check" />
+              </IconButton>
+            </Link>
+            <Link
+              to={`/${status}/tasks`}
               className={`hidden ${
                 status === "xodim" ? "hidden" : "sm:inline-block"
               }`}
