@@ -190,7 +190,10 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                               state={item}
                               to={`/${status}/finish-task/${item?.id}`}
                             >
-                              <StyledBadge badgeContent={item?.xabar} color="secondary">
+                              <StyledBadge
+                                badgeContent={item?.xabar}
+                                color="secondary"
+                              >
                                 <span className="fa-solid fa-edit text-blue-500 text-lg" />
                               </StyledBadge>
                             </Link>
@@ -525,10 +528,11 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                                   <Avatar
                                     alt={`Image ${photoIndex + 1}`}
                                     key={photoItem.id}
-                                    src={
-                                      `https://xodim.pythonanywhere.com/` +
-                                      photoItem?.photo
-                                    }
+                                    // src={
+                                    //   `https://xodim.pythonanywhere.com/` +
+                                    //   photoItem?.photo
+                                    // }
+                                    src={photoItem?.photo}
                                   />
                                 ))}
                             </AvatarGroup>
@@ -597,7 +601,8 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                 <img
                   alt="Vazifa rasmi"
                   key={item.id}
-                  src={`https://xodim.pythonanywhere.com/` + item?.photo}
+                  // src={`https://xodim.pythonanywhere.com/` + item?.photo}
+                  src={item?.photo}
                 />
               </div>
             );
