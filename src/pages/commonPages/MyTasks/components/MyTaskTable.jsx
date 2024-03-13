@@ -1,7 +1,15 @@
 import Aos from "aos";
 import React, { useState } from "react";
 import EditTaskStatus from "./EditTaskStatus";
-import { Avatar, AvatarGroup, Badge, Checkbox, Dialog } from "@mui/material";
+import {
+  Avatar,
+  AvatarGroup,
+  Badge,
+  Checkbox,
+  Dialog,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 
@@ -18,6 +26,9 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
   Aos.init();
   const [modal, setModal] = useState({ open: false, data: null });
   const [sortField, setSortField] = useState(null);
+  const [commentItem, setCommentItem] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
   const status = sessionStorage.getItem("status");
 
   function findDiff(created_day, deadline) {
@@ -101,7 +112,10 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                 <th className="border p-3">Jami muddat</th>
                 <th className="border p-3">Qolgan kun(lar)</th>
                 <th className="border p-3">Xolati</th>
-                <th className="border p-3">Moliyaviy ko'mak</th>
+                {/* <th className="border p-3">Moliyaviy ko'mak</th> */}
+                <th className="border p-3">
+                  <span className="fa-solid fa-info-circle" />
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -160,10 +174,11 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                                   <Avatar
                                     alt={`Image ${photoIndex + 1}`}
                                     key={photoItem.id}
-                                    src={
-                                      `https://xodim.pythonanywhere.com/` +
-                                      photoItem?.photo
-                                    }
+                                    // src={
+                                    //   `https://xodim.pythonanywhere.com/` +
+                                    //   photoItem?.photo
+                                    // }
+                                    src={photoItem?.photo}
                                   />
                                 ))}
                             </AvatarGroup>
@@ -186,17 +201,6 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                         <td className="border p-2">
                           <div className="font-normal flex gap-2 items-center justify-end">
                             {getStatus(item?.status)}
-                            <Link
-                              state={item}
-                              to={`/${status}/finish-task/${item?.id}`}
-                            >
-                              <StyledBadge
-                                badgeContent={item?.xabar}
-                                color="secondary"
-                              >
-                                <span className="fa-solid fa-edit text-blue-500 text-lg" />
-                              </StyledBadge>
-                            </Link>
                             {/* <Link
                               state={item}
                               to={`/${status}/finish-task/${item?.id}`}
@@ -210,12 +214,26 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                             /> */}
                           </div>
                         </td>
-                        <td className="border p-2">
+                        {/* <td className="border p-2">
                           {item?.financial_help ? (
                             <span className="fa-solid fa-check text-status-green" />
                           ) : (
                             <span className="fa-solid fa-x text-red-500" />
                           )}
+                        </td> */}
+                        <td className="border p-2">
+                          <StyledBadge
+                            role={"button"}
+                            onClick={(e) => {
+                              setCommentItem(item);
+                              setAnchorEl(e.currentTarget);
+                            }}
+                            badgeContent={item?.xabar}
+                            color="secondary"
+                            className="px-2 mr-1"
+                          >
+                            <span className="fa-solid fa-ellipsis-vertical text-blue-500 text-lg" />
+                          </StyledBadge>
                         </td>
                       </tr>
                     ))
@@ -280,10 +298,11 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                                   <Avatar
                                     alt={`Image ${photoIndex + 1}`}
                                     key={photoItem.id}
-                                    src={
-                                      `https://xodim.pythonanywhere.com/` +
-                                      photoItem?.photo
-                                    }
+                                    // src={
+                                    //   `https://xodim.pythonanywhere.com/` +
+                                    //   photoItem?.photo
+                                    // }
+                                    src={photoItem?.photo}
                                   />
                                 ))}
                             </AvatarGroup>
@@ -305,12 +324,12 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                         <td className="border p-2">
                           <div className="font-normal flex gap-2 items-center justify-end">
                             {getStatus(item?.status)}
-                            <Link
+                            {/* <Link
                               state={item}
                               to={`/${status}/finish-task/${item?.id}`}
                             >
                               <span className="fa-solid fa-edit text-blue-500 text-lg" />
-                            </Link>
+                            </Link> */}
                             {/* <EditTaskStatus
                               data={item}
                               hidden={item?.status === "missed"}
@@ -318,12 +337,26 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                             /> */}
                           </div>
                         </td>
-                        <td className="border p-2">
+                        {/* <td className="border p-2">
                           {item?.financial_help ? (
                             <span className="fa-solid fa-check text-status-green" />
                           ) : (
                             <span className="fa-solid fa-x text-red-500" />
                           )}
+                        </td> */}
+                        <td className="border p-2">
+                          <StyledBadge
+                            role={"button"}
+                            onClick={(e) => {
+                              setCommentItem(item);
+                              setAnchorEl(e.currentTarget);
+                            }}
+                            badgeContent={item?.xabar}
+                            color="secondary"
+                            className="px-2 mr-1"
+                          >
+                            <span className="fa-solid fa-ellipsis-vertical text-blue-500 text-lg" />
+                          </StyledBadge>
                         </td>
                       </tr>
                     ))
@@ -362,7 +395,10 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                 <th className="border p-3">Jami muddat</th>
                 <th className="border p-3">Qolgan kun(lar)</th>
                 <th className="border p-3">Xolati</th>
-                <th className="border p-3">Moliyaviy ko'mak</th>
+                {/* <th className="border p-3">Moliyaviy ko'mak</th> */}
+                <th className="border p-3">
+                  <span className="fa-solid fa-info-circle" />
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -421,10 +457,11 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                                   <Avatar
                                     alt={`Image ${photoIndex + 1}`}
                                     key={photoItem.id}
-                                    src={
-                                      `https://xodim.pythonanywhere.com/` +
-                                      photoItem?.photo
-                                    }
+                                    // src={
+                                    //   `https://xodim.pythonanywhere.com/` +
+                                    //   photoItem?.photo
+                                    // }
+                                    src={photoItem?.photo}
                                   />
                                 ))}
                             </AvatarGroup>
@@ -446,12 +483,23 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                         <td className="border p-2">
                           <div className="font-normal flex gap-2 items-center justify-end">
                             {getStatus(item?.status)}
-                            <Link
+                            {/* <Link
+                              state={item}
+                              to={`/${status}/finish-task/${item?.id}`}
+                            >
+                              <StyledBadge
+                                badgeContent={"item?.xabar"}
+                                color="secondary"
+                              >
+                                <span className="fa-solid fa-edit text-blue-500 text-lg" />
+                              </StyledBadge>
+                            </Link> */}
+                            {/* <Link
                               state={item}
                               to={`/${status}/finish-task/${item?.id}`}
                             >
                               <span className="fa-solid fa-edit text-blue-500 text-lg" />
-                            </Link>
+                            </Link> */}
                             {/* <EditTaskStatus
                               data={item}
                               hidden={item?.status === "missed"}
@@ -459,12 +507,26 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                             /> */}
                           </div>
                         </td>
-                        <td className="border p-2">
+                        {/* <td className="border p-2">
                           {item?.financial_help ? (
                             <span className="fa-solid fa-check text-status-green" />
                           ) : (
                             <span className="fa-solid fa-x text-red-500" />
                           )}
+                        </td> */}
+                        <td className="border p-2">
+                          <StyledBadge
+                            role={"button"}
+                            onClick={(e) => {
+                              setCommentItem(item);
+                              setAnchorEl(e.currentTarget);
+                            }}
+                            badgeContent={item?.xabar}
+                            color="secondary"
+                            className="px-2 mr-1"
+                          >
+                            <span className="fa-solid fa-ellipsis-vertical text-blue-500 text-lg" />
+                          </StyledBadge>
                         </td>
                       </tr>
                     ))
@@ -554,12 +616,12 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                         <td className="border p-2">
                           <div className="font-normal flex gap-2 items-center justify-end">
                             {getStatus(item?.status)}
-                            <Link
+                            {/* <Link
                               state={item}
                               to={`/${status}/finish-task/${item?.id}`}
                             >
                               <span className="fa-solid fa-edit text-blue-500 text-lg" />
-                            </Link>
+                            </Link> */}
                             {/* <EditTaskStatus
                               data={item}
                               hidden={item?.status === "missed"}
@@ -567,12 +629,26 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
                             /> */}
                           </div>
                         </td>
-                        <td className="border p-2">
+                        {/* <td className="border p-2">
                           {item?.financial_help ? (
                             <span className="fa-solid fa-check text-status-green" />
                           ) : (
                             <span className="fa-solid fa-x text-red-500" />
                           )}
+                        </td> */}
+                        <td className="border p-2">
+                          <StyledBadge
+                            role={"button"}
+                            onClick={(e) => {
+                              setCommentItem(item);
+                              setAnchorEl(e.currentTarget);
+                            }}
+                            badgeContent={item?.xabar}
+                            color="secondary"
+                            className="px-2 mr-1"
+                          >
+                            <span className="fa-solid fa-ellipsis-vertical text-blue-500 text-lg" />
+                          </StyledBadge>
                         </td>
                       </tr>
                     ))
@@ -609,6 +685,26 @@ const MyTaskTable = ({ data, getData, fromManagerData }) => {
           })}
         </div>
       </Dialog>
+
+      {/* archive dropdown */}
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={() => setAnchorEl(null)}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem>
+          <Link
+            state={commentItem}
+            to={`/${status}/finish-task/${commentItem?.id}`}
+          >
+            Comment
+          </Link>
+        </MenuItem>
+      </Menu>
     </div>
   );
 };
