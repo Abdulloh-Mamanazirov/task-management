@@ -404,15 +404,20 @@ const index = ({ getStats }) => {
                         </td>
                         <td className="border p-2">{item?.problem}</td>
                         <td className="border px-2 max-w-md">
-                          {item?.text?.[0]?.text
-                            .replaceAll("[", "")
-                            .replaceAll("]", "")
-                            .replaceAll('"', "").length > 0
-                            ? item?.text?.[0]?.text
-                                .replaceAll("[", "")
-                                .replaceAll("]", "")
-                                .replaceAll('"', "")
-                            : null}
+                          <p
+                            dangerouslySetInnerHTML={{
+                              __html:
+                                item?.text?.[0]?.text
+                                  .replaceAll("[", "")
+                                  .replaceAll("]", "")
+                                  .replaceAll('"', "").length > 0
+                                  ? item?.text?.[0]?.text
+                                      .replaceAll("[", "")
+                                      .replaceAll("]", "")
+                                      .replaceAll('"', "")
+                                  : null,
+                            }}
+                          />
 
                           <div>
                             {!item?.audio?.[0]?.audio.includes("null") &&
