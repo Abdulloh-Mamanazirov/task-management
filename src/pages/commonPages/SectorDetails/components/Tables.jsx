@@ -164,9 +164,9 @@ const Table = ({ users, sectorDetails }) => {
           onClick={(event) => {
             setAnchorEl(event.currentTarget);
           }}
-          startIcon={<span className="fa-solid fa-trash" />}
+          size="small"
         >
-          O'chirish
+          <span className="fa-solid fa-trash text-lg" />
         </Button>
       </div>
       {/* pop confirm */}

@@ -186,17 +186,16 @@ function index() {
             )
           )}
       </List>
-      <div className="mt-auto p-3">
+      <div className="mt-auto p-3 flex items-center">
         <Button
           variant="contained"
           color="error"
-          startIcon={<span className="fa-solid fa-arrow-right-from-bracket" />}
-          size="small"
           onClick={handleLogOut}
-          fullWidth
-        >
-          Chiqish
+          sx={{py:1, borderRadius:50}}
+          title="Profildan chiqish"
+          ><span className="fa-solid fa-arrow-right-from-bracket" />
         </Button>
+        <p className="text-sm ml-2">Profildan chiqish</p>
       </div>
     </div>
   );
