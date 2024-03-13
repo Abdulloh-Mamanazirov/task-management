@@ -441,10 +441,7 @@ const index = ({ getStats }) => {
                                   <Avatar
                                     alt={`Image ${photoIndex + 1}`}
                                     key={photoItem.id}
-                                    src={
-                                      `https://xodim.pythonanywhere.com/` +
-                                      photoItem?.photo
-                                    }
+                                    src={photoItem?.photo}
                                   />
                                 ))}
                             </AvatarGroup>
@@ -700,11 +697,7 @@ const index = ({ getStats }) => {
           {modal.data?.map((item) => {
             return (
               <div className="cursor-pointer" key={item.id}>
-                <img
-                  alt="task image"
-                  key={item.id}
-                  src={`https://xodim.pythonanywhere.com/` + item?.photo}
-                />
+                <img alt="task image" key={item.id} src={item?.photo} />
               </div>
             );
           })}
