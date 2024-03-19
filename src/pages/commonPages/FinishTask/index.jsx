@@ -85,8 +85,11 @@ const ChatBubble = ({ msg, my }) => {
             </div>
           </div>
         </div>
-        <div className="absolute -bottom-4 w-full">
-          <p className="whitespace-nowrap text-xs w-fit ml-auto">
+        <div className="absolute -bottom-4 w-full flex items-center justify-between gap-2">
+          <p className="whitespace-nowrap text-xs w-fit">
+            {new Date(msg?.created_at).toLocaleString("ru-Ru")}
+          </p>
+          <p className="whitespace-nowrap text-xs w-fit">
             {msg?.ism + " " + msg?.familiya}
           </p>
         </div>
