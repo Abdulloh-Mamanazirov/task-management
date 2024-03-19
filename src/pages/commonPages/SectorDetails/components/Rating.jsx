@@ -31,20 +31,28 @@ const UserRankingTable = ({ users }) => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {users?.length > 0 ? (
-            users?.map?.((user, ind) => (
-              <tr key={ind} className={`px-6 py-4 hover:bg-gray-100`}>
-                <td className="px-1 py-2 text-center whitespace-nowrap text-sm font-medium text-gray-900">
-                  {ind === 0 ? "🥇" : ind === 1 ? "🥈" : ind === 2 ? "🥉" : ""}{" "}
-                  {ind + 1}
-                </td>
-                <td className="px-1 py-2 text-center whitespace-nowrap text-sm text-gray-500">
-                  {user?.first_name} {user?.last_name}
-                </td>
-                <td className="px-1 py-2 text-center whitespace-nowrap text-sm text-gray-500">
-                  {user?.finished_protsent}
-                </td>
-              </tr>
-            ))
+            users
+              ?.sort((a, b) => b?.finished_protsent - a?.finished_protsent)
+              ?.map?.((user, ind) => (
+                <tr key={ind} className={`px-6 py-4 hover:bg-gray-100`}>
+                  <td className="px-1 py-2 text-center whitespace-nowrap text-sm font-medium text-gray-900">
+                    {ind === 0
+                      ? "🥇"
+                      : ind === 1
+                      ? "🥈"
+                      : ind === 2
+                      ? "🥉"
+                      : ""}{" "}
+                    {ind + 1}
+                  </td>
+                  <td className="px-1 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                    {user?.first_name} {user?.last_name}
+                  </td>
+                  <td className="px-1 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                    {user?.finished_protsent.toFixed(2)}
+                  </td>
+                </tr>
+              ))
           ) : (
             <tr>
               <td colSpan={3}>
