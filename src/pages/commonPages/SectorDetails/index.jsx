@@ -73,7 +73,7 @@ const index = () => {
       </div>
       <div>
         <Tables
-          users={usersData?.ishchilar}
+          users={usersData?.stat}
           sectorDetails={sectors?.find?.((sector) =>
             id ? sector?.id == id : sector?.id == sector_id
           )}
