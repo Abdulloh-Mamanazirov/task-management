@@ -233,7 +233,7 @@ const index = ({ getStats }) => {
         setAnchorEl(null);
         toast.info("Vazifa o'chirildi");
       })
-      .catch((err) => toast.error("Vazifa yuklashda xato!"));
+      .catch((err) => toast.error("Vazifani o'chirishda xato!"));
   }
 
   return (

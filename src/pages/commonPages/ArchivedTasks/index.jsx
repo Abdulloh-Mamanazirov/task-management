@@ -61,21 +61,17 @@ const HomeTable = () => {
     getData();
   }, []);
 
-  async function handleArchive() {
-    const data = {
-      _to: deletingDetails?.to_id,
-      _from: deletingDetails?.from_id,
-    };
-
+  async function handleDeleteTask() {
     await axios
-      .patch(`/arxiv/task/${deletingDetails?.id}/`, data)
-      .then(() => {
-        toast.success("Vazifa arxivdan olindi");
+      .delete(
+        `delete/${deletingDetails?.id}/${deletingDetails?.to_id}/${deletingDetails?.from_id}/`
+      )
+      .then((res) => {
         getData();
+        setAnchorEl(null);
+        toast.info("Vazifa o'chirildi");
       })
-      .catch((err) => toast.error("Vazifani arxivlashda xatolik!"));
-    setDeletingDetails(null);
-    setAnchorEl(null);
+      .catch((err) => toast.error("Vazifani o'chirishda xato!"));
   }
 
   function findDiff(created_day, deadline) {
@@ -567,7 +563,9 @@ const HomeTable = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={() => handleArchive()}>Arxivlash</MenuItem>
+        <MenuItem onClick={() => handleDeleteTask()}>
+          <p className="text-red-500">O'chirish</p>
+        </MenuItem>
       </Menu>
     </div>
   );
