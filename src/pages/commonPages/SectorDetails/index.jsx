@@ -69,11 +69,11 @@ const index = () => {
         <div className="h-96">
           <Pie data={data} />
         </div>
-        <Rating users={usersData?.stat} />
+        <Rating users={usersData?.stat ? usersData?.stat : usersData} />
       </div>
       <div>
         <Tables
-          users={usersData?.stat}
+          users={usersData?.stat ? usersData?.stat : usersData}
           sectorDetails={sectors?.find?.((sector) =>
             id ? sector?.id == id : sector?.id == sector_id
           )}
