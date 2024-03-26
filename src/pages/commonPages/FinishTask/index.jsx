@@ -100,6 +100,7 @@ const ChatBubble = ({ msg, my }) => {
 
 const TaskCard = ({ state }) => {
   const user_status = sessionStorage.getItem("status");
+  const user_id = sessionStorage.getItem("user_id");
 
   const getStatus = (status) => {
     if (status === "finished") {
@@ -131,15 +132,22 @@ const TaskCard = ({ state }) => {
     }
   };
 
+  const isHidden = () => {
+    if (state?.from_id === user_id) {
+      return false;
+    } else if (user_status === "admin") {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   return (
     <div className="p-2 bg-white shadow-xl mb-3 rounded-lg">
       <div className="w-full grid sm:grid-cols-2 gap-2">
         {state?.photo?.length > 0 &&
           state?.photo?.map?.((item) => (
-            <img
-              key={item?.id}
-              src={`https://xodim.pythonanywhere.com/` + item?.photo}
-            />
+            <img key={item?.id} src={item?.photo} className="max-h-72" />
           ))}
       </div>
       <div className="flex items-center justify-between my-2">
@@ -158,7 +166,7 @@ const TaskCard = ({ state }) => {
         </div>
         <div className="flex items-center gap-3">
           {getStatus(state?.status)}
-          <EditTaskStatus data={state} hidden={user_status !== "admin"} />
+          <EditTaskStatus data={state} hidden={isHidden} />
         </div>
       </div>
       {state?.text?.[0] && (
