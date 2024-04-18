@@ -158,7 +158,7 @@ const index = () => {
                     alt="Image"
                     style={{ border: "1px solid black" }}
                     key={item.id}
-                    src={`https://xodim.pythonanywhere.com/` + item?.photo}
+                    src={item?.photo}
                   />
                 ))
               ) : (
@@ -263,11 +263,7 @@ const index = () => {
           {modal.data?.map((item) => {
             return (
               <div className="cursor-pointer" key={item.id}>
-                <img
-                  alt="task image"
-                  key={item.id}
-                  src={`https://xodim.pythonanywhere.com/` + item?.photo}
-                />
+                <img alt="task image" key={item.id} src={item?.photo} />
                 <Button
                   disabled={item?.id === deletingImageId}
                   color="error"
