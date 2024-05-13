@@ -6,25 +6,25 @@ const Pie = ({ data }) => {
       id: "Bajarilgan",
       label: "Bajarilgan",
       value: data?.finished_protsent?.toFixed(2),
-      color: "lime",
+      color: "#4ECB71",
     },
     {
       id: "Jarayonda",
       label: "Jarayonda",
       value: data?.doing_protsent?.toFixed(2),
-      color: "yellow",
+      color: "#FFD233",
     },
     {
       id: "Bajarilmagan",
       label: "Bajarilmagan",
       value: data?.missed_protsent?.toFixed(2),
-      color: "red",
+      color: "#FF6262",
     },
     {
       id: "Bekor qilingan",
       label: "Bekor qilingan",
       value: data?.canceled_protsent?.toFixed(2),
-      color: "#bbb",
+      color: "#01A1B7",
     },
   ];
 
@@ -33,7 +33,11 @@ const Pie = ({ data }) => {
       data={pie_data}
       valueFormat={(v) => `${v} %`}
       colors={(d) => d.data.color}
-      margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+      margin={
+        window.innerWidth > 800
+          ? { top: 40, right: 80, bottom: 80, left: 0 }
+          : { top: 40, right: 0, bottom: 80, left: 0 }
+      }
       innerRadius={0.5}
       padAngle={0.7}
       cornerRadius={3}
@@ -54,19 +58,19 @@ const Pie = ({ data }) => {
       }}
       legends={[
         {
-          anchor: "bottom",
-          direction: window.innerWidth > 500 ? "row" : "column",
+          anchor: window.innerWidth > 800 ? "right" : "bottom",
+          direction: window.innerWidth > 800 ? "column" : "row",
           justify: false,
           translateX: 0,
           translateY: 56,
-          itemsSpacing: 0,
+          itemsSpacing: 10,
           itemWidth: 100,
           itemHeight: 18,
           itemTextColor: "#999",
           itemDirection: "left-to-right",
           itemOpacity: 1,
           symbolSize: 18,
-          symbolShape: "circle",
+          symbolShape: "square",
           effects: [
             {
               on: "hover",

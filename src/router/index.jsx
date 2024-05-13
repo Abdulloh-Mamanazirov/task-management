@@ -191,9 +191,10 @@ function index() {
           variant="contained"
           color="error"
           onClick={handleLogOut}
-          sx={{py:1, borderRadius:50}}
+          sx={{ py: 1, borderRadius: 50 }}
           title="Profildan chiqish"
-          ><span className="fa-solid fa-arrow-right-from-bracket" />
+        >
+          <span className="fa-solid fa-arrow-right-from-bracket" />
         </Button>
         <p className="text-sm ml-2">Profildan chiqish</p>
       </div>
@@ -302,11 +303,13 @@ function index() {
         </Drawer>
       </Box>
       <Box
+        bgcolor={"#F6F8FA"}
         component="main"
         sx={{
           flexGrow: 1,
           p: 1,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+          minHeight:'100vh'
         }}
       >
         <Toolbar className="mb-5 sm:mb-0" />

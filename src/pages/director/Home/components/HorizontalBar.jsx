@@ -5,24 +5,24 @@ import { useEffect, useState } from "react";
 //   {
 //     sector: "Sotuv",
 //     Bajarilgan: 18,
-//     BajarilganColor: "lime",
+//     BajarilganColor: "#4ECB71",
 //     Jarayonda: 8,
-//     JarayondaColor: "yellow",
+//     JarayondaColor: "#FFD233",
 //     Bajarilmagan: 5,
-//     BajarilmaganColor: "red",
+//     BajarilmaganColor: "#FF6262",
 //     "Bekor qilingan": 4,
-//     "Bekor qilinganColor": "#bbb",
+//     "Bekor qilinganColor": "#01A1B7",
 //   },
 //   {
 //     sector: "Marketing",
 //     Bajarilgan: 45,
-//     BajarilganColor: "lime",
+//     BajarilganColor: "#4ECB71",
 //     Jarayonda: 23,
-//     JarayondaColor: "yellow",
+//     JarayondaColor: "#FFD233",
 //     Bajarilmagan: 6,
-//     BajarilmaganColor: "red",
+//     BajarilmaganColor: "#FF6262",
 //     "Bekor qilingan": 10,
-//     "Bekor qilinganColor": "#bbb",
+//     "Bekor qilinganColor": "#01A1B7",
 //   },
 // ];
 
@@ -36,13 +36,13 @@ const Bar = ({ data }) => {
           return {
             sector: i?.bolim ?? 0,
             Bajarilgan: i?.finished ?? 0,
-            BajarilganColor: "lime",
+            BajarilganColor: "#4ECB71",
             Jarayonda: i?.doing ?? 0,
-            JarayondaColor: "yellow",
+            JarayondaColor: "#FFD233",
             Bajarilmagan: i?.missed ?? 0,
-            BajarilmaganColor: "red",
+            BajarilmaganColor: "#FF6262",
             "Bekor qilingan": i?.canceled ?? 0,
-            "Bekor qilinganColor": "#bbb",
+            "Bekor qilinganColor": "#01A1B7",
           };
         })
       );
@@ -68,7 +68,7 @@ const Bar = ({ data }) => {
         // legend: "Bo'limlarning topshiriqlarni bajarish ko'rsatkichi",
         // legendPosition: "middle",
         legendOffset: 40,
-        tickRotation: -45,
+        tickRotation: -40,
       }}
       labelSkipWidth={12}
       labelSkipHeight={12}
@@ -82,10 +82,10 @@ const Bar = ({ data }) => {
           anchor: "bottom-right",
           direction: "column",
           justify: false,
-          translateX: 120,
+          translateX: 10,
           translateY: 0,
           itemsSpacing: 2,
-          itemWidth: 100,
+          itemWidth: 0,
           itemHeight: 20,
           itemDirection: "left-to-right",
           itemOpacity: 0.85,

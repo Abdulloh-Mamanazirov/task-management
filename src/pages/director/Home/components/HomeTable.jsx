@@ -139,25 +139,6 @@ const HomeTable = ({ getStats }) => {
         <Button variant="outlined" onClick={() => setCompactView(!compactView)}>
           {compactView ? "To'liq" : "Ixcham"}
         </Button>
-        <div className="w-full hidden md:flex justify-around gap-2 whitespace-nowrap">
-          <div className="ml-3">
-            <h3>Jami Tadbirlar soni - {data?.length} ta</h3>
-          </div>
-          <div className="flex items-center">
-            <div className="bg-status-green text-white w-28 md:w-40 text-center ">
-              Bajarilgan
-            </div>
-            <div className="bg-status-red text-white w-28 md:w-40 text-center">
-              Bajarilmagan
-            </div>
-            <div className="bg-status-yellow w-28 md:w-40 text-center">
-              Jarayonda
-            </div>
-            <div className="bg-status-gray text-white w-28 md:w-40 text-center">
-              Bekor qilingan
-            </div>
-          </div>
-        </div>
       </div>
       <div className="mb-2 mt-5">
         <div className="w-full">
@@ -265,9 +246,6 @@ const HomeTable = ({ getStats }) => {
               </tr>
             </thead>
             <tbody>
-              <tr className="bg-dark-blue text-white">
-                <td colSpan={12}>Qisqa muddatli</td>
-              </tr>
               {Array.isArray(data)
                 ? data
                     .filter((item) =>
@@ -288,7 +266,6 @@ const HomeTable = ({ getStats }) => {
                     )
                     .sort(compareDeadlines)
                     .sort(compareCreated)
-                    .filter((item) => findDiffFromNow(item?.deadline) < 30)
                     .map((item, index) => (
                       <tr
                         data-aos={compactView ? "" : "fade-up"}
@@ -395,138 +372,6 @@ const HomeTable = ({ getStats }) => {
                 : new Array(1).fill(null).map((_, ind) => (
                     <tr key={ind} className="border">
                       <td className="border p-2 text-center" colSpan={10}>
-                        Bo'sh
-                      </td>
-                    </tr>
-                  ))}
-              <tr className="bg-dark-blue text-white">
-                <td colSpan={11}>Uzoq muddatli</td>
-              </tr>
-              {Array.isArray(data)
-                ? data
-                    .filter((item) =>
-                      selectedStatusBolim === "all"
-                        ? true
-                        : item.bolim === selectedStatusBolim
-                    )
-                    .filter((item) =>
-                      selectedStatus === "all"
-                        ? true
-                        : item.status === selectedStatus
-                    )
-                    .filter((item) =>
-                      selectedStatusFrom === "all"
-                        ? true
-                        : item?.first_name + " " + item?.last_name ===
-                          selectedStatusFrom
-                    )
-                    .sort(compareDeadlines)
-                    ?.filter?.((item) => findDiffFromNow(item?.deadline) > 30)
-                    ?.map?.((item, index) => (
-                      <tr
-                        data-aos="fade-up"
-                        data-aos-offset="20"
-                        key={item?.id}
-                        className="border"
-                      >
-                        <td className="border p-2">{index + 1}</td>
-                        <td className="border p-2 min-w-[100px]">
-                          {item?.bolim}
-                        </td>
-                        <td className="border p-2">{item?.problem}</td>{" "}
-                        <td className="border px-2 max-w-md">
-                          {item?.text?.[0]?.text
-                            .replaceAll("[", "")
-                            .replaceAll("]", "")
-                            .replaceAll('"', "").length > 0
-                            ? item?.text?.[0]?.text
-                                .replaceAll("[", "")
-                                .replaceAll("]", "")
-                                .replaceAll('"', "")
-                            : null}
-
-                          <div>
-                            {!item?.audio?.[0]?.audio.includes("null") &&
-                              item?.audio?.length > 0 && (
-                                <audio controls className="w-[250px] my-2">
-                                  <source
-                                    src={
-                                      `https://xodim.pythonanywhere.com/` +
-                                      item?.audio?.[0]?.audio
-                                    }
-                                  />
-                                </audio>
-                              )}
-                          </div>
-                          <div>
-                            <AvatarGroup
-                              onClick={() =>
-                                setModal({ open: true, data: item.photo })
-                              }
-                              className="w-fit mx-auto"
-                              max={4}
-                              style={{ cursor: "pointer" }}
-                            >
-                              {item?.photo?.length > 0 &&
-                                item?.photo?.map((photoItem, photoIndex) => (
-                                  <Avatar
-                                    alt={`Image ${photoIndex + 1}`}
-                                    key={photoItem.id}
-                                    src={photoItem?.photo}
-                                  />
-                                ))}
-                            </AvatarGroup>
-                          </div>
-                        </td>
-                        <td className="border p-2">
-                          {item?.first_name + " " + item?.last_name}
-                        </td>
-                        <td hidden={compactView} className="border p-2">
-                          {item?.deadline}
-                        </td>
-                        <td hidden={compactView} className="border p-2">
-                          {findDiff(item?.created_at, item?.deadline)}
-                        </td>
-                        <td className="border p-2">
-                          {findDiffFromNow(item?.deadline) > 0 ? (
-                            findDiffFromNow(item?.deadline)
-                          ) : (
-                            <span className="text-status-red">
-                              -{Math.abs(findDiffFromNow(item?.deadline))}
-                            </span>
-                          )}
-                        </td>
-                        <td className="border p-2">
-                          <div className="font-normal flex gap-2 items-center justify-center">
-                            {getStatus(item?.status)}
-                          </div>
-                        </td>
-                        <td hidden={compactView} className="border p-2">
-                          {item?.financial_help ? (
-                            <span className="fa-solid fa-check text-status-green" />
-                          ) : (
-                            <span className="fa-solid fa-x text-red-500" />
-                          )}
-                        </td>
-                        <td hidden={status !== "admin"} className="border p-2">
-                          <IconButton
-                            id="basic-button"
-                            aria-controls={open ? "basic-menu" : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={open ? "true" : undefined}
-                            onClick={(e) => {
-                              setDeletingDetails(item);
-                              setAnchorEl(e.currentTarget);
-                            }}
-                          >
-                            <span className="fa-solid fa-ellipsis-vertical px-2" />
-                          </IconButton>
-                        </td>
-                      </tr>
-                    ))
-                : new Array(1).fill(null).map((_, ind) => (
-                    <tr key={ind} className="border">
-                      <td className="border p-2 text-center" colSpan={11}>
                         Bo'sh
                       </td>
                     </tr>

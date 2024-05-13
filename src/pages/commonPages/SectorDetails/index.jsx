@@ -62,15 +62,16 @@ const index = () => {
         </h2>
       )}
       <div
-        data-aos="fade-up"
-        data-aos-delay="600"
-        className="mx-auto my-5 grid md:grid-cols-2 items-start"
+        data-aos="fade-right"
+        data-aos-delay="500"
+        className="w-full bg-white rounded-3xl mt-5 mb-3"
       >
-        <div className="h-96">
+        <h3 className="text-xl pt-5 pl-5 font-medium">Umumiy statistika</h3>
+        <div className="h-96 w-full lg:w-2/3">
           <Pie data={data} />
         </div>
-        <Rating users={usersData?.stat ? usersData?.stat : usersData} />
       </div>
+      <Rating users={usersData?.stat ? usersData?.stat : usersData} />
       <div>
         <Tables
           users={usersData?.stat ? usersData?.stat : usersData}

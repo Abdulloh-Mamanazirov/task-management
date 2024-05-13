@@ -6,19 +6,19 @@ const ThreePage = ({ data }) => {
 
   return (
     <>
-      <div className="mt-5">
+      <div className="mt-5 p-3">
         {data?.length > 0 ? (
           <table className="table-auto w-full border">
             <thead>
               <tr>
-                <th className="border p-2">Vazifa</th>
-                <th className="border p-2">Tugash sanasi</th>
+                <th className="border p-2 w-10/12">Vazifa</th>
+                <th className="border p-2 w-2/12">Tugash sanasi</th>
               </tr>
             </thead>
             <tbody>
               {data?.map((item, ind) => (
                 <tr key={ind} className="border text-center">
-                  <th className="border p-2">
+                  <th className="border p-2 w-10/12">
                     {item?.text?.length > 0 &&
                       item?.text?.[0]?.text
                         .replaceAll("[", "")
@@ -61,7 +61,7 @@ const ThreePage = ({ data }) => {
                       </AvatarGroup>
                     </div>
                   </th>
-                  <td className="border p-2 min-w-fit">{item?.deadline}</td>
+                  <td className="border p-2 w-2/12">{item?.deadline}</td>
                 </tr>
               ))}
             </tbody>

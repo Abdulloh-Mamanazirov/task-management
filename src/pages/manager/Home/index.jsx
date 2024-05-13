@@ -39,7 +39,7 @@ const index = () => {
         missed={statsData?.missed}
         cancelled={statsData?.canceled}
       />
-      <div className="grid md-lg:grid-cols-2 gap-5 items-start justify-between mt-5">
+      <div className="grid gap-5 mt-5">
         {/* <div className="shadow-md rounded-md h-[400px] p-5">
         <p className="border-b py-2 font-medium ">Your stats</p>
         <Results />
@@ -48,18 +48,16 @@ const index = () => {
         <div
           data-aos="fade-right"
           data-aos-delay="500"
-          className="shadow-md border rounded-md p-5 h-96 w-full min-w-[90vw] sm:min-w-0"
+          className="w-full bg-white rounded-3xl mt-5 mb-3"
         >
-          <p className="border-b py-2 font-medium ">Diagramm</p>
-          <Pie data={statsData} />
+          <h3 className="text-xl pt-5 pl-5 font-medium">Umumiy statistika</h3>
+          <div className="h-96 w-full lg:w-2/3">
+            <Pie data={statsData} />
+          </div>
         </div>
 
-        <div
-          data-aos="fade-right"
-          data-aos-delay="700"
-          className="shadow-md border rounded-md  p-5 overflow-y-auto w-full h-[350px]"
-        >
-          <p className="border-b py-2 font-medium ">Mavjud topshiriqlar</p>
+        <div data-aos="fade-right" className="w-full bg-white rounded-3xl mb-3">
+          <h3 className="text-xl pt-5 pl-5 font-medium">Mavjud topshiriqlar</h3>
           <div className="overflow-y-auto max-h-[265px]">
             <ThreePage data={data} />
           </div>
