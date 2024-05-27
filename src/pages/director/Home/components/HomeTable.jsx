@@ -14,31 +14,17 @@ import Aos from "aos";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { AudioIcon, ImageIcon } from "../../../../assets/task_icons";
 
 const HomeTable = ({ getStats }) => {
   Aos.init();
   const [modal, setModal] = useState({ open: false, data: null });
+  const [audioModal, setAudioModal] = useState({ open: false, data: null });
   const [data, setData] = useState(null);
-  const [selectedStatus, setSelectedStatus] = useState("all");
-  const [selectedStatusBolim, setSelectedStatusBolim] = useState("all");
-  const [selectedStatusFrom, setSelectedStatusFrom] = useState("all");
   const [deletingDetails, setDeletingDetails] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [sortField, setSortField] = useState(null);
-  const [sortFieldCreate, setSortFieldCreate] = useState(null);
-  const [compactView, setCompactView] = useState(true);
   const open = Boolean(anchorEl);
   const status = sessionStorage.getItem("status");
-
-  const handleChange = (event) => {
-    setSelectedStatus(event.target.value);
-  };
-  const handleChangeBolim = (event) => {
-    setSelectedStatusBolim(event.target.value);
-  };
-  const handleChangeFrom = (event) => {
-    setSelectedStatusFrom(event.target.value);
-  };
 
   async function getData() {
     let response = await axios.get("/all/tasks/");
@@ -76,6 +62,7 @@ const HomeTable = ({ getStats }) => {
     let diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24), 10);
     return diffDays + 1;
   }
+
   function findDiffFromNow(deadline) {
     let currentDate = new Date();
     let date2 = new Date(deadline);
@@ -83,49 +70,29 @@ const HomeTable = ({ getStats }) => {
     return diffDays < 0 ? diffDays : diffDays + 1;
   }
 
-  function compareDeadlines(a, b) {
-    const dateA = new Date(a.deadline);
-    const dateB = new Date(b.deadline);
-
-    if (sortField === "deadline") {
-      return dateA - dateB;
-    }
-
-    return 0;
-  }
-  function compareCreated(a, b) {
-    const dateA = new Date(a.created_day);
-    const dateB = new Date(b.created_day);
-    if (sortFieldCreate === "created_day") {
-      return dateA - dateB;
-    }
-    return 0;
-    // return dateA - dateB;
-    // return 0;
-  }
   const getStatus = (status) => {
     if (status === "finished") {
       return (
-        <div className="border-4 border-custom-green bg-custom-light-green rounded-full px-3 py-[1px]">
-          <span className="hidden md:inline-block ">Bajarildi</span>
+        <div className="h-5 w-5 aspect-square bg-finished rounded-full">
+          <span className="hidden">Bajarildi</span>
         </div>
       );
     } else if (status === "doing") {
       return (
-        <div className="border-4 border-custom-yellow bg-custom-light-yellow rounded-full px-3 py-[1px]">
-          <span className="hidden md:inline-block ">Jarayonda</span>
+        <div className="h-5 w-5 aspect-square bg-doing rounded-full">
+          <span className="hidden">Jarayonda</span>
         </div>
       );
     } else if (status === "missed") {
       return (
-        <div className="border-4 border-custom-red bg-custom-light-red rounded-full px-3 py-[1px]">
-          <span className="hidden md:inline-block ">Bajarilmadi</span>
+        <div className="h-5 w-5 aspect-square bg-missed rounded-full">
+          <span className="hidden">Bajarilmadi</span>
         </div>
       );
     } else if (status === "canceled") {
       return (
-        <div className="border-4 border-gray-500 bg-gray-200 rounded-full px-3 py-[1px] whitespace-nowrap">
-          <span className="hidden md:inline-block"> Bekor qilindi</span>
+        <div className="h-5 w-5 aspect-square  bg-canceled rounded-full">
+          <span className="hidden"> Bekor qilindi</span>
         </div>
       );
     } else {
@@ -135,240 +102,213 @@ const HomeTable = ({ getStats }) => {
 
   return (
     <div className="mt-16 overflow-x-auto max-w-[100vw] scrollbar-gutter">
-      <div className="flex items-center w-full">
-        <Button variant="outlined" onClick={() => setCompactView(!compactView)}>
-          {compactView ? "To'liq" : "Ixcham"}
-        </Button>
-      </div>
       <div className="mb-2 mt-5">
         <div className="w-full">
-          <table className="w-full text-center border text-[15px]">
-            <thead className="bg-[#F3C206] w-full">
-              <tr className="border w-full">
-                <th className="border p-3">No_</th>
-                <th className="border p-3">
-                  <FormControl fullWidth size="small">
-                    <InputLabel id="demo-simple-select-label">Bolim</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      label="Bo'lim"
-                      id="demo-simple-select"
-                      value={selectedStatusBolim}
-                      onChange={handleChangeBolim}
-                    >
-                      <MenuItem value={"all"}>Barchasi</MenuItem>
-                      {Array.isArray(data) &&
-                        [...new Set(data.map((item) => item.bolim))].map(
-                          (uniqueValue, i) => (
-                            <MenuItem key={i} value={uniqueValue}>
-                              {uniqueValue}
-                            </MenuItem>
-                          )
-                        )}
-                    </Select>
-                  </FormControl>
-                </th>
-                <th className="border p-3 w-5/12">Muammo</th>
-                <th className="border p-3 w-5/12">Yechim</th>
-                <th className="border p-3">
-                  <FormControl fullWidth size="small">
-                    <InputLabel id="demo-simple-select-label">
-                      Ma'sul
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      label="Ma'sul"
-                      id="demo-simple-select"
-                      value={selectedStatusFrom}
-                      onChange={handleChangeFrom}
-                    >
-                      <MenuItem value={"all"}>Barchasi</MenuItem>
-                      {Array.isArray(data) &&
-                        [
-                          ...new Set(
-                            data.map(
-                              (item) => item?.first_name + " " + item?.last_name
-                            )
-                          ),
-                        ].map((s, i) => (
-                          <MenuItem key={i} value={s}>
-                            {s}
-                          </MenuItem>
-                        ))}
-                    </Select>
-                  </FormControl>
-                </th>
-                <th
-                  hidden={compactView}
-                  className="border p-3 w-32 whitespace-nowrap"
-                >
-                  Muddat
-                  <span
-                    className="fa-solid fa-sort pl-1"
-                    role="button"
-                    onClick={() => {
-                      setSortField(
-                        sortField !== "deadline" ? "deadline" : null
-                      );
-                    }}
-                  />
-                </th>
-                <th hidden={compactView} className="border p-3 w-32">
-                  Jami Muddat
-                </th>
-                <th className="border p-3">Qolgan kun(lar)</th>
-                <th className="border p-3">
-                  <FormControl fullWidth size="small">
-                    <InputLabel id="demo-simple-select-label">
-                      Xolati
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      label="Xolati"
-                      id="demo-simple-select"
-                      value={selectedStatus}
-                      onChange={handleChange}
-                    >
-                      <MenuItem value={"all"}>Barchasi</MenuItem>
-                      <MenuItem value={"finished"}>Bajarilgan</MenuItem>
-                      <MenuItem value={"missed"}>Bajarilmagan</MenuItem>
-                      <MenuItem value={"doing"}>Jarayonda</MenuItem>
-                      <MenuItem value={"canceled"}> Bekor qilingan</MenuItem>
-                    </Select>
-                  </FormControl>
-                </th>
-                <th hidden={compactView} className="border p-3">
-                  Moliyaviy ko'mak
-                </th>
-                <th hidden={status !== "admin"} className="border p-3">
-                  Arxivlash
-                </th>
-              </tr>
-            </thead>
-            <tbody>
+          {/* table for phone & tablet */}
+          <table className="table md:hidden w-full border text-[15px]">
+            <tbody className="bg-white">
               {Array.isArray(data)
-                ? data
-                    .filter((item) =>
-                      selectedStatusBolim === "all"
-                        ? true
-                        : item.bolim === selectedStatusBolim
-                    )
-                    .filter((item) =>
-                      selectedStatus === "all"
-                        ? true
-                        : item.status === selectedStatus
-                    )
-                    .filter((item) =>
-                      selectedStatusFrom === "all"
-                        ? true
-                        : item?.first_name + " " + item?.last_name ===
-                          selectedStatusFrom
-                    )
-                    .sort(compareDeadlines)
-                    .sort(compareCreated)
-                    .map((item, index) => (
-                      <tr
-                        data-aos={compactView ? "" : "fade-up"}
-                        data-aos-offset={compactView ? "0" : "50"}
-                        key={item?.id}
-                        className="border"
-                      >
-                        <td className="border p-2">{index + 1}</td>
-                        <td className="border p-2 min-w-[100px]">
-                          {item?.bolim}
-                        </td>
-                        <td className="border p-2">{item?.problem}</td>
-                        <td className="border px-2 max-w-md">
-                          {item?.text?.[0]?.text
-                            .replaceAll("[", "")
-                            .replaceAll("]", "")
-                            .replaceAll('"', "").length > 0
-                            ? item?.text?.[0]?.text
+                ? data?.map((item, index) => (
+                    <tr className="border" key={item?.id}>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td className="p-2 whitespace-nowrap">No_</td>
+                            <td className="p-2">{index + 1}</td>
+                          </tr>
+                          <tr>
+                            <td className="p-2 whitespace-nowrap">Bo'lim</td>
+                            <td className="p-2">{item?.bolim}</td>
+                          </tr>
+                          <tr>
+                            <td className="p-2 whitespace-nowrap">Muammo</td>
+                            <td className="p-2">{item?.problem}</td>
+                          </tr>
+                          <tr>
+                            <td className="p-2 whitespace-nowrap">Yechim</td>
+                            <td className="p-2">
+                              {item?.text?.[0]?.text
                                 .replaceAll("[", "")
                                 .replaceAll("]", "")
-                                .replaceAll('"', "")
-                            : null}
-
-                          <div>
-                            {!item?.audio?.[0]?.audio.includes("null") &&
-                              item?.audio?.length > 0 && (
-                                <audio controls className="w-[250px] my-2">
-                                  <source
-                                    src={
-                                      `https://xodim.pythonanywhere.com/` +
-                                      item?.audio?.[0]?.audio
-                                    }
-                                  />
-                                </audio>
+                                .replaceAll('"', "")}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="p-2 whitespace-nowrap">Ma'sul</td>
+                            <td className="p-2">
+                              {item?.first_name + " " + item?.last_name}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="p-2 whitespace-nowrap">Muddat</td>
+                            <td className="p-2">{item?.deadline}</td>
+                          </tr>
+                          <tr>
+                            <td className="p-2 whitespace-nowrap">
+                              Jami muddat
+                            </td>
+                            <td className="p-2">
+                              {findDiff(item?.created_at, item?.deadline)}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="p-2 whitespace-nowrap">
+                              Qolgan kunlar
+                            </td>
+                            <td className="p-2">
+                              {findDiffFromNow(item?.deadline)}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="p-2 whitespace-nowrap">Xolati</td>
+                            <td className="p-2">{getStatus(item?.status)}</td>
+                          </tr>
+                          <tr>
+                            <td className="p-2 whitespace-nowrap">
+                              Moliyaviy ko'mak
+                            </td>
+                            <td className="p-2">
+                              {item?.financial_help ? (
+                                <span className="fa-solid fa-check text-status-green" />
+                              ) : (
+                                <span className="fa-solid fa-x text-red-500" />
                               )}
-                          </div>
-                          <div>
-                            <AvatarGroup
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </tr>
+                  ))
+                : new Array(1).fill(null).map((_, ind) => (
+                    <tr key={ind} className="border">
+                      <td className="border p-2 text-center" colSpan={2}>
+                        Bo'sh
+                      </td>
+                    </tr>
+                  ))}
+            </tbody>
+          </table>
+
+          {/* table for pc */}
+          <table className="hidden md:table w-full border text-[15px]">
+            <thead className="bg-[#EEF0F4] w-full">
+              <tr className="border w-full">
+                <th className="border p-3">No_</th>
+                <th className="border p-3">Bo'lim</th>
+                <th className="border p-3">Muammo</th>
+                <th className="border p-3">Yechim</th>
+                <th className="border p-3">Ma'sul</th>
+                <th className="border p-3">Muddat</th>
+                <th className="border p-3">Jami muddat</th>
+                <th className="border p-3">Qolgan kunlar</th>
+                <th className="border p-3">Xolati</th>
+                <th className="border p-3">Moliyaviy ko'mak</th>
+                <th hidden={status !== "admin"} className="border p-3"></th>
+              </tr>
+            </thead>
+            <tbody className="bg-white">
+              {Array.isArray(data)
+                ? data?.map((item, index) => (
+                    <tr
+                      data-aos={"fade-up"}
+                      data-aos-offset={"50"}
+                      key={item?.id}
+                      className="border"
+                    >
+                      <td className="p-2">{index + 1}</td>
+                      <td className="p-2">{item?.bolim}</td>
+                      <td className="p-2">{item?.problem}</td>
+                      <td className="p-2">
+                        {item?.text?.[0]?.text
+                          .replaceAll("[", "")
+                          .replaceAll("]", "")
+                          .replaceAll('"', "").length > 0
+                          ? item?.text?.[0]?.text
+                              .replaceAll("[", "")
+                              .replaceAll("]", "")
+                              .replaceAll('"', "")
+                          : null}
+
+                        <div className="flex items-center gap-3 pl-2">
+                          {!item?.audio?.[0]?.audio.includes("null") &&
+                            item?.audio?.length > 0 && (
+                              <button
+                                onClick={() =>
+                                  setAudioModal({
+                                    open: true,
+                                    data: item?.audio?.[0]?.audio,
+                                  })
+                                }
+                              >
+                                <img
+                                  src={AudioIcon}
+                                  alt="icon"
+                                  className="w-5 aspect-square"
+                                />
+                              </button>
+                            )}
+                          {item?.photo?.length > 0 && (
+                            <button
                               onClick={() =>
                                 setModal({ open: true, data: item.photo })
                               }
-                              className="w-fit mx-auto"
-                              max={4}
-                              style={{ cursor: "pointer" }}
                             >
-                              {item?.photo?.length > 0 &&
-                                item?.photo?.map((photoItem, photoIndex) => (
-                                  <Avatar
-                                    alt={`Image ${photoIndex + 1}`}
-                                    key={photoItem.id}
-                                    src={photoItem?.photo}
-                                  />
-                                ))}
-                            </AvatarGroup>
-                          </div>
-                        </td>
-                        <td className="border p-2">
-                          {item?.first_name + " " + item?.last_name}
-                        </td>
-                        <td hidden={compactView} className="border p-2">
-                          {item?.deadline}
-                        </td>
-                        <td hidden={compactView} className="border p-2">
-                          {findDiff(item?.created_at, item?.deadline)}
-                        </td>
-                        <td className="border p-2">
-                          {findDiffFromNow(item?.deadline) > 0 ||
-                          item?.status === "finished" ? (
-                            findDiffFromNow(item?.deadline)
-                          ) : (
-                            <span className="text-status-red">
-                              {findDiffFromNow(item?.deadline)}
-                            </span>
+                              <img
+                                src={ImageIcon}
+                                alt="icon"
+                                className="w-5 aspect-square"
+                              />
+                            </button>
                           )}
-                        </td>
-                        <td className="border p-2">
-                          <div className="font-normal flex gap-2 items-center justify-center">
-                            {getStatus(item?.status)}
-                          </div>
-                        </td>
-                        <td hidden={compactView} className="border p-2">
-                          {item?.financial_help ? (
-                            <span className="fa-solid fa-check text-status-green" />
-                          ) : (
-                            <span className="fa-solid fa-x text-red-500" />
-                          )}
-                        </td>
-                        <td hidden={status !== "admin"} className="border p-2">
-                          <IconButton
-                            id="basic-button"
-                            aria-controls={open ? "basic-menu" : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={open ? "true" : undefined}
-                            onClick={(e) => {
-                              setDeletingDetails(item);
-                              setAnchorEl(e.currentTarget);
-                            }}
-                          >
-                            <span className="fa-solid fa-ellipsis-vertical px-2" />
-                          </IconButton>
-                        </td>
-                      </tr>
-                    ))
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        {item?.first_name + " " + item?.last_name}
+                      </td>
+                      <td className="p-2 whitespace-nowrap">
+                        {item?.deadline}
+                      </td>
+                      <td className="p-2 text-center">
+                        {findDiff(item?.created_at, item?.deadline)}
+                      </td>
+                      <td className="p-2 text-center">
+                        {findDiffFromNow(item?.deadline) > 0 ||
+                        item?.status === "finished" ? (
+                          findDiffFromNow(item?.deadline)
+                        ) : (
+                          <span className="text-status-red">
+                            {findDiffFromNow(item?.deadline)}
+                          </span>
+                        )}
+                      </td>
+                      <td className="p-2">
+                        <div className="font-normal flex gap-2 items-center justify-center">
+                          {getStatus(item?.status)}
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        {item?.financial_help ? (
+                          <span className="fa-solid fa-check text-status-green" />
+                        ) : (
+                          <span className="fa-solid fa-x text-red-500" />
+                        )}
+                      </td>
+                      <td hidden={status !== "admin"} className="p-2">
+                        <IconButton
+                          id="basic-button"
+                          aria-controls={open ? "basic-menu" : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={open ? "true" : undefined}
+                          onClick={(e) => {
+                            setDeletingDetails(item);
+                            setAnchorEl(e.currentTarget);
+                          }}
+                        >
+                          <span className="fa-solid fa-ellipsis-vertical px-2" />
+                        </IconButton>
+                      </td>
+                    </tr>
+                  ))
                 : new Array(1).fill(null).map((_, ind) => (
                     <tr key={ind} className="border">
                       <td className="border p-2 text-center" colSpan={10}>
@@ -397,6 +337,21 @@ const HomeTable = ({ getStats }) => {
               </div>
             );
           })}
+        </div>
+      </Dialog>
+
+      {/* audio modal */}
+      <Dialog
+        open={audioModal.open}
+        onClose={() => setAudioModal({ open: false, data: null })}
+        fullWidth
+        keepMounted
+        aria-describedby="edit-audioModal"
+      >
+        <div className="px-5 mt-5 mb-5 rounded-md">
+          <audio controls className="w-[250px] my-2">
+            <source src={`https://xodim.pythonanywhere.com/` + data} />
+          </audio>
         </div>
       </Dialog>
 

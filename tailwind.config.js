@@ -17,6 +17,10 @@ export default {
         "custom-light-green": "#04DB004F",
         "custom-light-red": "#DB00004F",
         "custom-light-yellow": "#D7DB004F",
+        finished: "#4ECB71",
+        doing: "#FFD233",
+        canceled: "#0497A3",
+        missed: "#FF6262",
       },
       screens: {
         "md-lg": "900px",
