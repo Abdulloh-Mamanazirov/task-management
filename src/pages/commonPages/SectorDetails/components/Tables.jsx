@@ -58,11 +58,87 @@ const Table = ({ users, sectorDetails }) => {
 
   return (
     <div>
-      <div className="mb-2">
-        <h3 className="text-lg sm:text-2xl font-medium text-center p-2">
-          Topshiriqlarning bajarilish tahlili jadvali
+      <div className="w-full bg-white rounded-3xl mt-5">
+        <h3 className="text-xl py-5 pl-5 font-medium">
+          Topshiriqlarning bajarilish tahlili
         </h3>
         <div className="overflow-x-auto max-w-[100vw] scrollbar-gutter">
+          {/* table for mobile & tablet */}
+          <table className="table md:hidden w-full border text-[15px]">
+            <tbody className="bg-white">
+              {users?.length > 0 ? (
+                users?.map?.((item, ind) => {
+                  return (
+                    <tr className="border-b" key={ind}>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td className="p-2">Xodim</td>
+                            <td className="p-2">
+                              {item?.first_name + " " + item?.last_name}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="p-2">Jami</td>
+                            <td className="p-2">
+                              {isNaN(
+                                item?.finished +
+                                  item?.doing +
+                                  item?.canceled +
+                                  item?.missed
+                              )
+                                ? 0
+                                : item?.finished +
+                                  item?.doing +
+                                  item?.canceled +
+                                  item?.missed}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="p-2">O'z vaqtida bajarilishi</td>
+                            <td className="p-2">
+                              {getStatsNumber(
+                                item?.finished_protsent
+                                  ? item?.finished_protsent?.toFixed(1)
+                                  : "50.0"
+                              )}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="p-2">Bajarilgan</td>
+                            <td className="p-2">{item?.finished ?? 0}</td>
+                          </tr>
+                          <tr>
+                            <td className="p-2">Jarayonda</td>
+                            <td className="p-2">{item?.doing ?? 0}</td>
+                          </tr>
+                          <tr>
+                            <td className="p-2">Bajarilmagan</td>
+                            <td className="p-2">{item?.missed ?? 0}</td>
+                          </tr>
+                          <tr>
+                            <td className="p-2">Bekor qilingan</td>
+                            <td className="p-2">{item?.canceled ?? 0}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={2}>
+                    <div className="flex flex-col items-center gap-3">
+                      <img src="/empty.png" alt="no data" width={100} />
+                      <p className="text-gray-500">Ma'lumot mavjud emas.</p>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+
+          {/* table for pc */}
           <table className="hidden md:table w-full border text-[15px]">
             <thead className="bg-[#EEF0F4] w-full">
               <tr className="border w-full">
@@ -75,7 +151,7 @@ const Table = ({ users, sectorDetails }) => {
                 <th className="border p-3">Bekor qilingan</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="bg-white">
               {users?.length > 0 ? (
                 users?.map?.((item, ind) => {
                   return (
@@ -106,7 +182,7 @@ const Table = ({ users, sectorDetails }) => {
                           {getStatsNumber(
                             item?.finished_protsent
                               ? item?.finished_protsent?.toFixed(1)
-                              : "50.0"
+                              : "00.0"
                           )}
                         </div>
                       </td>
