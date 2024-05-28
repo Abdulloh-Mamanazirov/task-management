@@ -1,70 +1,45 @@
 import React from "react";
+import { Pfp } from "../../../../assets";
+
+const UserRankingRow = ({ data }) => {
+  return (
+    <div className="w-full p-5 flex flex-col gap-3">
+      <div className="flex items-center gap-3">
+        <img
+          src={Pfp}
+          alt="profile"
+          className="w-8 aspect-square rounded-full object-cover outline outline-1 outline-gray-200"
+        />
+        <p>{data?.first_name + " " + data?.last_name}</p>
+      </div>
+      <div className="flex flex-col gap-1">
+        <div className="relative h-2">
+          <div
+            className={`z-10 absolute h-2 bg-finished rounded-full w-[${Number(
+              data?.finished_protsent
+            ).toFixed(0)}%]`}
+          ></div>
+          <div className="absolute w-full h-2 bg-gray-200 rounded-full"></div>
+        </div>
+        <div className="flex items-center justify-between text-xs">
+          <p>{data?.place}-o'rin</p>
+          <p>{Number(data?.finished_protsent).toFixed(2)}%</p>
+        </div>
+      </div>
+      <hr />
+    </div>
+  );
+};
 
 const UserRankingTable = ({ users }) => {
   return (
-    <div className="max-h-96 h-fit max-w-[100vw] w-full md:w-2/3 mx-0 md:mx-auto mb-28 md:mb-0 overflow-y-auto">
-      <h3 className="text-lg font-medium text-center mb-2">
-        Xodimlar reytingi 🏆
-      </h3>
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="sticky top-0 bg-gray-50">
-          <tr>
-            <th
-              scope="col"
-              className="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              O'rin
-            </th>
-            <th
-              scope="col"
-              className="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Ism familiya
-            </th>
-            <th
-              scope="col"
-              className="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Natija
-            </th>
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {users?.length > 0 ? (
-            users
-              ?.sort((a, b) => b?.finished_protsent - a?.finished_protsent)
-              ?.map?.((user, ind) => (
-                <tr key={ind} className={`px-6 py-4 hover:bg-gray-100`}>
-                  <td className="px-1 py-2 text-center whitespace-nowrap text-sm font-medium text-gray-900">
-                    {ind === 0
-                      ? "🥇"
-                      : ind === 1
-                      ? "🥈"
-                      : ind === 2
-                      ? "🥉"
-                      : ""}{" "}
-                    {ind + 1}
-                  </td>
-                  <td className="px-1 py-2 text-center whitespace-nowrap text-sm text-gray-500">
-                    {user?.first_name} {user?.last_name}
-                  </td>
-                  <td className="px-1 py-2 text-center whitespace-nowrap text-sm text-gray-500">
-                    {user?.finished_protsent.toFixed(2)}
-                  </td>
-                </tr>
-              ))
-          ) : (
-            <tr>
-              <td colSpan={3}>
-                <div className="flex flex-col items-center gap-3">
-                  <img src="/empty.png" alt="no data" width={100} />
-                  <p className="text-gray-500">Ma'lumot mavjud emas.</p>
-                </div>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+    <div className="w-full bg-white rounded-3xl mt-5 mb-3">
+      <h3 className="text-xl pt-5 pl-5 font-medium">Xodimlar</h3>
+      {users
+        ?.sort?.((a, b) => b.finished_protsent - a.finished_protsent)
+        ?.map((item, ind) => (
+          <UserRankingRow key={ind} data={{ ...item, place: ind + 1 }} />
+        ))}
     </div>
   );
 };
