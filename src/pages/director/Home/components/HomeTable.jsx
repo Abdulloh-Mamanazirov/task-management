@@ -215,7 +215,7 @@ const HomeTable = ({ getStats }) => {
                       key={item?.id}
                       className="border"
                     >
-                      <td className="p-2">{index + 1}</td>
+                      <td className="p-2 text-center">{index + 1}</td>
                       <td className="p-2">{item?.bolim}</td>
                       <td className="p-2">{item?.problem}</td>
                       <td className="p-2">
