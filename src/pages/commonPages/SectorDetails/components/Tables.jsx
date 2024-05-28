@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, Popover } from "@mui/material";
 import { setTriggerGetSectors } from "../../../../redux";
 import EditModal from "./EditModal";
+import { HappyFace, SadFace } from "../../../../assets";
 
 const Table = ({ users, sectorDetails }) => {
   Aos.init();
@@ -33,25 +34,23 @@ const Table = ({ users, sectorDetails }) => {
       });
   }
 
-  function getStatsNumber(color, value, shape) {
-    if (shape === "rectangle") {
+  function getStatsNumber(value) {
+    if (Number(value) >= 50) {
       return (
         <div
-          className={`${color} text-${
-            color === "yellow" ? "black" : "white"
-          } w-full p-3 inline-flex items-center justify-center`}
+          className={`w-fit px-5 py-2 my-2 inline-flex gap-1 items-center justify-center text-finished bg-finished/10 border rounded-xl`}
         >
-          {value}
+          <img src={HappyFace} alt="smile" className="w-5 aspect-square" />
+          <p className="font-medium">{value}%</p>
         </div>
       );
     } else {
       return (
         <div
-          className={`${color} text-${
-            color === "bg-status-yellow" ? "black" : "white"
-          } w-10 aspect-square rounded-full border border-black shadow-md shadow-black mx-auto inline-flex items-center justify-center`}
+          className={`w-fit px-5 py-2 my-2 inline-flex gap-1 items-center justify-center text-missed bg-missed/10 border rounded-xl`}
         >
-          {value}
+          <img src={SadFace} alt="smile" className="w-5 aspect-square" />
+          <p className="font-medium">{value}%</p>
         </div>
       );
     }
@@ -64,10 +63,10 @@ const Table = ({ users, sectorDetails }) => {
           Topshiriqlarning bajarilish tahlili jadvali
         </h3>
         <div className="overflow-x-auto max-w-[100vw] scrollbar-gutter">
-          <table className="w-full text-center border">
-            <thead className="bg-dark-blue text-white">
-              <tr className="border">
-                <th className="border p-3">Xodimlar</th>
+          <table className="hidden md:table w-full border text-[15px]">
+            <thead className="bg-[#EEF0F4] w-full">
+              <tr className="border w-full">
+                <th className="border p-3">Xodim</th>
                 <th className="border p-3">Jami</th>
                 <th className="border p-3">O'z vaqtida bajarilishi</th>
                 <th className="border p-3">Bajarilgan</th>
@@ -86,10 +85,10 @@ const Table = ({ users, sectorDetails }) => {
                       data-aos-offset="70"
                       className="border"
                     >
-                      <td className="border p-2">
+                      <td className="p-2">
                         {item?.first_name + " " + item?.last_name}
                       </td>
-                      <td className="border p-2">
+                      <td className="p-2 text-center">
                         {isNaN(
                           item?.finished +
                             item?.doing +
@@ -102,33 +101,19 @@ const Table = ({ users, sectorDetails }) => {
                             item?.canceled +
                             item?.missed}
                       </td>
-                      <td className="border">
-                        {getStatsNumber(
-                          item?.finished_protsent < 60
-                            ? "bg-status-red"
-                            : item?.finished_protsent < 80
-                            ? "bg-status-orange"
-                            : "bg-status-green",
-                          `${
+                      <td>
+                        <div className="w-full grid place-items-center">
+                          {getStatsNumber(
                             item?.finished_protsent
-                              ? item?.finished_protsent?.toFixed(2)
-                              : "0"
-                          } %`,
-                          "rectangle"
-                        )}
+                              ? item?.finished_protsent?.toFixed(1)
+                              : "50.0"
+                          )}
+                        </div>
                       </td>
-                      <td className="border p-2">
-                        {getStatsNumber("bg-status-green", item?.finished ?? 0)}
-                      </td>
-                      <td className="border p-2">
-                        {getStatsNumber("bg-status-yellow", item?.doing ?? 0)}
-                      </td>
-                      <td className="border p-2">
-                        {getStatsNumber("bg-status-red", item?.missed ?? 0)}
-                      </td>
-                      <td className="border p-2">
-                        {getStatsNumber("bg-status-gray", item?.canceled ?? 0)}
-                      </td>
+                      <td className="p-2 text-center">{item?.finished ?? 0}</td>
+                      <td className="p-2 text-center">{item?.doing ?? 0}</td>
+                      <td className="p-2 text-center">{item?.missed ?? 0}</td>
+                      <td className="p-2 text-center">{item?.canceled ?? 0}</td>
                     </tr>
                   );
                 })
