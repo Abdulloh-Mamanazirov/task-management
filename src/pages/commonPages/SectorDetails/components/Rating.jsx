@@ -15,9 +15,8 @@ const UserRankingRow = ({ data }) => {
       <div className="flex flex-col gap-1">
         <div className="relative h-2">
           <div
-            className={`z-10 absolute h-2 bg-finished rounded-full w-[${Number(
-              data?.finished_protsent
-            ).toFixed(0)}%]`}
+            className={`z-[1] absolute h-2 bg-finished rounded-full`}
+            style={{ width: `${Number(data?.finished_protsent).toFixed(0)}%` }}
           ></div>
           <div className="absolute w-full h-2 bg-gray-200 rounded-full"></div>
         </div>
