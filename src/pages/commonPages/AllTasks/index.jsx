@@ -30,6 +30,7 @@ import {
   setToStatus,
 } from "../../../redux";
 import { Link } from "react-router-dom";
+import { AudioIcon, ImageIcon } from "../../../assets/task_icons";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -43,6 +44,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const index = ({ getStats }) => {
   Aos.init();
   const [modal, setModal] = useState({ open: false, data: null });
+  const [audioModal, setAudioModal] = useState({ open: false, data: null });
   const [data, setData] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedStatusBolim, setSelectedStatusBolim] = useState("all");
@@ -151,26 +153,26 @@ const index = ({ getStats }) => {
   const getStatus = (status) => {
     if (status === "finished") {
       return (
-        <div className="border-4 border-custom-green bg-custom-light-green rounded-full px-3 py-[1px]">
-          <span className="hidden md:inline-block ">Bajarildi</span>
+        <div className="h-5 w-5 aspect-square bg-finished rounded-full">
+          <span className="hidden">Bajarildi</span>
         </div>
       );
     } else if (status === "doing") {
       return (
-        <div className="border-4 border-custom-yellow bg-custom-light-yellow rounded-full px-3 py-[1px]">
-          <span className="hidden md:inline-block ">Jarayonda</span>
+        <div className="h-5 w-5 aspect-square bg-doing rounded-full">
+          <span className="hidden">Jarayonda</span>
         </div>
       );
     } else if (status === "missed") {
       return (
-        <div className="border-4 border-custom-red bg-custom-light-red rounded-full px-3 py-[1px]">
-          <span className="hidden md:inline-block ">Bajarilmadi</span>
+        <div className="h-5 w-5 aspect-square bg-missed rounded-full">
+          <span className="hidden">Bajarilmadi</span>
         </div>
       );
     } else if (status === "canceled") {
       return (
-        <div className="border-4 border-gray-500 bg-gray-200 rounded-full px-3 py-[1px] whitespace-nowrap">
-          <span className="hidden md:inline-block"> Bekor qilindi</span>
+        <div className="h-5 w-5 aspect-square  bg-canceled rounded-full">
+          <span className="hidden"> Bekor qilindi</span>
         </div>
       );
     } else {
@@ -238,34 +240,47 @@ const index = ({ getStats }) => {
 
   return (
     <div className="mt-16 overflow-x-auto max-w-[100vw] scrollbar-gutter">
-      <div className="flex items-center w-full">
+      <div className="flex items-center w-full justify-between flex-wrap">
         <Button variant="outlined" onClick={() => setCompactView(!compactView)}>
           {compactView ? "To'liq" : "Ixcham"}
         </Button>
-        <div className="w-full hidden md:flex justify-around gap-2 whitespace-nowrap">
-          <div className="ml-3">
-            <h3>Jami Tadbirlar soni - {data?.length} ta</h3>
-          </div>
-          <div className="flex items-center">
-            <div className="bg-status-green text-white w-28 md:w-40 text-center ">
-              Bajarilgan
-            </div>
-            <div className="bg-status-red text-white w-28 md:w-40 text-center">
-              Bajarilmagan
-            </div>
-            <div className="bg-status-yellow w-28 md:w-40 text-center">
-              Jarayonda
-            </div>
-            <div className="bg-status-gray text-white w-28 md:w-40 text-center">
-              Bekor qilingan
-            </div>
-          </div>
+        <div className="flex flex-wrap items-center gap-2 bg-white p-3 rounded-xl">
+          <Button
+            onClick={() => setSelectedStatus("all")}
+            variant={selectedStatus === "all" ? "outlined" : "text"}
+          >
+            Barchasi
+          </Button>
+          <Button
+            onClick={() => setSelectedStatus("finished")}
+            variant={selectedStatus === "finished" ? "outlined" : "text"}
+          >
+            Bajarilgan
+          </Button>
+          <Button
+            onClick={() => setSelectedStatus("missed")}
+            variant={selectedStatus === "missed" ? "outlined" : "text"}
+          >
+            Bajarilmagan
+          </Button>
+          <Button
+            onClick={() => setSelectedStatus("doing")}
+            variant={selectedStatus === "doing" ? "outlined" : "text"}
+          >
+            Jarayonda
+          </Button>
+          <Button
+            onClick={() => setSelectedStatus("canceled")}
+            variant={selectedStatus === "canceled" ? "outlined" : "text"}
+          >
+            Bekor qilingan
+          </Button>
         </div>
       </div>
       <div className="mb-2 mt-5">
         <div className="w-full">
-          <table className="w-full text-center border text-[15px]">
-            <thead className="bg-[#F3C206]">
+          <table className="w-full border text-[15px]">
+            <thead className="bg-[#EEF0F4]">
               <tr className="border">
                 <th className="border p-3">No_</th>
                 <th className="border p-3">
@@ -370,7 +385,7 @@ const index = ({ getStats }) => {
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="bg-white">
               {Array.isArray(data)
                 ? data
                     .filter((item) =>
@@ -394,16 +409,14 @@ const index = ({ getStats }) => {
                     .map((item, index) => (
                       <tr
                         data-aos="fade-up"
-                        data-aos-offset="70"
+                        data-aos-offset="30"
                         key={item?.id}
                         className="border"
                       >
-                        <td className="border p-2">{index + 1}</td>
-                        <td className="border p-2 min-w-[100px]">
-                          {item?.bolim}
-                        </td>
-                        <td className="border p-2">{item?.problem}</td>
-                        <td className="border px-2 max-w-md">
+                        <td className="p-2">{index + 1}</td>
+                        <td className="p-2 min-w-[100px]">{item?.bolim}</td>
+                        <td className="p-2">{item?.problem}</td>
+                        <td className="px-2 max-w-md">
                           <p
                             dangerouslySetInnerHTML={{
                               __html:
@@ -419,47 +432,49 @@ const index = ({ getStats }) => {
                             }}
                           />
 
-                          <div>
+                          <div className="flex items-center gap-3 pl-2 my-1">
                             {!item?.audio?.[0]?.audio.includes("null") &&
                               item?.audio?.length > 0 && (
-                                <audio controls className="w-[250px] my-2">
-                                  <source
-                                    src={
-                                      `https://xodim.pythonanywhere.com/` +
-                                      item?.audio?.[0]?.audio
-                                    }
+                                <button
+                                  onClick={() =>
+                                    setAudioModal({
+                                      open: true,
+                                      data: item?.audio?.[0]?.audio,
+                                    })
+                                  }
+                                >
+                                  <img
+                                    src={AudioIcon}
+                                    alt="icon"
+                                    className="w-5 aspect-square"
                                   />
-                                </audio>
+                                </button>
                               )}
-                          </div>
-                          <div>
-                            <AvatarGroup
-                              onClick={() =>
-                                setModal({ open: true, data: item.photo })
-                              }
-                              className="w-fit mx-auto"
-                              max={4}
-                              style={{ cursor: "pointer" }}
-                            >
-                              {item?.photo?.length > 0 &&
-                                item?.photo?.map((photoItem, photoIndex) => (
-                                  <Avatar
-                                    alt={`Image ${photoIndex + 1}`}
-                                    key={photoItem.id}
-                                    src={photoItem?.photo}
-                                  />
-                                ))}
-                            </AvatarGroup>
+                            {item?.photo?.length > 0 && (
+                              <button
+                                onClick={() =>
+                                  setModal({ open: true, data: item.photo })
+                                }
+                              >
+                                <img
+                                  src={ImageIcon}
+                                  alt="icon"
+                                  className="w-5 aspect-square"
+                                />
+                              </button>
+                            )}
                           </div>
                         </td>
-                        <td className="border p-2">
+                        <td className="p-2">
                           {item?.first_name + " " + item?.last_name}
                         </td>
-                        <td className="border p-2">{item?.deadline}</td>
-                        <td hidden={compactView} className="border p-2">
+                        <td className="p-2 whitespace-nowrap">
+                          {item?.deadline}
+                        </td>
+                        <td hidden={compactView} className="p-2">
                           {findDiff(item?.created_at, item?.deadline)}
                         </td>
-                        <td hidden={compactView} className="border p-2">
+                        <td hidden={compactView} className="p-2">
                           {findDiffFromNow(item?.deadline) > 0 ? (
                             findDiffFromNow(item?.deadline)
                           ) : (
@@ -468,12 +483,12 @@ const index = ({ getStats }) => {
                             </span>
                           )}
                         </td>
-                        <td className="border p-2">
+                        <td className="p-2">
                           <div className="font-normal flex gap-2 items-center justify-center">
                             {getStatus(item?.status)}
                           </div>
                         </td>
-                        <td hidden={compactView} className="border p-2">
+                        <td hidden={compactView} className="p-2">
                           {item?.financial_help ? (
                             <span className="fa-solid fa-check text-status-green" />
                           ) : (
@@ -482,7 +497,7 @@ const index = ({ getStats }) => {
                         </td>
                         <td
                           hidden={checkAdminOrDirectorStatus(status)}
-                          className="border p-2"
+                          className="p-2"
                         >
                           <IconButton
                             id="basic-button"
@@ -706,6 +721,21 @@ const index = ({ getStats }) => {
               </div>
             );
           })}
+        </div>
+      </Dialog>
+
+      {/* audio modal */}
+      <Dialog
+        open={audioModal.open}
+        onClose={() => setAudioModal({ open: false, data: null })}
+        fullWidth
+        keepMounted
+        aria-describedby="edit-audioModal"
+      >
+        <div className="px-5 mt-5 mb-5 rounded-md">
+          <audio controls className="w-[250px] my-2">
+            <source src={`https://xodim.pythonanywhere.com/` + data} />
+          </audio>
         </div>
       </Dialog>
 
