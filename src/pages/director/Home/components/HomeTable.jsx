@@ -2,13 +2,17 @@ import {
   Avatar,
   AvatarGroup,
   Button,
+  Checkbox,
   Dialog,
   FormControl,
+  FormControlLabel,
+  FormGroup,
   IconButton,
   InputLabel,
   Menu,
   MenuItem,
   Select,
+  Switch,
 } from "@mui/material";
 import Aos from "aos";
 import axios from "axios";
@@ -21,6 +25,8 @@ const HomeTable = ({ getStats }) => {
   const [modal, setModal] = useState({ open: false, data: null });
   const [audioModal, setAudioModal] = useState({ open: false, data: null });
   const [data, setData] = useState(null);
+  const [filter, setFilter] = useState({ status: "" });
+  const [filteredData, setFilteredData] = useState(data);
   const [deletingDetails, setDeletingDetails] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -29,6 +35,10 @@ const HomeTable = ({ getStats }) => {
   async function getData() {
     let response = await axios.get("/all/tasks/");
     setData([
+      ...response?.data?.manager_tasks,
+      ...response?.data?.xodimlar_tasks,
+    ]);
+    setFilteredData([
       ...response?.data?.manager_tasks,
       ...response?.data?.xodimlar_tasks,
     ]);
@@ -100,15 +110,63 @@ const HomeTable = ({ getStats }) => {
     }
   };
 
+  const filterTasks = (value, type) => {
+    if (type === "status") {
+      setFilter((old) => ({ ...old, status: value }));
+    } else {
+      return;
+    }
+  };
+
+  useEffect(() => {
+    setFilteredData(
+      data?.filter((item) => item.status.includes(filter.status))
+    );
+  }, [filter]);
+
   return (
     <div className="mt-16 overflow-x-auto max-w-[100vw] scrollbar-gutter">
+      <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center gap-2 bg-white p-3 rounded-xl">
+          <Button
+            onClick={() => filterTasks("", "status")}
+            variant={filter.status === "" ? "outlined" : "text"}
+          >
+            Barchasi
+          </Button>
+          <Button
+            onClick={() => filterTasks("finished", "status")}
+            variant={filter.status === "finished" ? "outlined" : "text"}
+          >
+            Bajarilgan
+          </Button>
+          <Button
+            onClick={() => filterTasks("missed", "status")}
+            variant={filter.status === "missed" ? "outlined" : "text"}
+          >
+            Bajarilmagan
+          </Button>
+          <Button
+            onClick={() => filterTasks("doing", "status")}
+            variant={filter.status === "doing" ? "outlined" : "text"}
+          >
+            Jarayonda
+          </Button>
+          <Button
+            onClick={() => filterTasks("canceled", "status")}
+            variant={filter.status === "canceled" ? "outlined" : "text"}
+          >
+            Bekor qilingan
+          </Button>
+        </div>
+      </div>
       <div className="mb-2 mt-5">
         <div className="w-full">
           {/* table for phone & tablet */}
           <table className="table md:hidden w-full border text-[15px]">
             <tbody className="bg-white">
-              {Array.isArray(data)
-                ? data?.map((item, index) => (
+              {filteredData?.length > 0
+                ? filteredData?.map((item, index) => (
                     <tr className="border" key={item?.id}>
                       <table>
                         <tbody>
@@ -182,6 +240,12 @@ const HomeTable = ({ getStats }) => {
                 : new Array(1).fill(null).map((_, ind) => (
                     <tr key={ind} className="border">
                       <td className="border p-2 text-center" colSpan={2}>
+                        <img
+                          src="/empty.png"
+                          alt="no data"
+                          width={100}
+                          className="mx-auto"
+                        />
                         Bo'sh
                       </td>
                     </tr>
@@ -207,11 +271,11 @@ const HomeTable = ({ getStats }) => {
               </tr>
             </thead>
             <tbody className="bg-white">
-              {Array.isArray(data)
-                ? data?.map((item, index) => (
+              {filteredData?.length > 0
+                ? filteredData?.map((item, index) => (
                     <tr
                       data-aos={"fade-up"}
-                      data-aos-offset={"50"}
+                      data-aos-offset={"30"}
                       key={item?.id}
                       className="border"
                     >
@@ -312,6 +376,12 @@ const HomeTable = ({ getStats }) => {
                 : new Array(1).fill(null).map((_, ind) => (
                     <tr key={ind} className="border">
                       <td className="border p-2 text-center" colSpan={10}>
+                        <img
+                          src="/empty.png"
+                          alt="no data"
+                          width={100}
+                          className="mx-auto"
+                        />
                         Bo'sh
                       </td>
                     </tr>
