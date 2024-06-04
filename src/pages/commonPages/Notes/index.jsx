@@ -4,7 +4,7 @@ import ContextWrapper from "./context/ContextWrapper";
 
 const index = () => {
   return (
-    <div>
+    <div className="bg-white rounded-lg">
       <ContextWrapper>
         <App />
       </ContextWrapper>
