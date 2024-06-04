@@ -1,6 +1,7 @@
 import {
   Avatar,
   AvatarGroup,
+  Button,
   Dialog,
   FormControl,
   IconButton,
@@ -13,10 +14,13 @@ import Aos from "aos";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { AudioIcon, ImageIcon } from "../../../assets/task_icons";
 
 const HomeTable = () => {
   Aos.init();
   const [modal, setModal] = useState({ open: false, data: null });
+  const [audioModal, setAudioModal] = useState({ open: false, data: null });
+  const [compactView, setCompactView] = useState(true);
   const [data, setData] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedStatusBolim, setSelectedStatusBolim] = useState("all");
@@ -111,58 +115,81 @@ const HomeTable = () => {
   const getStatus = (status) => {
     if (status === "finished") {
       return (
-        <div className="border-4 border-custom-green bg-custom-light-green rounded-full px-3 py-[1px]">
-          Bajarildi
+        <div className="h-5 w-5 aspect-square bg-finished rounded-full">
+          <span className="hidden">Bajarildi</span>
         </div>
       );
     } else if (status === "doing") {
       return (
-        <div className="border-4 border-custom-yellow bg-custom-light-yellow rounded-full px-3 py-[1px]">
-          Jarayonda
+        <div className="h-5 w-5 aspect-square bg-doing rounded-full">
+          <span className="hidden">Jarayonda</span>
         </div>
       );
     } else if (status === "missed") {
       return (
-        <div className="border-4 border-custom-red bg-custom-light-red rounded-full px-3 py-[1px]">
-          Bajarilmadi
+        <div className="h-5 w-5 aspect-square bg-missed rounded-full">
+          <span className="hidden">Bajarilmadi</span>
         </div>
       );
     } else if (status === "canceled") {
       return (
-        <div className="border-4 border-gray-500 bg-gray-200 rounded-full px-3 py-[1px] whitespace-nowrap">
-          Bekor qilindi
+        <div className="h-5 w-5 aspect-square  bg-canceled rounded-full">
+          <span className="hidden"> Bekor qilindi</span>
         </div>
       );
     } else {
       return null;
     }
   };
+  const checkAdminOrDirectorStatus = (status) => {
+    if (status === "admin") return false;
+    else if (status === "director") return false;
+    else return true;
+  };
 
   return (
-    <div className="mt-16 overflow-x-auto max-w-[100vw] scrollbar-gutter">
-      <div className="hidden sm:flex justify-around gap-2 whitespace-nowrap">
-        <div className="ml-3">
-          <h3>Jami Tadbirlar soni - {data?.length} ta</h3>
-        </div>
-        <div className="flex items-center">
-          <div className="bg-status-green text-white w-28 md:w-40 text-center ">
+    <div className="mt-5 overflow-x-auto max-w-[100vw] scrollbar-gutter">
+      <div className="flex items-center w-full justify-between flex-wrap">
+        <Button variant="outlined" onClick={() => setCompactView(!compactView)}>
+          {compactView ? "To'liq" : "Ixcham"}
+        </Button>
+        <div className="flex flex-wrap items-center gap-2 bg-white p-3 rounded-xl">
+          <Button
+            onClick={() => setSelectedStatus("all")}
+            variant={selectedStatus === "all" ? "outlined" : "text"}
+          >
+            Barchasi
+          </Button>
+          <Button
+            onClick={() => setSelectedStatus("finished")}
+            variant={selectedStatus === "finished" ? "outlined" : "text"}
+          >
             Bajarilgan
-          </div>
-          <div className="bg-status-red text-white w-28 md:w-40 text-center">
+          </Button>
+          <Button
+            onClick={() => setSelectedStatus("missed")}
+            variant={selectedStatus === "missed" ? "outlined" : "text"}
+          >
             Bajarilmagan
-          </div>
-          <div className="bg-status-yellow w-28 md:w-40 text-center">
+          </Button>
+          <Button
+            onClick={() => setSelectedStatus("doing")}
+            variant={selectedStatus === "doing" ? "outlined" : "text"}
+          >
             Jarayonda
-          </div>
-          <div className="bg-status-gray text-white w-28 md:w-40 text-center">
+          </Button>
+          <Button
+            onClick={() => setSelectedStatus("canceled")}
+            variant={selectedStatus === "canceled" ? "outlined" : "text"}
+          >
             Bekor qilingan
-          </div>
+          </Button>
         </div>
       </div>
       <div className="mb-2 mt-5">
         <div className="w-full">
-          <table className="w-full text-center border">
-            <thead className="bg-[#F3C206]">
+          <table className="w-full border text-[15px]">
+            <thead className="bg-[#EEF0F4]">
               <tr className="border">
                 <th className="border p-3">No_</th>
                 <th className="border p-3">
@@ -187,8 +214,8 @@ const HomeTable = () => {
                     </Select>
                   </FormControl>
                 </th>
-                <th className="border p-3">Muammo</th>
-                <th className="border p-3">Yechim</th>
+                <th className="border p-3 w-5/12">Muammo</th>
+                <th className="border p-3 w-5/12">Yechim</th>
                 <th className="border p-3">
                   <FormControl fullWidth size="small">
                     <InputLabel id="demo-simple-select-label">
@@ -217,10 +244,13 @@ const HomeTable = () => {
                     </Select>
                   </FormControl>
                 </th>
-                <th className="border p-3 w-32">
+                <th
+                  hidden={compactView}
+                  className="border p-3 w-32 whitespace-nowrap"
+                >
                   Muddat
                   <span
-                    className="fa-solid fa-sort pl-3"
+                    className="fa-solid fa-sort pl-1"
                     role="button"
                     onClick={() => {
                       setSortField(
@@ -229,7 +259,9 @@ const HomeTable = () => {
                     }}
                   />
                 </th>
-                <th className="border p-3 w-32">Jami Muddat</th>
+                <th hidden={compactView} className="border p-3 w-32">
+                  Jami Muddat
+                </th>
                 <th className="border p-3">Qolgan kun(lar)</th>
                 <th className="border p-3">
                   <FormControl fullWidth size="small">
@@ -251,16 +283,18 @@ const HomeTable = () => {
                     </Select>
                   </FormControl>
                 </th>
-                <th className="border p-3">Moliyaviy ko'mak</th>
-                <th hidden={status !== "admin"} className="border p-3">
-                  Arxivlash
+                <th hidden={compactView} className="border p-3">
+                  Moliyaviy ko'mak
+                </th>
+                <th
+                  hidden={checkAdminOrDirectorStatus(status)}
+                  className="border p-3"
+                >
+                  <span className="fa-solid fa-info-circle" />
                 </th>
               </tr>
             </thead>
-            <tbody>
-              <tr className="bg-dark-blue text-white">
-                <td colSpan={12}>Qisqa muddatli</td>
-              </tr>
+            <tbody className="bg-white">
               {Array.isArray(data)
                 ? data
                     .filter((item) =>
@@ -281,74 +315,70 @@ const HomeTable = () => {
                     )
                     .sort(compareDeadlines)
                     .sort(compareCreated)
-                    .filter((item) => findDiffFromNow(item?.deadline) < 30)
                     .map((item, index) => (
-                      <tr
-                        data-aos="fade-up"
-                        data-aos-offset="70"
-                        key={item?.id}
-                        className="border"
-                      >
-                        <td className="border p-2">{index + 1}</td>
-                        <td className="border p-2 min-w-[100px]">
-                          {item?.bolim}
-                        </td>
-                        <td className="border p-2">{item?.problem}</td>
-                        <td className="border px-2 max-w-md">
-                          {item?.text?.[0]?.text
-                            .replaceAll("[", "")
-                            .replaceAll("]", "")
-                            .replaceAll('"', "").length > 0
-                            ? item?.text?.[0]?.text
-                                .replaceAll("[", "")
-                                .replaceAll("]", "")
-                                .replaceAll('"', "")
-                            : null}
+                      <tr key={item?.id} className="border">
+                        <td className="p-2">{index + 1}</td>
+                        <td className="p-2 min-w-[100px]">{item?.bolim}</td>
+                        <td className="p-2">{item?.problem}</td>
+                        <td className="px-2 max-w-md">
+                          <p
+                            dangerouslySetInnerHTML={{
+                              __html:
+                                item?.text?.[0]?.text
+                                  .replaceAll("[", "")
+                                  .replaceAll("]", "")
+                                  .replaceAll('"', "").length > 0
+                                  ? item?.text?.[0]?.text
+                                      .replaceAll("[", "")
+                                      .replaceAll("]", "")
+                                      .replaceAll('"', "")
+                                  : null,
+                            }}
+                          />
 
-                          <div>
+                          <div className="flex items-center gap-3 pl-2 my-1">
                             {!item?.audio?.[0]?.audio.includes("null") &&
                               item?.audio?.length > 0 && (
-                                <audio controls className="w-[250px] my-2">
-                                  <source
-                                    src={
-                                      `https://xodim.pythonanywhere.com/` +
-                                      item?.audio?.[0]?.audio
-                                    }
+                                <button
+                                  onClick={() =>
+                                    setAudioModal({
+                                      open: true,
+                                      data: item?.audio?.[0]?.audio,
+                                    })
+                                  }
+                                >
+                                  <img
+                                    src={AudioIcon}
+                                    alt="icon"
+                                    className="w-5 aspect-square"
                                   />
-                                </audio>
+                                </button>
                               )}
-                          </div>
-                          <div>
-                            <AvatarGroup
-                              onClick={() =>
-                                setModal({ open: true, data: item.photo })
-                              }
-                              className="w-fit mx-auto"
-                              max={4}
-                              style={{ cursor: "pointer" }}
-                            >
-                              {item?.photo?.length > 0 &&
-                                item?.photo?.map((photoItem, photoIndex) => (
-                                  <Avatar
-                                    alt={`Image ${photoIndex + 1}`}
-                                    key={photoItem.id}
-                                    src={
-                                      `https://xodim.pythonanywhere.com/` +
-                                      photoItem?.photo
-                                    }
-                                  />
-                                ))}
-                            </AvatarGroup>
+                            {item?.photo?.length > 0 && (
+                              <button
+                                onClick={() =>
+                                  setModal({ open: true, data: item.photo })
+                                }
+                              >
+                                <img
+                                  src={ImageIcon}
+                                  alt="icon"
+                                  className="w-5 aspect-square"
+                                />
+                              </button>
+                            )}
                           </div>
                         </td>
-                        <td className="border p-2">
+                        <td className="p-2">
                           {item?.first_name + " " + item?.last_name}
                         </td>
-                        <td className="border p-2">{item?.deadline}</td>
-                        <td className="border p-2">
+                        <td className="p-2 whitespace-nowrap">
+                          {item?.deadline}
+                        </td>
+                        <td hidden={compactView} className="p-2">
                           {findDiff(item?.created_at, item?.deadline)}
                         </td>
-                        <td className="border p-2">
+                        <td hidden={compactView} className="p-2">
                           {findDiffFromNow(item?.deadline) > 0 ? (
                             findDiffFromNow(item?.deadline)
                           ) : (
@@ -357,19 +387,22 @@ const HomeTable = () => {
                             </span>
                           )}
                         </td>
-                        <td className="border p-2">
+                        <td className="p-2">
                           <div className="font-normal flex gap-2 items-center justify-center">
                             {getStatus(item?.status)}
                           </div>
                         </td>
-                        <td className="border p-2">
+                        <td hidden={compactView} className="p-2">
                           {item?.financial_help ? (
                             <span className="fa-solid fa-check text-status-green" />
                           ) : (
                             <span className="fa-solid fa-x text-red-500" />
                           )}
                         </td>
-                        <td hidden={status !== "admin"} className="border p-2">
+                        <td
+                          hidden={checkAdminOrDirectorStatus(status)}
+                          className="p-2"
+                        >
                           <IconButton
                             id="basic-button"
                             aria-controls={open ? "basic-menu" : undefined}
@@ -385,142 +418,9 @@ const HomeTable = () => {
                         </td>
                       </tr>
                     ))
-                : new Array(2).fill(null).map((_, ind) => (
+                : new Array(1).fill(null).map((_, ind) => (
                     <tr key={ind} className="border">
                       <td className="border p-2 text-center" colSpan={10}>
-                        Bo'sh
-                      </td>
-                    </tr>
-                  ))}
-              <tr className="bg-dark-blue text-white">
-                <td colSpan={11}>Uzoq muddatli</td>
-              </tr>
-              {Array.isArray(data)
-                ? data
-                    .filter((item) =>
-                      selectedStatusBolim === "all"
-                        ? true
-                        : item.bolim === selectedStatusBolim
-                    )
-                    .filter((item) =>
-                      selectedStatus === "all"
-                        ? true
-                        : item.status === selectedStatus
-                    )
-                    .filter((item) =>
-                      selectedStatusFrom === "all"
-                        ? true
-                        : item?.first_name + " " + item?.last_name ===
-                          selectedStatusFrom
-                    )
-                    .sort(compareDeadlines)
-                    ?.filter?.((item) => findDiffFromNow(item?.deadline) > 30)
-                    ?.map?.((item, index) => (
-                      <tr
-                        data-aos="fade-up"
-                        data-aos-offset="30"
-                        key={item?.id}
-                        className="border"
-                      >
-                        <td className="border p-2">{index + 1}</td>
-                        <td className="border p-2 min-w-[100px]">
-                          {item?.bolim}
-                        </td>
-                        <td className="border p-2">{item?.problem}</td>{" "}
-                        <td className="border px-2 max-w-md">
-                          {item?.text?.[0]?.text
-                            .replaceAll("[", "")
-                            .replaceAll("]", "")
-                            .replaceAll('"', "").length > 0
-                            ? item?.text?.[0]?.text
-                                .replaceAll("[", "")
-                                .replaceAll("]", "")
-                                .replaceAll('"', "")
-                            : null}
-
-                          <div>
-                            {!item?.audio?.[0]?.audio.includes("null") &&
-                              item?.audio?.length > 0 && (
-                                <audio controls className="w-[250px] my-2">
-                                  <source
-                                    src={
-                                      `https://xodim.pythonanywhere.com/` +
-                                      item?.audio?.[0]?.audio
-                                    }
-                                  />
-                                </audio>
-                              )}
-                          </div>
-                          <div>
-                            <AvatarGroup
-                              onClick={() =>
-                                setModal({ open: true, data: item.photo })
-                              }
-                              className="w-fit mx-auto"
-                              max={4}
-                              style={{ cursor: "pointer" }}
-                            >
-                              {item?.photo?.length > 0 &&
-                                item?.photo?.map((photoItem, photoIndex) => (
-                                  <Avatar
-                                    alt={`Image ${photoIndex + 1}`}
-                                    key={photoItem.id}
-                                    src={
-                                      `https://xodim.pythonanywhere.com/` +
-                                      photoItem?.photo
-                                    }
-                                  />
-                                ))}
-                            </AvatarGroup>
-                          </div>
-                        </td>
-                        <td className="border p-2">
-                          {item?.first_name + " " + item?.last_name}
-                        </td>
-                        <td className="border p-2">{item?.deadline}</td>
-                        <td className="border p-2">
-                          {findDiff(item?.created_at, item?.deadline)}
-                        </td>
-                        <td className="border p-2">
-                          {findDiffFromNow(item?.deadline) > 0 ? (
-                            findDiffFromNow(item?.deadline)
-                          ) : (
-                            <span className="text-status-red">
-                              -{Math.abs(findDiffFromNow(item?.deadline))}
-                            </span>
-                          )}
-                        </td>
-                        <td className="border p-2">
-                          <div className="font-normal flex gap-2 items-center justify-center">
-                            {getStatus(item?.status)}
-                          </div>
-                        </td>
-                        <td className="border p-2">
-                          {item?.financial_help ? (
-                            <span className="fa-solid fa-check text-status-green" />
-                          ) : (
-                            <span className="fa-solid fa-x text-red-500" />
-                          )}
-                        </td>
-                        <td hidden={status !== "admin"} className="border p-2">
-                          <IconButton
-                            id="basic-button"
-                            aria-controls={open ? "basic-menu" : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={open ? "true" : undefined}
-                            onClick={(e) => {
-                              setDeletingDetails(item);
-                              setAnchorEl(e.currentTarget);
-                            }}
-                          >
-                            <span className="fa-solid fa-ellipsis-vertical px-2" />
-                          </IconButton>
-                        </td>
-                      </tr>
-                    ))
-                : new Array(2).fill(null).map((_, ind) => (
-                    <tr key={ind} className="border">
-                      <td className="border p-2 text-center" colSpan={11}>
                         Bo'sh
                       </td>
                     </tr>
@@ -542,14 +442,25 @@ const HomeTable = () => {
           {modal.data?.map((item) => {
             return (
               <div className="cursor-pointer" key={item.id}>
-                <img
-                  alt="task image"
-                  key={item.id}
-                  src={`https://xodim.pythonanywhere.com/` + item?.photo}
-                />
+                <img alt="task image" key={item.id} src={item?.photo} />
               </div>
             );
           })}
+        </div>
+      </Dialog>
+
+      {/* audio modal */}
+      <Dialog
+        open={audioModal.open}
+        onClose={() => setAudioModal({ open: false, data: null })}
+        fullWidth
+        keepMounted
+        aria-describedby="edit-audioModal"
+      >
+        <div className="px-5 mt-5 mb-5 rounded-md">
+          <audio controls className="w-[250px] my-2">
+            <source src={`https://xodim.pythonanywhere.com/` + data} />
+          </audio>
         </div>
       </Dialog>
 

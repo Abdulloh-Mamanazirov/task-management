@@ -239,7 +239,7 @@ const index = ({ getStats }) => {
   }
 
   return (
-    <div className="mt-16 overflow-x-auto max-w-[100vw] scrollbar-gutter">
+    <div className="mt-5 overflow-x-auto max-w-[100vw] scrollbar-gutter">
       <div className="flex items-center w-full justify-between flex-wrap">
         <Button variant="outlined" onClick={() => setCompactView(!compactView)}>
           {compactView ? "To'liq" : "Ixcham"}
@@ -407,12 +407,7 @@ const index = ({ getStats }) => {
                     .sort(compareDeadlines)
                     .sort(compareCreated)
                     .map((item, index) => (
-                      <tr
-                        data-aos="fade-up"
-                        data-aos-offset="30"
-                        key={item?.id}
-                        className="border"
-                      >
+                      <tr key={item?.id} className="border">
                         <td className="p-2">{index + 1}</td>
                         <td className="p-2 min-w-[100px]">{item?.bolim}</td>
                         <td className="p-2">{item?.problem}</td>
