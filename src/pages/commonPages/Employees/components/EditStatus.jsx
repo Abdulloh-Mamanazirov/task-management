@@ -43,11 +43,13 @@ const EditTaskStatus = ({ data, hidden, getData }) => {
 
   return (
     <div hidden={hidden}>
-      <span
-        role={"button"}
+      <button
         onClick={() => setOpen(true)}
-        className="fa-solid fa-edit text-xl text-blue-500 cursor-pointer"
-      />
+        className="flex items-center gap-2 whitespace-nowrap"
+      >
+        <span className="fa-solid fa-edit" />
+        <p>Tahrirlash</p>
+      </button>
       <Dialog
         open={open}
         TransitionComponent={Transition}

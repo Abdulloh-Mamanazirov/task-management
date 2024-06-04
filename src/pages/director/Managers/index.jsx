@@ -20,6 +20,7 @@ import {
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { Dropdown } from "../../../components";
 
 const index = () => {
   const [data, setData] = useState([]);
@@ -92,36 +93,23 @@ const index = () => {
 
   return (
     <>
-      <Create getData={() => getData()} />
-      <div className="border border-black/30 bg-white shadow-lg rounded-md pt-2">
-        <h3 className="text-2xl font-medium p-2">Menejerlar ro'yxati:</h3>
+      <div>
+        <div className="flex items-center justify-between my-5">
+          <h3 className="text-2xl font-medium">Menejerlar ro'yxati</h3>
+          <Create getData={() => getData()} />
+        </div>
         <TableContainer component={Paper} style={{ maxHeight: "70vh" }}>
           <Table stickyHeader>
             <TableHead>
               <TableRow>
-                <TableCell
-                  style={{ backgroundColor: "#1976D2", color: "white" }}
-                >
-                  #
-                </TableCell>
-                <TableCell
-                  style={{ backgroundColor: "#1976D2", color: "white" }}
-                >
+                <TableCell style={{ backgroundColor: "#EEF0F4" }}>#</TableCell>
+                <TableCell style={{ backgroundColor: "#EEF0F4" }}>
                   Ism Familiya
                 </TableCell>
-                {/* <TableCell
-                  style={{ backgroundColor: "#1976D2", color: "white" }}
-                >
-                  Username
-                </TableCell> */}
-                <TableCell
-                  style={{ backgroundColor: "#1976D2", color: "white" }}
-                >
+                <TableCell style={{ backgroundColor: "#EEF0F4" }}>
                   Bo'lim
                 </TableCell>
-                <TableCell
-                  style={{ backgroundColor: "#1976D2", color: "white" }}
-                >
+                <TableCell style={{ backgroundColor: "#EEF0F4" }}>
                   Amallar
                 </TableCell>
               </TableRow>
@@ -139,7 +127,6 @@ const index = () => {
                       <TableCell>
                         {item?.user?.first_name} {item?.user?.last_name}
                       </TableCell>
-                      {/* <TableCell>{item?.user?.username}</TableCell> */}
                       <TableCell>
                         <Chip
                           label={
@@ -154,57 +141,61 @@ const index = () => {
                         />
                       </TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-2">
-                          <IconButton
-                            color="error"
-                            onClick={(event) => {
-                              setAnchorEl(event.currentTarget);
-                              setDeleteId(item?.user?.id);
-                            }}
-                          >
-                            <span className="fa-solid fa-trash" />
-                          </IconButton>
-                          <IconButton>
+                        <Dropdown
+                          items={[
                             <Link
-                              title="Menejer profili"
                               to={`/${status}/employees/${item?.user?.id}`}
+                              className="flex items-center gap-2 whitespace-nowrap"
                             >
-                              <span className="fa-solid fa-bars text-green-500 text-2xl" />
-                            </Link>
-                          </IconButton>
-                          {item?.user?.is_director ? (
-                            <IconButton
-                              color="error"
+                              <span className="fa-solid fa-bars" />
+                              <p>Profil</p>
+                            </Link>,
+                            item?.user?.is_director ? (
+                              <button
+                                onClick={(event) => {
+                                  setPromoteAnchorEl(event.currentTarget);
+                                  setPromotionId(item?.user?.id);
+                                  setIsDemoting(true);
+                                }}
+                                className="flex items-center gap-2 whitespace-nowrap"
+                              >
+                                <span className="fa-solid fa-arrow-down" />
+                                <p>Tushirish</p>
+                              </button>
+                            ) : (
+                              <button
+                                onClick={(event) => {
+                                  setPromoteAnchorEl(event.currentTarget);
+                                  setPromotionId(item?.user?.id);
+                                  setIsDemoting(false);
+                                }}
+                                className="flex items-center gap-2 whitespace-nowrap"
+                              >
+                                <span className="fa-solid fa-arrow-up" />
+                                <p>Saylash</p>
+                              </button>
+                            ),
+                            status === "admin" && (
+                              <EditStatus data={item} getData={getData} />
+                            ),
+                            <button
                               onClick={(event) => {
-                                setPromoteAnchorEl(event.currentTarget);
-                                setPromotionId(item?.user?.id);
-                                setIsDemoting(true);
+                                setAnchorEl(event.currentTarget);
+                                setDeleteId(item?.user?.id);
                               }}
+                              className="flex items-center gap-2 whitespace-nowrap text-red-500"
                             >
-                              <span className="fa-solid fa-arrow-down" />
-                            </IconButton>
-                          ) : (
-                            <IconButton
-                              color="success"
-                              onClick={(event) => {
-                                setPromoteAnchorEl(event.currentTarget);
-                                setPromotionId(item?.user?.id);
-                                setIsDemoting(false);
-                              }}
-                            >
-                              <span className="fa-solid fa-arrow-up" />
-                            </IconButton>
-                          )}
-                          {status === "admin" && (
-                            <EditStatus data={item} getData={getData} />
-                          )}
-                        </div>
+                              <span className="fa-solid fa-trash" />
+                              <p>O'chirish</p>
+                            </button>,
+                          ]}
+                        />
                       </TableCell>
                     </TableRow>
                   ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={5} align="center">
+                  <TableCell colSpan={4} align="center">
                     <div className="flex flex-col items-center gap-3">
                       <img src="/empty.png" alt="no data" width={100} />
                       <p className="text-gray-500">Ma'lumot mavjud emas.</p>
